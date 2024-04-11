@@ -1,0 +1,76 @@
+const express = require('express');
+const path = require('path');
+const mongoose = require('mongoose');
+
+main().catch(err => console.log(err));
+
+async function main() {
+    await mongoose.connect('mongodb://127.0.0.1:27017/gully');
+    console.log('connected to database');
+}
+
+const loginSchema = new mongoose.Schema({
+    name: String,
+    username: String,
+    email: String,
+    password: String,
+    confpassword: String
+});
+
+const kitten = mongoose.model('cric', loginSchema);
+
+const app = express();
+app.use('/static', express.static('static'));
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'static/pug'));
+app.use(express.urlencoded());
+
+app.get('/', (req, res) => {
+    res.status(200).render('login.pug');
+});
+app.get('/drtyhj98765rtjjkh0ygg8fsthsfddwgrbeyt345252752', (req, res) => {
+    res.status(200).render('home.pug');
+});
+
+app.post('/auth/signup', (req,res) => {
+    const userData = new kitten(req.body);
+    userData.save()
+    .then(() => {
+        res.status(200).render('home.pug');
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).send('Internal Server Error');
+    });
+});
+
+app.post('/auth/login', (req,res) => {
+    const username = req.body.username;
+    const password = req.body.password
+    kitten.findOne({username: username, password: password})
+    .then(user => {
+        if(user){
+            res.status(200).render('home.pug');
+        }
+        else{
+            res.status(404).send('User not found');
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).send('Internal Server Error');
+    });
+});
+app.post('/team', (req,res) => {
+    const team = req.body.team;
+    const number = req.body.number;
+    const overs = req.body.overs;
+    const toss = req.body.toss;
+
+    res.status(200).render('match.pug',  { team, number, overs, toss });
+});
+
+
+app.listen(1204, () => {
+    console.log('Server is running on port 1204');
+});
