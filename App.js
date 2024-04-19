@@ -62,13 +62,23 @@ app.post('/auth/login', (req,res) => {
     });
 });
 app.post('/team', (req,res) => {
-    const team = req.body.team;
+    const team1 = req.body.team1;
+    const team2 = req.body.team2;
     const number = req.body.number;
     const overs = req.body.overs;
     const toss = req.body.toss;
 
-    res.status(200).render('match.pug',  { team, number, overs, toss });
+    res.status(200).render('players.pug',  { team1, team2, number, overs, toss });
 });
+app.post('/players', (req,res) => {
+    var players = [];
+    for(let i = 0; i<number; i++){
+        players[i] = req.body.player[i];
+    }
+    const commonPlayer = req.body.common;
+    res.status(200).render('match.pug',  { team1, team2, number, overs, toss, players, commonPlayer });
+}
+);
 
 
 app.listen(1204, () => {

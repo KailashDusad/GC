@@ -27,25 +27,46 @@
         </div>
     </nav>
     <form action="/players" method="post" id="players-info">
-        
+        <div class="mb-3">
+            <label for="numPlayers" class="form-label">Common Player: </label>
+            <label for="yes" class="form-label">Yes</label>
+            <input type="checkbox" name='yes' id="yes" value="yes">
+            <label for="no" class="form-label">No</label>
+            <input type="checkbox" name='no' id="no" value="no">
+            <input type="text" name="common" class="form-control" id="commonPlayer" placeholder="Enter Common Player name:">
+        </div>
     </form>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="../static/js/common.js"></script>
     script.
-        var numberOfPlayers = !{number};
         const form = document.getElementById('players-info');
-        for(let i = 0; i < numberOfPlayers; i++) {
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.name = `player${i + 1}`;
-            input.className = 'form-control';
-            input.placeholder = `Player ${i + 1} Name`;
-            form.appendChild(input);
+        var Team1 = `!{team1}`;
+        var Team2 = `!{team2}`;
+        for(let j = 0; j < 2; j++) {
+            //- var teamName = `Team${j + 1}`;
+            if(j){
+                var teamName = Team2;
+            } else {
+                var teamName = Team1;
+            }
+            var h3 = document.createElement('h3');
+            h3.textContent = `Enter players for ${teamName}`;
+            form.appendChild(h3);
+            var numberOfPlayers = !{number};
+            for(let i = 0; i < numberOfPlayers; i++) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.name = `player${(i + 1)+(j*4)}`;
+                input.className = 'form-control';
+                input.placeholder = `Player ${i + 1} Name`;
+                form.appendChild(input);
+            }
         }
         const submitButton = document.createElement('button');
         submitButton.type = 'submit';
         submitButton.className = 'btn btn-primary';
-        submitButton.textContent = 'Submit';
+        submitButton.textContent = 'Start Match';
         form.appendChild(submitButton);
         
 </body>
