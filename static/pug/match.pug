@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gully Cricket</title>
+</head>
+<body>
+    <form action="/striker" method="post">
+        <div id="stiker-div" class="mb-3">
+            <!-- <label for="striker" class="form-label">Choose Your Stiker</label> -->
+            
+        </div>
+        <div class="mb-3">
+            <label for="nonstriker" class="form-label">Choose Your Non-Stiker</label>
+            
+        </div>
+        <div class="mb-3">
+            <label for="bowler" class="form-label">Choose Your Bowler</label>
+            
+        </div>
+        <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+    </form>
+    script.
+        const stikerDiv = document.getElementById('stiker-div');
+        var numberOfPlayers = !{number};
+        console.log(numberOfPlayers);
+        for(let i = 0; i < numberOfPlayers; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.text = `Player ${i+1}`;
+            stikerDiv.appendChild(option);
+        }
+</body>
+</html>

@@ -28,6 +28,9 @@ app.use(express.urlencoded());
 app.get('/', (req, res) => {
     res.status(200).render('login.pug');
 });
+app.get('/match', (req, res) => {
+    res.status(200).render('match.pug');
+});
 app.get('/drtyhj98765rtjjkh0ygg8fsthsfddwgrbeyt345252752', (req, res) => {
     res.status(200).render('home.pug');
 });
@@ -61,10 +64,11 @@ app.post('/auth/login', (req,res) => {
         res.status(500).send('Internal Server Error');
     });
 });
+var number;
 app.post('/team', (req,res) => {
     const team1 = req.body.team1;
     const team2 = req.body.team2;
-    const number = req.body.number;
+    number = req.body.number;
     const overs = req.body.overs;
     const toss = req.body.toss;
 
@@ -73,14 +77,16 @@ app.post('/team', (req,res) => {
 app.post('/players', (req,res) => {
     var players = [];
     for(let i = 0; i<number; i++){
-        players[i] = req.body.player[i];
+        let playerName = `player${i+1}`;
+        players[i] = req.body[playerName];
     }
     const commonPlayer = req.body.common;
-    res.status(200).render('match.pug',  { team1, team2, number, overs, toss, players, commonPlayer });
+    console.log(number);
+    console.log(players);
+    console.log(commonPlayer);
+    res.status(200).render('match.pug',  { number, players, commonPlayer });
 }
 );
-
-
 app.listen(1204, () => {
     console.log('Server is running on port 1204');
 });
