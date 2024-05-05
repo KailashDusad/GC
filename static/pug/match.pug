@@ -24,11 +24,11 @@
     script.
         const stikerDiv = document.getElementById('stiker-div');
         var numberOfPlayers = !{number};
-        console.log(numberOfPlayers);
-        for(let i = 0; i < numberOfPlayers; i++) {
+        var playersName = !{JSON.stringify(players)};
+        for(let i = 0; i < 2*numberOfPlayers; i++) {
             const option = document.createElement('option');
             option.value = i;
-            option.text = `Player ${i+1}`;
+            option.text = playersName[i];
             stikerDiv.appendChild(option);
         }
 </body>

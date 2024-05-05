@@ -76,14 +76,15 @@ app.post('/team', (req,res) => {
 });
 app.post('/players', (req,res) => {
     var players = [];
-    for(let i = 0; i<number; i++){
+    for(let i = 0; i<2*number; i++){
         let playerName = `player${i+1}`;
         players[i] = req.body[playerName];
     }
     const commonPlayer = req.body.common;
     console.log(number);
     console.log(players);
-    console.log(commonPlayer);
+    console.log(commonPlayer); 
+    
     res.status(200).render('match.pug',  { number, players, commonPlayer });
 }
 );
