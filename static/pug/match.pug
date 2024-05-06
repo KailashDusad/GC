@@ -4,32 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gully Cricket</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
 </head>
 <body>
     <form action="/striker" method="post">
         <div id="stiker-div" class="mb-3">
-            <!-- <label for="striker" class="form-label">Choose Your Stiker</label> -->
+            <label for="non-striker" class="form-label">Choose Your Striker</label>
+            <select name="striker" id="striker" class="form-select form-select-lg mb-3" aria-label="Large select example">
+                <option selected>Choose Stiker</option>
+
+            </select>
             
         </div>
-        <div class="mb-3">
-            <label for="nonstriker" class="form-label">Choose Your Non-Stiker</label>
+        <div id="stiker-div" class="mb-3">
+            <label for="non-striker" class="form-label">Choose Your Non-Striker</label>
+            <select name="non-striker" id="non-striker" class="form-select form-select-lg mb-3" aria-label="Large select example">
+                <option selected>Choose Non-Striker</option>
+            </select>
             
         </div>
-        <div class="mb-3">
+        <div class="mb-3" id="bowler-div">
             <label for="bowler" class="form-label">Choose Your Bowler</label>
+            <select name="bowler" id="bowler" class="form-select form-select-lg mb-3" aria-label="Large select example">
+                <option selected>Choose Bowler</option>
+
+            </select>
             
         </div>
-        <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
     script.
-        const stikerDiv = document.getElementById('stiker-div');
+        <!-- const stikerDiv = document.getElementById('stiker-div'); -->
+        const stikerDiv = document.getElementById('striker');
         var numberOfPlayers = !{number};
         var playersName = !{JSON.stringify(players)};
-        for(let i = 0; i < 2*numberOfPlayers; i++) {
+        for(let i = 0; i < numberOfPlayers; i++) {
             const option = document.createElement('option');
-            option.value = i;
+            option.value = playersName[i];
             option.text = playersName[i];
             stikerDiv.appendChild(option);
+        }
+        const bowler = document.getElementById('bowler');
+        for(let i = 0; i < numberOfPlayers; i++) {
+            const option = document.createElement('option');
+            option.value = playersName[numberOfPlayers + i];
+            option.text = playersName[numberOfPlayers + i];
+            bowler.appendChild(option);
+        }
+        const nonStriker = document.getElementById('non-striker');
+        for(let i = 0; i < numberOfPlayers; i++) {
+            const option = document.createElement('option');
+            option.value = playersName[i];
+            option.text = playersName[i];
+            nonStriker.appendChild(option);
         }
 </body>
 </html>

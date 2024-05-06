@@ -80,6 +80,7 @@ app.post('/players', (req,res) => {
         let playerName = `player${i+1}`;
         players[i] = req.body[playerName];
     }
+    
     const commonPlayer = req.body.common;
     console.log(number);
     console.log(players);
@@ -88,6 +89,13 @@ app.post('/players', (req,res) => {
     res.status(200).render('match.pug',  { number, players, commonPlayer });
 }
 );
+app.post('/striker', (req,res) => {
+    var striker = req.body.striker;
+    var nonStriker = req.body.nonStriker;
+    var bowler = req.body.bowler;
+    res.status(200).render('start.pug',  { striker, nonStriker, bowler });
+
+});
 app.listen(1204, () => {
     console.log('Server is running on port 1204');
 });
