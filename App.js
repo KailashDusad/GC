@@ -65,12 +65,13 @@ app.post('/auth/login', (req,res) => {
     });
 });
 var number;
+var toss, overs;
 app.post('/team', (req,res) => {
     const team1 = req.body.team1;
     const team2 = req.body.team2;
     number = req.body.number;
-    const overs = req.body.overs;
-    const toss = req.body.toss;
+    overs = req.body.overs;
+    toss = req.body.toss;
 
     res.status(200).render('players.pug',  { team1, team2, number, overs, toss });
 });
@@ -93,7 +94,7 @@ app.post('/striker', (req,res) => {
     var striker = req.body.striker;
     var nonStriker = req.body.nonStriker;
     var bowler = req.body.bowler;
-    res.status(200).render('start.pug',  { striker, nonStriker, bowler });
+    res.status(200).render('start.pug',  {toss, overs, striker, nonStriker, bowler });
 
 });
 app.listen(1204, () => {

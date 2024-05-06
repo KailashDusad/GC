@@ -9,27 +9,91 @@
 <body>
 <div class="container">
     <div class="over">
-        <h1 style="text-align: center;">Over 1</h1>
+        <h1 style="text-align: center;">Match</h1>
         <div class="row">
             <div class="col">
-                <h2>Team 1</h2>
-                <h3>Score: 0</h3>
-                <h3>Wickets: 0</h3>
+                <h2>Batting Team: <span id="batting"></span></h2>
+                <h3>Score: <span id="run"></span></h3>
+                <h3>Wickets: <span id="wicket"></span></h3>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <h2>Striker: Player 1</h2>
-                <h2>Non-Striker: Player 2</h2>
+                <h2>Striker: <span id="striker"></span></h2>
+                <h2>Non-Striker: <span id="non-striker"></span></h2>
             </div>
             <div class="col">
-                <h2>Bowler: Player 3</h2>
+                <h2>Bowler: <span id="bowler"></span></h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button id="run1">Run 1</button>
+                <button id="run2">Run 2</button>
+                <button id="run3">Run 3</button>
+                <button id="run4">Run 4</button>
+                <button id="run6">Run 6</button>
+                <button id="wicketb">Wicket</button>
             </div>
         </div>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    script.
+        const batting = document.getElementById('batting');
+        const run = document.getElementById('run');
+        const wicket = document.getElementById('wicket');
+        const striker = document.getElementById('striker');
+        const nonStriker = document.getElementById('non-striker');
+        const bowler = document.getElementById('bowler');
+        var strikerName = !{JSON.stringify(striker)};
+        var nonStrikerName = !{JSON.stringify(nonStriker)}
+        var bowlerName = !{JSON.stringify(bowler)};
+        var battingTeam = !{JSON.stringify(toss)};
+        striker.innerHTML = strikerName;
+        nonStriker.innerHTML = nonStrikerName;
+        bowler.innerHTML = bowlerName;
+        batting.innerHTML = battingTeam;
+
+        var score = 0;
+        var wickets = 0;
+        var bowls = 0;
+        function updateScore(runScored) {
+            score += runScored;
+            bowls++;
+            run.innerHTML = score;
+            if (bowls % 6 === 0) {
+                // End of an over, switch striker and bowler
+                let temp = strikerName;
+                strikerName = nonStrikerName;
+                nonStrikerName = temp;
+                striker.innerHTML = strikerName;
+                nonStriker.innerHTML = nonStrikerName;
+            }
+        }
+    
+        function wicketTaken() {
+            wickets++;
+            wicket.innerHTML = wickets;
+            // Switch striker
+            let temp = strikerName;
+            strikerName = nonStrikerName;
+            nonStrikerName = temp;
+            striker.innerHTML = strikerName;
+            nonStriker.innerHTML = nonStrikerName;
+        }
+    
+        // Add event listeners to the elements that represent the possible outcomes of a bowl
+        document.getElementById('run1').addEventListener('click', function() { updateScore(1); });
+        document.getElementById('run2').addEventListener('click', function() { updateScore(2); });
+        document.getElementById('run3').addEventListener('click', function() { updateScore(3); });
+        document.getElementById('run4').addEventListener('click', function() { updateScore(4); });
+        document.getElementById('run6').addEventListener('click', function() { updateScore(6); });
+        document.getElementById('wicketb').addEventListener('click', wicketTaken);
+        run.innerHTML = score;
+        wicket.innerHTML = wickets;
+
     
 </body>
 </html>

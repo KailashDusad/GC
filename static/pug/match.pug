@@ -18,8 +18,8 @@
             
         </div>
         <div id="stiker-div" class="mb-3">
-            <label for="non-striker" class="form-label">Choose Your Non-Striker</label>
-            <select name="non-striker" id="non-striker" class="form-select form-select-lg mb-3" aria-label="Large select example">
+            <label for="nonStriker" class="form-label">Choose Your Non-Striker</label>
+            <select name="nonStriker" id="nonStriker" class="form-select form-select-lg mb-3" aria-label="Large select example">
                 <option selected>Choose Non-Striker</option>
             </select>
             
@@ -54,7 +54,7 @@
             option.text = playersName[numberOfPlayers + i];
             bowler.appendChild(option);
         }
-        const nonStriker = document.getElementById('non-striker');
+        const nonStriker = document.getElementById('nonStriker');
         for(let i = 0; i < numberOfPlayers; i++) {
             const option = document.createElement('option');
             option.value = playersName[i];
