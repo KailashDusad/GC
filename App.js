@@ -66,6 +66,7 @@ app.post('/auth/login', (req,res) => {
 });
 var number;
 var toss, overs;
+var players = [];
 app.post('/team', (req,res) => {
     const team1 = req.body.team1;
     const team2 = req.body.team2;
@@ -76,7 +77,7 @@ app.post('/team', (req,res) => {
     res.status(200).render('players.pug',  { team1, team2, number, overs, toss });
 });
 app.post('/players', (req,res) => {
-    var players = [];
+    
     for(let i = 0; i<2*number; i++){
         let playerName = `player${i+1}`;
         players[i] = req.body[playerName];
@@ -94,7 +95,7 @@ app.post('/striker', (req,res) => {
     var striker = req.body.striker;
     var nonStriker = req.body.nonStriker;
     var bowler = req.body.bowler;
-    res.status(200).render('start.pug',  {toss, overs, striker, nonStriker, bowler });
+    res.status(200).render('start.pug',  {players, number, toss, overs, striker, nonStriker, bowler });
 
 });
 app.listen(1204, () => {
