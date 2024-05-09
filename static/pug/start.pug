@@ -15,14 +15,12 @@
                 <label for="strikerpop" class="form-label">Choose Your Striker</label>
                 <select name="strikerpop" id="strikerpop" class="form-select form-select-lg mb-3" aria-label="Large select example">
                     <option selected>Choose Striker</option>
-                    <!-- Options will be added dynamically using JavaScript -->
                 </select>
             </div>
             <div class="mb-3">
                 <label for="nonStrikerpop" class="form-label">Choose Your Non-Striker</label>
                 <select name="nonStrikerpop" id="nonStrikerpop" class="form-select form-select-lg mb-3" aria-label="Large select example">
                     <option selected>Choose Non-Striker</option>
-                    <!-- Options will be added dynamically using JavaScript -->
                 </select>
             </div>
             <button type="submit" id='striker-choose' class="btn btn-primary">Submit</button>
@@ -97,6 +95,8 @@ script.
         var numberOfPlayers = !{number};
         var playersName = !{JSON.stringify(players)};
 
+
+
         for(let i = 0; i < numberOfPlayers; i++) {
             let option = document.createElement('option');
             option.value = playersName[i];
@@ -110,23 +110,20 @@ script.
             nonStrikerpop.appendChild(option);
         }
 
-        document.getElementById('striker-choose').addEventListener('click', (event) => {
-            event.preventDefault();
-            const selectedStriker = strikerpop.value;
-            const selectedNonStriker = nonStrikerpop.value;
-            striker1.innerHTML = selectedStriker;
-            nonStriker.innerHTML = selectedNonStriker;
-        });
+        
 
         var score = 0;
         var wickets = 0;
         var balls = 0;
         var oversCount = 0;
+        var totalOverCount = 0;
         var currentBowler = bowlerName;
         var currentStriker = strikerName;
         var currentNonStriker = nonStrikerName;
         var ballCommentary = '';
         var currentBowler = bowlerName;
+        var team1Score = [];
+        var team2Score = [];
 
         function showPopup() {
             const popup = document.getElementById('popup');
@@ -137,6 +134,16 @@ script.
             const popup = document.getElementById('popup');
             popup.classList.remove('show');
         }
+        document.getElementById('striker-choose').addEventListener('click', (event) => {
+            event.preventDefault();
+            const selectedStriker = strikerpop.value;
+            const selectedNonStriker = nonStrikerpop.value;
+            striker1.innerHTML = selectedStriker;
+            nonStriker.innerHTML = selectedNonStriker;
+            currentStriker = selectedStriker;
+            currentNonStriker = selectedNonStriker;
+            hidePopup();
+        });
         
         function updateScore(runScored) {
             balls++;
@@ -150,10 +157,11 @@ script.
             }
             if (balls % 6 === 0) {
                 oversCount++;
+                totalOverCount++;
                 oversdiv.innerHTML = oversCount;
                 ballCommentary += `<strong>End of Over of ${currentBowler}. Total Overs: ${oversCount}</strong><br>`;
                 currentBowler = '';
-                updatePlayersOptions();
+                updatePlayersOptions(0);
                 let temp = currentStriker;
                 currentStriker = currentNonStriker;
                 currentNonStriker = temp;
@@ -166,12 +174,51 @@ script.
             if (oversdiv.innerHTML == totalOvers) {
                 if(team1 == battingTeam){
                     battingTeam = team2;
-                    batting.innerHTML = battingTeam;
+                    team1Score[0] = team1;
+                    team1Score[1] = score;
+                    team1Score[2] = wickets;
+                    team1Score[3] = balls;
+                    team1Score[4] = oversCount;
+                
                 }
                 else{
                     battingTeam = team1;
-                    batting.innerHTML = battingTeam;
+                    team2Score[0] = team2;
+                    team2Score[1] = score;
+                    team2Score[2] = wickets;
+                    team2Score[3] = balls;
+                    team2Score[4] = oversCount;
                 }
+                batting.innerHTML = battingTeam;
+                score = 0;
+                wickets = 0;
+                balls = 0;
+                oversCount = 0;
+                oversdiv.innerHTML = oversCount;
+                while (strikerpop.firstChild) {
+                    strikerpop.removeChild(strikerpop.firstChild);
+                }
+                while (nonStrikerpop.firstChild) {
+                    nonStrikerpop.removeChild(nonStrikerpop.firstChild);
+                }
+                for(let i = 0; i < numberOfPlayers; i++) {
+                    let option = document.createElement('option');
+                    option.value = playersName[numberOfPlayers+i];
+                    option.text = playersName[numberOfPlayers+i];
+                    strikerpop.appendChild(option);
+                }
+                for(let i = 0; i < numberOfPlayers; i++) {
+                    let option = document.createElement('option');
+                    option.value = playersName[numberOfPlayers+i];
+                    option.text = playersName[numberOfPlayers+i];
+                    nonStrikerpop.appendChild(option);
+                }
+                if(totalOverCount == 2*totalOvers){
+                    alert("Match Over");
+                }
+                updatePlayersOptions(numberOfPlayers);
+
+                showPopup();
             }
         }
 
@@ -182,10 +229,11 @@ script.
             currentStriker = '';
             if (balls % 6 === 0) {
                 oversCount++;
+                totalOverCount++;
                 oversdiv.innerHTML = oversCount;
                 ballCommentary += `<strong>End of Over of ${currentBowler}. Total Overs: ${oversCount}</strong><br>`;
                 currentBowler = '';
-                updatePlayersOptions();
+                updatePlayersOptions(0);
                 let temp = currentStriker;
                 currentStriker = currentNonStriker;
                 currentNonStriker = temp;
@@ -201,21 +249,16 @@ script.
             commentary.innerHTML = ballCommentary;
         }
 
-        function updatePlayersOptions() {
+        function updatePlayersOptions(z) {
             const bowlerOptions = document.createElement('select');
             bowlerOptions.id = 'selectBowler';
             bowlerOptions.name = 'selectBowler';
-            //- const nonbowlerOptions = document.createElement('select');
-            //- nonbowlerOptions.id = 'selectNonStriker';
-            //- nonbowlerOptions.name = 'selectNonStriker';
             
             const existingBowler = document.getElementById('bowler');
-            //- const existingNonStriker = document.getElementById('non-striker');
-
             if (existingBowler) {
                 let bowlers = [];
                 for(let i = 0; i<numberOfPlayers; i++){
-                    bowlers[i] =  playersName[numberOfPlayers+i];
+                    bowlers[i] =  playersName[z+i];
                 }
                 bowlers.forEach(player => {
                     const options= document.createElement('option');
@@ -229,12 +272,7 @@ script.
                     currentBowler = this.value;
                     bowler.innerHTML = currentBowler;
                 });
-                //- nonbowlerOptions.addEventListener('change', function() {
-                //-     currentNonStriker = this.value;
-                //-     nonStriker.innerHTML = currentNonStriker;
-                //- });
                 existingBowler.parentNode.replaceChild(bowlerOptions, existingBowler);
-                //- existingNonStriker.parentNode.replaceChild(nonbowlerOptions, existingNonStriker);
             } else {
                 console.error('Elements with IDs "bowler" not found.');
             }
@@ -250,6 +288,7 @@ script.
         run.innerHTML = score;
         wicket.innerHTML = wickets;
         oversdiv.innerHTML = oversCount;
+        
         displayCommentary();
         hidePopup();
         
