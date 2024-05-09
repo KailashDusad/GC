@@ -64,12 +64,11 @@ app.post('/auth/login', (req,res) => {
         res.status(500).send('Internal Server Error');
     });
 });
-var number;
-var toss, overs;
+var number, toss, overs, team1, team2, commonPlayer;
 var players = [];
 app.post('/team', (req,res) => {
-    const team1 = req.body.team1;
-    const team2 = req.body.team2;
+    team1 = req.body.team1;
+    team2 = req.body.team2;
     number = req.body.number;
     overs = req.body.overs;
     toss = req.body.toss;
@@ -83,7 +82,7 @@ app.post('/players', (req,res) => {
         players[i] = req.body[playerName];
     }
     
-    const commonPlayer = req.body.common;
+    commonPlayer = req.body.common;
     console.log(number);
     console.log(players);
     console.log(commonPlayer); 
@@ -95,7 +94,7 @@ app.post('/striker', (req,res) => {
     var striker = req.body.striker;
     var nonStriker = req.body.nonStriker;
     var bowler = req.body.bowler;
-    res.status(200).render('start.pug',  {players, number, toss, overs, striker, nonStriker, bowler });
+    res.status(200).render('start.pug',  {team1, team2, players, number, toss, overs, striker, nonStriker, bowler });
 
 });
 app.listen(1204, () => {

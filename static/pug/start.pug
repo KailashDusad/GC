@@ -15,14 +15,14 @@
                 <label for="strikerpop" class="form-label">Choose Your Striker</label>
                 <select name="strikerpop" id="strikerpop" class="form-select form-select-lg mb-3" aria-label="Large select example">
                     <option selected>Choose Striker</option>
-                    // Add options dynamically using JavaScript 
+                    <!-- Options will be added dynamically using JavaScript -->
                 </select>
             </div>
             <div class="mb-3">
                 <label for="nonStrikerpop" class="form-label">Choose Your Non-Striker</label>
                 <select name="nonStrikerpop" id="nonStrikerpop" class="form-select form-select-lg mb-3" aria-label="Large select example">
                     <option selected>Choose Non-Striker</option>
-                    // Add options dynamically using JavaScript
+                    <!-- Options will be added dynamically using JavaScript -->
                 </select>
             </div>
             <button type="submit" id='striker-choose' class="btn btn-primary">Submit</button>
@@ -71,169 +71,188 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 script.
-    const batting = document.getElementById('batting');
-    const run = document.getElementById('run');
-    const wicket = document.getElementById('wicket');
-    const overs = document.getElementById('overs');
-    const striker1 = document.getElementById('striker');
-    const nonStriker = document.getElementById('non-striker');
-    const bowler = document.getElementById('bowler');
-    const commentary = document.getElementById('commentary');
-    const strikerpop = document.getElementById('strikerpop');
-    const nonStrikerpop = document.getElementById('nonStrikerpop');
-    
-    var strikerName = !{JSON.stringify(striker)};
-    var nonStrikerName = !{JSON.stringify(nonStriker)}
-    var bowlerName = !{JSON.stringify(bowler)};
-    var battingTeam = !{JSON.stringify(toss)};
-    striker1.innerHTML = strikerName;
-    nonStriker.innerHTML = nonStrikerName;
-    bowler.innerHTML = bowlerName;
-    batting.innerHTML = battingTeam;
-    var numberOfPlayers = !{number};
-    var playersName = !{JSON.stringify(players)};
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const batting = document.getElementById('batting');
+        const run = document.getElementById('run');
+        const wicket = document.getElementById('wicket');
+        const oversdiv = document.getElementById('overs');
+        const striker1 = document.getElementById('striker');
+        const nonStriker = document.getElementById('non-striker');
+        const bowler = document.getElementById('bowler');
+        const commentary = document.getElementById('commentary');
+        const strikerpop = document.getElementById('strikerpop');
+        const nonStrikerpop = document.getElementById('nonStrikerpop');
+        
+        var strikerName = !{JSON.stringify(striker)};
+        var nonStrikerName = !{JSON.stringify(nonStriker)}
+        var bowlerName = !{JSON.stringify(bowler)};
+        var battingTeam = !{JSON.stringify(toss)};
+        var team1 = !{JSON.stringify(team1)};
+        var team2 = !{JSON.stringify(team2)};
+        var totalOvers = !{overs}
+        striker1.innerHTML = strikerName;
+        nonStriker.innerHTML = nonStrikerName;
+        bowler.innerHTML = bowlerName;
+        batting.innerHTML = battingTeam;
+        var numberOfPlayers = !{number};
+        var playersName = !{JSON.stringify(players)};
 
-    for(let i = 0; i < numberOfPlayers; i++) {
-            const option = document.createElement('option');
+        for(let i = 0; i < numberOfPlayers; i++) {
+            let option = document.createElement('option');
             option.value = playersName[i];
             option.text = playersName[i];
             strikerpop.appendChild(option);
         }
-        //- const bowler = document.getElementById('bowler');
-        //- for(let i = 0; i < numberOfPlayers; i++) {
-        //-     const option = document.createElement('option');
-        //-     option.value = playersName[numberOfPlayers + i];
-        //-     option.text = playersName[numberOfPlayers + i];
-        //-     bowler.appendChild(option);
-        //- }
         for(let i = 0; i < numberOfPlayers; i++) {
-            const option = document.createElement('option');
+            let option = document.createElement('option');
             option.value = playersName[i];
             option.text = playersName[i];
             nonStrikerpop.appendChild(option);
         }
-    document.getElementById('striker-choose').addEventListener('click', ()=>{
-        event.preventDefault();
-        const selectedStriker = strikerpop.value;
-        const selectedNonStriker = nonStrikerpop.value;
-        striker1.innerHTML = selectedStriker;
-        nonStriker.innerHTML = selectedNonStriker;
-    })
 
+        document.getElementById('striker-choose').addEventListener('click', (event) => {
+            event.preventDefault();
+            const selectedStriker = strikerpop.value;
+            const selectedNonStriker = nonStrikerpop.value;
+            striker1.innerHTML = selectedStriker;
+            nonStriker.innerHTML = selectedNonStriker;
+        });
 
-    var score = 0;
-    var wickets = 0;
-    var balls = 0;
-    var oversCount = 0;
-    var currentBowler = bowlerName;
-    var currentStriker = strikerName;
-    var currentNonStriker = nonStrikerName;
-    var ballCommentary = '';
+        var score = 0;
+        var wickets = 0;
+        var balls = 0;
+        var oversCount = 0;
+        var currentBowler = bowlerName;
+        var currentStriker = strikerName;
+        var currentNonStriker = nonStrikerName;
+        var ballCommentary = '';
+        var currentBowler = bowlerName;
 
-    function showPopup() {
-        const popup = document.getElementById('popup');
-        popup.classList.add('show');
-    }
-
-    // Function to hide the pop-up
-    function hidePopup() {
-        const popup = document.getElementById('popup');
-        popup.classList.remove('show');
-    }
-    
-    function updateScore(runScored) {
-        balls++;
-        ballCommentary += `${balls}. ${runScored} run(s) scored by ${currentStriker}<br>`;
-        if (runScored % 2 !== 0) {
-            // Rotate strike
-            let temp = currentStriker;
-            currentStriker = currentNonStriker;
-            currentNonStriker = temp;
+        function showPopup() {
+            const popup = document.getElementById('popup');
+            popup.classList.add('show');
         }
-        if (balls % 6 === 0) {
-            oversCount++;
-            overs.innerHTML = oversCount;
-            ballCommentary += `<strong>End of Over ${oversCount}</strong><br>`;
-            currentBowler = ''; // Set current bowler to empty, prompting user to select new bowler
-            updatePlayersOptions();
+
+        function hidePopup() {
+            const popup = document.getElementById('popup');
+            popup.classList.remove('show');
         }
-        score += runScored;
+        
+        function updateScore(runScored) {
+            balls++;
+            ballCommentary += `${balls}. ${runScored} run(s) scored by ${currentStriker}, Bowled by: ${currentBowler}<br>`;
+            if (runScored % 2 !== 0) {
+                let temp = currentStriker;
+                currentStriker = currentNonStriker;
+                currentNonStriker = temp;
+                striker1.innerHTML = currentStriker;
+                nonStriker.innerHTML = currentNonStriker;
+            }
+            if (balls % 6 === 0) {
+                oversCount++;
+                oversdiv.innerHTML = oversCount;
+                ballCommentary += `<strong>End of Over of ${currentBowler}. Total Overs: ${oversCount}</strong><br>`;
+                currentBowler = '';
+                updatePlayersOptions();
+                let temp = currentStriker;
+                currentStriker = currentNonStriker;
+                currentNonStriker = temp;
+                striker1.innerHTML = currentStriker;
+                nonStriker.innerHTML = currentNonStriker;
+            }
+            score += runScored;
+            run.innerHTML = score;
+            displayCommentary();
+            if (oversdiv.innerHTML == totalOvers) {
+                if(team1 == battingTeam){
+                    battingTeam = team2;
+                    batting.innerHTML = battingTeam;
+                }
+                else{
+                    battingTeam = team1;
+                    batting.innerHTML = battingTeam;
+                }
+            }
+        }
+
+        function wicketTaken() {
+            balls++;
+            wickets++;
+            ballCommentary += `${balls}. Wicket taken, ${currentStriker} out by ${currentBowler}<br>`;
+            currentStriker = '';
+            if (balls % 6 === 0) {
+                oversCount++;
+                oversdiv.innerHTML = oversCount;
+                ballCommentary += `<strong>End of Over of ${currentBowler}. Total Overs: ${oversCount}</strong><br>`;
+                currentBowler = '';
+                updatePlayersOptions();
+                let temp = currentStriker;
+                currentStriker = currentNonStriker;
+                currentNonStriker = temp;
+                striker1.innerHTML = currentStriker;
+                nonStriker.innerHTML = currentNonStriker;
+            }
+            wicket.innerHTML = wickets;
+            displayCommentary();
+            showPopup();
+        }
+
+        function displayCommentary() {
+            commentary.innerHTML = ballCommentary;
+        }
+
+        function updatePlayersOptions() {
+            const bowlerOptions = document.createElement('select');
+            bowlerOptions.id = 'selectBowler';
+            bowlerOptions.name = 'selectBowler';
+            //- const nonbowlerOptions = document.createElement('select');
+            //- nonbowlerOptions.id = 'selectNonStriker';
+            //- nonbowlerOptions.name = 'selectNonStriker';
+            
+            const existingBowler = document.getElementById('bowler');
+            //- const existingNonStriker = document.getElementById('non-striker');
+
+            if (existingBowler) {
+                let bowlers = [];
+                for(let i = 0; i<numberOfPlayers; i++){
+                    bowlers[i] =  playersName[numberOfPlayers+i];
+                }
+                bowlers.forEach(player => {
+                    const options= document.createElement('option');
+                    options.value = player;
+                    options.textContent = player;
+                    bowlerOptions.appendChild(options);
+                });
+                
+                
+                bowlerOptions.addEventListener('change', function() {
+                    currentBowler = this.value;
+                    bowler.innerHTML = currentBowler;
+                });
+                //- nonbowlerOptions.addEventListener('change', function() {
+                //-     currentNonStriker = this.value;
+                //-     nonStriker.innerHTML = currentNonStriker;
+                //- });
+                existingBowler.parentNode.replaceChild(bowlerOptions, existingBowler);
+                //- existingNonStriker.parentNode.replaceChild(nonbowlerOptions, existingNonStriker);
+            } else {
+                console.error('Elements with IDs "bowler" not found.');
+            }
+        }
+
+        document.getElementById('run1').addEventListener('click', function() { updateScore(1); });
+        document.getElementById('run2').addEventListener('click', function() { updateScore(2); });
+        document.getElementById('run3').addEventListener('click', function() { updateScore(3); });
+        document.getElementById('run4').addEventListener('click', function() { updateScore(4); });
+        document.getElementById('run6').addEventListener('click', function() { updateScore(6); });
+        document.getElementById('wicketb').addEventListener('click', wicketTaken);
+
         run.innerHTML = score;
-        displayCommentary();
-    }
-
-    function wicketTaken() {
-        balls++;
-        wickets++;
-        ballCommentary += `${balls}. Wicket taken, ${currentStriker} out<br>`;
-        currentStriker = ''; // Set current striker to empty, prompting user to select new striker
-        if (balls % 6 === 0) {
-            oversCount++;
-            overs.innerHTML = oversCount;
-            ballCommentary += `<strong>End of Over ${oversCount}</strong><br>`;
-            currentBowler = ''; // Set current bowler to empty, prompting user to select new bowler
-            updatePlayersOptions();
-        }
         wicket.innerHTML = wickets;
+        oversdiv.innerHTML = oversCount;
         displayCommentary();
-        showPopup();
-    }
-
-    function displayCommentary() {
-        commentary.innerHTML = ballCommentary;
-    }
-
-    function updatePlayersOptions() {
-        const strikerOptions = document.createElement('select');
-        strikerOptions.id = 'selectStriker';
-        strikerOptions.name = 'selectStriker';
-        const nonStrikerOptions = document.createElement('select');
-        nonStrikerOptions.id = 'selectNonStriker';
-        nonStrikerOptions.name = 'selectNonStriker';
-        // Add options for strikers
-        const strikers = [strikerName, nonStrikerName];
-        strikers.forEach(player => {
-            const option = document.createElement('option');
-            option.value = player;
-            option.textContent = player;
-            strikerOptions.appendChild(option);
-        });
-        // Add options for non-strikers
-        strikers.reverse().forEach(player => {
-            const option = document.createElement('option');
-            option.value = player;
-            option.textContent = player;
-            nonStrikerOptions.appendChild(option);
-        });
-        // Add event listeners to select new strikers
-        strikerOptions.addEventListener('change', function() {
-            currentStriker = this.value;
-            striker1.innerHTML = currentStriker;
-        });
-        nonStrikerOptions.addEventListener('change', function() {
-            currentNonStriker = this.value;
-            nonStriker.innerHTML = currentNonStriker;
-        });
-        striker1.parentNode.replaceChild(strikerOptions, striker1);
-        nonStriker.parentNode.replaceChild(nonStrikerOptions, nonStriker);
-    }
-
-    // Add event listeners to the elements that represent the possible outcomes of a ball
-    document.getElementById('run1').addEventListener('click', function() { updateScore(1); });
-    document.getElementById('run2').addEventListener('click', function() { updateScore(2); });
-    document.getElementById('run3').addEventListener('click', function() { updateScore(3); });
-    document.getElementById('run4').addEventListener('click', function() { updateScore(4); });
-    document.getElementById('run6').addEventListener('click', function() { updateScore(6); });
-    document.getElementById('wicketb').addEventListener('click', wicketTaken);
-
-    run.innerHTML = score;
-    wicket.innerHTML = wickets;
-    overs.innerHTML = oversCount;
-    displayCommentary();
-    hidePopup();
-
-
-
-    
+        hidePopup();
+        
+    });
 </body>
 </html>
