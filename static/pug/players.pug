@@ -57,7 +57,7 @@
             for(let i = 0; i < numberOfPlayers; i++) {
                 const input = document.createElement('input');
                 input.type = 'text';
-                input.name = `player${(i + 1)+(j*3)}`;
+                input.name = `player${(i + 1)+(j*numberOfPlayers)}`;
                 input.className = 'form-control';
                 input.placeholder = `Player ${i + 1} Name`;
                 form.appendChild(input);

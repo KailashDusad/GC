@@ -87,7 +87,7 @@ app.post('/players', (req,res) => {
     console.log(players);
     console.log(commonPlayer); 
     
-    res.status(200).render('match.pug',  { number, players, commonPlayer });
+    res.status(200).render('match.pug',  {toss, number, players, commonPlayer });
 }
 );
 app.post('/striker', (req,res) => {

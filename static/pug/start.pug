@@ -10,7 +10,6 @@
 <body>
     <div id="popup" class="popup">
         <form>
-            <!-- Your form content here -->
             <div class="mb-3">
                 <label for="strikerpop" class="form-label">Choose Your Striker</label>
                 <select name="strikerpop" id="strikerpop" class="form-select form-select-lg mb-3" aria-label="Large select example">
@@ -161,7 +160,7 @@ script.
                 oversdiv.innerHTML = oversCount;
                 ballCommentary += `<strong>End of Over of ${currentBowler}. Total Overs: ${oversCount}</strong><br>`;
                 currentBowler = '';
-                updatePlayersOptions(0);
+                updatePlayersOptions(numberOfPlayers);
                 let temp = currentStriker;
                 currentStriker = currentNonStriker;
                 currentNonStriker = temp;
@@ -215,8 +214,10 @@ script.
                 }
                 if(totalOverCount == 2*totalOvers){
                     alert("Match Over");
+                    console.log(team1Score);
+                    console.log(team2Score);
                 }
-                updatePlayersOptions(numberOfPlayers);
+                updatePlayersOptions(0);
 
                 showPopup();
             }
@@ -233,7 +234,7 @@ script.
                 oversdiv.innerHTML = oversCount;
                 ballCommentary += `<strong>End of Over of ${currentBowler}. Total Overs: ${oversCount}</strong><br>`;
                 currentBowler = '';
-                updatePlayersOptions(0);
+                updatePlayersOptions(numberOfPlayers);
                 let temp = currentStriker;
                 currentStriker = currentNonStriker;
                 currentNonStriker = temp;

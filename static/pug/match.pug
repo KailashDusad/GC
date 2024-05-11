@@ -41,6 +41,8 @@
         const stikerDiv = document.getElementById('striker');
         var numberOfPlayers = !{number};
         var playersName = !{JSON.stringify(players)};
+        var commonPlayer = !{JSON.stringify(commonPlayer)};
+        var tossWin = !{JSON.stringify(toss)};
         for(let i = 0; i < numberOfPlayers; i++) {
             const option = document.createElement('option');
             option.value = playersName[i];
@@ -60,6 +62,20 @@
             option.value = playersName[i];
             option.text = playersName[i];
             nonStriker.appendChild(option);
+        }
+        if(commonPlayer){
+            let commonStriker = document.createElement('option');
+            commonStriker.value = commonPlayer;
+            commonStriker.text = commonPlayer;
+            stikerDiv.appendChild(commonStriker);
+            let commonBowler = document.createElement('option');
+            commonBowler.value = commonPlayer;
+            commonBowler.text = commonPlayer;
+            bowler.appendChild(commonBowler);
+            let commonNonStriker = document.createElement('option');
+            commonNonStriker.value = commonPlayer;
+            commonNonStriker.text = commonPlayer;
+            nonStriker.appendChild(commonNonStriker);
         }
 </body>
 </html>
