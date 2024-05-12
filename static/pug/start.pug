@@ -25,6 +25,17 @@
             <button type="submit" id='striker-choose' class="btn btn-primary">Submit</button>
         </form>
     </div>
+    <div id="Bowlerpopup" class="Bowlerpopup">
+        <form>
+            <div class="mb-3">
+                <label for="Bowlerpop" class="form-label">Choose Your Bowler</label>
+                <select name="Bowlerpop" id="Bowlerpop" class="form-select form-select-lg mb-3" aria-label="Large select example">
+                    <option selected>Choose Bowler</option>
+                </select>
+            </div>
+            <button type="submit" id='bowler-choose' class="btn btn-primary">Submit</button>
+        </form>
+    </div>
     <div class="container">
 
         <div class="over">
@@ -79,6 +90,7 @@ script.
         const commentary = document.getElementById('commentary');
         const strikerpop = document.getElementById('strikerpop');
         const nonStrikerpop = document.getElementById('nonStrikerpop');
+        const bowlerpop = document.getElementById('Bowlerpop');
         
         var strikerName = !{JSON.stringify(striker)};
         var nonStrikerName = !{JSON.stringify(nonStriker)}
@@ -94,7 +106,17 @@ script.
         var numberOfPlayers = !{number};
         var playersName = !{JSON.stringify(players)};
 
-
+        var score = 0;
+        var wickets = 0;
+        var balls = 0;
+        var oversCount = 0;
+        var totalOverCount = 0;
+        var currentBowler = bowlerName;
+        var currentStriker = strikerName;
+        var currentNonStriker = nonStrikerName;
+        var ballCommentary = '';
+        var team1Score = [];
+        var team2Score = [];
 
         for(let i = 0; i < numberOfPlayers; i++) {
             let option = document.createElement('option');
@@ -108,21 +130,26 @@ script.
             option.text = playersName[i];
             nonStrikerpop.appendChild(option);
         }
+        function creatBowlers(){
+            for(let i = 0; i < numberOfPlayers; i++) {
+                if(totalOverCount >= totalOvers){
+                    let option = document.createElement('option');
+                    option.value = playersName[i];
+                    option.text = playersName[i];
+                    bowlerpop.appendChild(option);
+                }
+                else{
+                    let option = document.createElement('option');
+                    option.value = playersName[numberOfPlayers+i];
+                    option.text = playersName[numberOfPlayers+i];
+                    bowlerpop.appendChild(option);
+                }
+            }
+        }
 
         
 
-        var score = 0;
-        var wickets = 0;
-        var balls = 0;
-        var oversCount = 0;
-        var totalOverCount = 0;
-        var currentBowler = bowlerName;
-        var currentStriker = strikerName;
-        var currentNonStriker = nonStrikerName;
-        var ballCommentary = '';
-        var currentBowler = bowlerName;
-        var team1Score = [];
-        var team2Score = [];
+        
 
         function showPopup() {
             const popup = document.getElementById('popup');
@@ -133,6 +160,15 @@ script.
             const popup = document.getElementById('popup');
             popup.classList.remove('show');
         }
+        function showPopupB() {
+            const popup = document.getElementById('Bowlerpopup');
+            popup.classList.add('showBowlerpopup');
+        }
+
+        function hidePopupB() {
+            const popup = document.getElementById('Bowlerpopup');
+            popup.classList.remove('showBowlerpopup');
+        }
         document.getElementById('striker-choose').addEventListener('click', (event) => {
             event.preventDefault();
             const selectedStriker = strikerpop.value;
@@ -142,6 +178,15 @@ script.
             currentStriker = selectedStriker;
             currentNonStriker = selectedNonStriker;
             hidePopup();
+        });
+        document.getElementById('bowler-choose').addEventListener('click', (event) => {
+            event.preventDefault();
+            var selectedBowler = Bowlerpop.value;
+            bowler.innerHTML = selectedBowler;
+            //- currentStriker = selectedStriker;
+            //- currentNonStriker = selectedNonStriker;
+            currentBowler = selectedBowler;
+            hidePopupB();
         });
         
         function updateScore(runScored) {
@@ -160,7 +205,8 @@ script.
                 oversdiv.innerHTML = oversCount;
                 ballCommentary += `<strong>End of Over of ${currentBowler}. Total Overs: ${oversCount}</strong><br>`;
                 currentBowler = '';
-                updatePlayersOptions(numberOfPlayers);
+                //- updatePlayersOptions(numberOfPlayers);
+                showPopupB();
                 let temp = currentStriker;
                 currentStriker = currentNonStriker;
                 currentNonStriker = temp;
@@ -217,9 +263,13 @@ script.
                     console.log(team1Score);
                     console.log(team2Score);
                 }
-                updatePlayersOptions(0);
-
+                while (Bowlerpop.firstChild) {
+                    Bowlerpop.removeChild(Bowlerpop.firstChild);
+                }
+                creatBowlers();
+                showPopupB();
                 showPopup();
+                //- updatePlayersOptions(0);
             }
         }
 
@@ -234,7 +284,8 @@ script.
                 oversdiv.innerHTML = oversCount;
                 ballCommentary += `<strong>End of Over of ${currentBowler}. Total Overs: ${oversCount}</strong><br>`;
                 currentBowler = '';
-                updatePlayersOptions(numberOfPlayers);
+                //- updatePlayersOptions(numberOfPlayers);
+                showPopupB();
                 let temp = currentStriker;
                 currentStriker = currentNonStriker;
                 currentNonStriker = temp;
@@ -250,34 +301,33 @@ script.
             commentary.innerHTML = ballCommentary;
         }
 
-        function updatePlayersOptions(z) {
-            const bowlerOptions = document.createElement('select');
-            bowlerOptions.id = 'selectBowler';
-            bowlerOptions.name = 'selectBowler';
+        //- function updatePlayersOptions(z) {
+        //-     let bowlerOptions = document.createElement('select');
+        //-     bowlerOptions.id = 'selectBowler';
+        //-     bowlerOptions.name = 'selectBowler';
             
-            const existingBowler = document.getElementById('bowler');
-            if (existingBowler) {
-                let bowlers = [];
-                for(let i = 0; i<numberOfPlayers; i++){
-                    bowlers[i] =  playersName[z+i];
-                }
-                bowlers.forEach(player => {
-                    const options= document.createElement('option');
-                    options.value = player;
-                    options.textContent = player;
-                    bowlerOptions.appendChild(options);
-                });
+        //-     let existingBowler = document.getElementById('bowler');
+        //-     if (existingBowler) {
+        //-         let bowlers = [];
+        //-         for(let i = 0; i<numberOfPlayers; i++){
+        //-             bowlers[i] =  playersName[z+i];
+        //-         }
+        //-         bowlers.forEach(player => {
+        //-             let options= document.createElement('option');
+        //-             options.value = player;
+        //-             options.textContent = player;
+        //-             bowlerOptions.appendChild(options);
+        //-         });    
                 
-                
-                bowlerOptions.addEventListener('change', function() {
-                    currentBowler = this.value;
-                    bowler.innerHTML = currentBowler;
-                });
-                existingBowler.parentNode.replaceChild(bowlerOptions, existingBowler);
-            } else {
-                console.error('Elements with IDs "bowler" not found.');
-            }
-        }
+        //-         bowlerOptions.addEventListener('change', function() {
+        //-             currentBowler = this.value;
+        //-             bowler.innerHTML = currentBowler;
+        //-         });
+        //-         existingBowler.parentNode.replaceChild(bowlerOptions, existingBowler);
+        //-     } else {
+        //-         console.error('Elements with IDs "bowler" not found.');
+        //-     }
+        //- }
 
         document.getElementById('run1').addEventListener('click', function() { updateScore(1); });
         document.getElementById('run2').addEventListener('click', function() { updateScore(2); });
@@ -292,6 +342,8 @@ script.
         
         displayCommentary();
         hidePopup();
+        hidePopupB();
+        creatBowlers();
         
     });
 </body>

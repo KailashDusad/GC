@@ -43,11 +43,16 @@
         const form = document.getElementById('players-info');
         var Team1 = `!{team1}`;
         var Team2 = `!{team2}`;
+        var winingTeam = `!{toss}`;
         for(let j = 0; j < 2; j++) {
-            //- var teamName = `Team${j + 1}`;
-            if(j){
+            if(j==0 && winingTeam == Team1){
+                var teamName = Team1;
+            } else if(j==0 && winingTeam == Team2){
                 var teamName = Team2;
-            } else {
+            }
+            if(j==1 && winingTeam == Team1){
+                var teamName = Team2;
+            } else if(j==1 && winingTeam == Team2){
                 var teamName = Team1;
             }
             var h3 = document.createElement('h3');
