@@ -93,7 +93,7 @@ app.post('/striker', (req,res) => {
     var striker = req.body.striker;
     var nonStriker = req.body.nonStriker;
     var bowler = req.body.bowler;
-    res.status(200).render('start.pug',  { team1, team2, players, number, toss, overs, striker, nonStriker, bowler });
+    res.status(200).render('start.pug',  {commonPlayer,  team1, team2, players, number, toss, overs, striker, nonStriker, bowler });
 
 });
 app.get('/over', (req, res) => {

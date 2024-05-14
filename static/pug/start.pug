@@ -105,6 +105,7 @@ script.
         batting.innerHTML = battingTeam;
         var numberOfPlayers = !{number};
         var playersName = !{JSON.stringify(players)};
+        var commonPlayer = !{JSON.stringify(commonPlayer)};
         var team1Score = [];
         var team2Score = [];
 
@@ -130,6 +131,16 @@ script.
             option.text = playersName[i];
             nonStrikerpop.appendChild(option);
         }
+        if(commonPlayer){
+            let commonStriker = document.createElement('option');
+            commonStriker.value = commonPlayer;
+            commonStriker.text = commonPlayer;
+            strikerpop.appendChild(commonStriker);
+            let commonNonStriker = document.createElement('option');
+            commonNonStriker.value = commonPlayer;
+            commonNonStriker.text = commonPlayer;
+            nonStrikerpop.appendChild(commonNonStriker);
+        }
         function creatBowlers(){
             for(let i = 0; i < numberOfPlayers; i++) {
                 if(totalOverCount >= totalOvers){
@@ -144,6 +155,12 @@ script.
                     option.text = playersName[numberOfPlayers+i];
                     bowlerpop.appendChild(option);
                 }
+            }
+            if(commonPlayer){
+                let commonBowler = document.createElement('option');
+                commonBowler.value = commonPlayer;
+                commonBowler.text = commonPlayer;
+                bowlerpop.appendChild(commonBowler);
             }
         }
         function showPopup() {
@@ -253,6 +270,16 @@ script.
                     option.value = playersName[numberOfPlayers+i];
                     option.text = playersName[numberOfPlayers+i];
                     nonStrikerpop.appendChild(option);
+                }
+                if(commonPlayer){
+                    let commonStriker = document.createElement('option');
+                    commonStriker.value = commonPlayer;
+                    commonStriker.text = commonPlayer;
+                    strikerpop.appendChild(commonStriker);
+                    let commonNonStriker = document.createElement('option');
+                    commonNonStriker.value = commonPlayer;
+                    commonNonStriker.text = commonPlayer;
+                    nonStrikerpop.appendChild(commonNonStriker);
                 }
                 if(totalOverCount == 2*totalOvers){
                     //- alert("Match Over");
