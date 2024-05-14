@@ -24,8 +24,8 @@
 script.
     const team1S = document.getElementById('team1');
     const team2S = document.getElementById('team2');
-    var team1 = !{JSON.stringify(team1Score)};
-    var team2 = !{JSON.stringify(team2Score)};
+    const team1 = JSON.parse(localStorage.getItem('team1Score'));
+    const team2 = JSON.parse(localStorage.getItem('team2Score'));
     team1S.innerText = team1[0];
     team2S.innerText = team2[0];
 
