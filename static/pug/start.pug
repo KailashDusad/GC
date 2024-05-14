@@ -105,6 +105,8 @@ script.
         batting.innerHTML = battingTeam;
         var numberOfPlayers = !{number};
         var playersName = !{JSON.stringify(players)};
+        var team1Score = [];
+        var team2Score = [];
 
         var score = 0;
         var wickets = 0;
@@ -115,8 +117,6 @@ script.
         var currentStriker = strikerName;
         var currentNonStriker = nonStrikerName;
         var ballCommentary = '';
-        var team1Score = [];
-        var team2Score = [];
 
         for(let i = 0; i < numberOfPlayers; i++) {
             let option = document.createElement('option');
@@ -146,11 +146,6 @@ script.
                 }
             }
         }
-
-        
-
-        
-
         function showPopup() {
             const popup = document.getElementById('popup');
             popup.classList.add('show');
@@ -215,6 +210,7 @@ script.
             }
             score += runScored;
             run.innerHTML = score;
+            wicket.innerHTML = wickets;
             displayCommentary();
             if (oversdiv.innerHTML == totalOvers) {
                 if(team1 == battingTeam){
@@ -259,9 +255,10 @@ script.
                     nonStrikerpop.appendChild(option);
                 }
                 if(totalOverCount == 2*totalOvers){
-                    alert("Match Over");
+                    //- alert("Match Over");
                     console.log(team1Score);
                     console.log(team2Score);
+                    window.location.href = '/over';
                 }
                 while (Bowlerpop.firstChild) {
                     Bowlerpop.removeChild(Bowlerpop.firstChild);

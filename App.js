@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
-
 main().catch(err => console.log(err));
 
 async function main() {
@@ -66,6 +65,8 @@ app.post('/auth/login', (req,res) => {
 });
 var number, toss, overs, team1, team2, commonPlayer;
 var players = [];
+var team1Score = [];
+var team2Score = [];
 app.post('/team', (req,res) => {
     team1 = req.body.team1;
     team2 = req.body.team2;
@@ -94,9 +95,14 @@ app.post('/striker', (req,res) => {
     var striker = req.body.striker;
     var nonStriker = req.body.nonStriker;
     var bowler = req.body.bowler;
-    res.status(200).render('start.pug',  {team1, team2, players, number, toss, overs, striker, nonStriker, bowler });
+    res.status(200).render('start.pug',  {team1Score, team2Score, team1, team2, players, number, toss, overs, striker, nonStriker, bowler });
 
 });
+app.get('/over', (req, res) => {
+    res.status(200).render('over.pug', {team1Score, team2Score});
+})
+// console.log(team1Score);
+// console.log(team2Score);
 app.listen(1204, () => {
     console.log('Server is running on port 1204');
 });
