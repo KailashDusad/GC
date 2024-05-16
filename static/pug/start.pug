@@ -55,8 +55,16 @@
                 </div>
                 <div class="col-md-6 mb-3">
                     <h2>Bowler: <span id="bowler"></span></h2>
+                    <div class="d-flex flex-column gap-4">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="d-flex" id="every-ball">
+                            
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col">
                     <button id="run1" class="btn btn-primary">Run 1</button>
@@ -95,6 +103,7 @@ script.
         const strikerpop = document.getElementById('strikerpop');
         const nonStrikerpop = document.getElementById('nonStrikerpop');
         const bowlerpop = document.getElementById('Bowlerpop');
+        const everyBall = document.getElementById('every-ball');
         
         var strikerName = !{JSON.stringify(striker)};
         var nonStrikerName = !{JSON.stringify(nonStriker)}
@@ -248,6 +257,12 @@ script.
         
         function updateScore(runScored) {
             balls++;
+            let newSpan = document.createElement('span');
+            newSpan.className = 'd-flex justify-content-center align-items-center rounded-circle bg-secondary text-white';
+            newSpan.style.height = '2.5rem';
+            newSpan.style.width = '2.5rem';
+            newSpan.innerHTML = runScored;
+            everyBall.appendChild(newSpan);
             ballCommentary += `${balls}. ${runScored} run(s) scored by ${currentStriker}, Bowled by: ${currentBowler}<br>`;
             if (runScored % 2 !== 0) {
                 let temp = currentStriker;
@@ -348,6 +363,12 @@ script.
         function wicketTaken() {
             balls++;
             wickets++;
+            let newSpan = document.createElement('span');
+            newSpan.className = 'd-flex justify-content-center align-items-center rounded-circle bg-secondary text-white';
+            newSpan.style.height = '2.5rem';
+            newSpan.style.width = '2.5rem';
+            newSpan.innerHTML = "W";
+            everyBall.appendChild(newSpan);
             ballCommentary += `${balls}. Wicket taken, ${currentStriker} out by ${currentBowler}<br>`;
             currentStriker = '';
             if (balls % 6 === 0 && balls !== 0) {
@@ -401,13 +422,32 @@ script.
         //-     }
         //- }
 
+        function ExtraRuns(runScored, extraType) {
+            let newSpan = document.createElement('span');
+            newSpan.className = 'd-flex justify-content-center align-items-center rounded-circle bg-secondary text-white';
+            newSpan.style.height = '2.75rem';
+            newSpan.style.width = '2.75rem';
+            if(extraType == 'wide'){
+                newSpan.innerHTML = `${runScored}+WB`;
+            }
+            else{
+                newSpan.innerHTML = `${runScored}+NB`;
+            }
+            everyBall.appendChild(newSpan);
+            ballCommentary += `${balls}. ${runScored} run(s) due to ${extraType}, Bowled by: ${currentBowler}<br>`;
+            score += runScored;
+            run.innerHTML = score;
+            wicket.innerHTML = wickets;
+            displayCommentary();
+        }
+
         document.getElementById('run1').addEventListener('click', function() { updateScore(1); });
         document.getElementById('run2').addEventListener('click', function() { updateScore(2); });
         document.getElementById('run3').addEventListener('click', function() { updateScore(3); });
         document.getElementById('run4').addEventListener('click', function() { updateScore(4); });
         document.getElementById('run6').addEventListener('click', function() { updateScore(6); });
-        document.getElementById('wide').addEventListener('click', function() {let temp = currentStriker; currentStriker = currentNonStriker; currentNonStriker = temp; balls--; updateScore(1); });
-        document.getElementById('no-ball').addEventListener('click', function() {let temp = currentStriker; currentStriker = currentNonStriker; currentNonStriker = temp; balls--; updateScore(1); });
+        document.getElementById('wide').addEventListener('click', function() { ExtraRuns(1, 'wide'); });
+        document.getElementById('no-ball').addEventListener('click', function() { ExtraRuns(1, 'no-ball');});
         document.getElementById('wicketb').addEventListener('click', wicketTaken);
 
         run.innerHTML = score;
@@ -418,7 +458,6 @@ script.
         hidePopup();
         hidePopupB();
         creatBowlers();
-        
     });
 </body>
 </html>
