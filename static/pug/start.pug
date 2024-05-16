@@ -65,6 +65,10 @@
                     <button id="run4" class="btn btn-primary">Run 4</button>
                     <button id="run6" class="btn btn-primary">Run 6</button>
                     <button id="wicketb" class="btn btn-danger">Wicket</button>
+                    <button id="wide" class="btn btn-success">Wide</button>
+                    <button id="no-ball" class="btn btn-success">No Ball</button>
+
+
                 </div>
             </div>
             <div class="row">
@@ -119,28 +123,69 @@ script.
         var currentNonStriker = nonStrikerName;
         var ballCommentary = '';
 
-        for(let i = 0; i < numberOfPlayers; i++) {
-            let option = document.createElement('option');
-            option.value = playersName[i];
-            option.text = playersName[i];
-            strikerpop.appendChild(option);
+        function batsmanOptions(){
+            for(let i = 0; i < numberOfPlayers; i++) {
+                if(totalOverCount >= totalOvers){
+                    let option = document.createElement('option');
+                    option.value = playersName[numberOfPlayers + i];
+                    option.text = playersName[numberOfPlayers + i];
+                    strikerpop.appendChild(option);
+                }
+                else{
+                    let option = document.createElement('option');
+                    option.value = playersName[i];
+                    option.text = playersName[i];
+                    strikerpop.appendChild(option);
+                }
+            }
+            for(let i = 0; i < numberOfPlayers; i++) {
+                if(totalOverCount >= totalOvers){
+                    let option = document.createElement('option');
+                    option.value = playersName[numberOfPlayers + i];
+                    option.text = playersName[numberOfPlayers + i];
+                    nonStrikerpop.appendChild(option);
+                }
+                else{
+                    let option = document.createElement('option');
+                    option.value = playersName[i];
+                    option.text = playersName[i];
+                    nonStrikerpop.appendChild(option);
+                }
+            }
+            if(commonPlayer){
+                let commonStriker = document.createElement('option');
+                commonStriker.value = commonPlayer;
+                commonStriker.text = commonPlayer;
+                strikerpop.appendChild(commonStriker);
+                let commonNonStriker = document.createElement('option');
+                commonNonStriker.value = commonPlayer;
+                commonNonStriker.text = commonPlayer;
+                nonStrikerpop.appendChild(commonNonStriker);
+            }
         }
-        for(let i = 0; i < numberOfPlayers; i++) {
-            let option = document.createElement('option');
-            option.value = playersName[i];
-            option.text = playersName[i];
-            nonStrikerpop.appendChild(option);
-        }
-        if(commonPlayer){
-            let commonStriker = document.createElement('option');
-            commonStriker.value = commonPlayer;
-            commonStriker.text = commonPlayer;
-            strikerpop.appendChild(commonStriker);
-            let commonNonStriker = document.createElement('option');
-            commonNonStriker.value = commonPlayer;
-            commonNonStriker.text = commonPlayer;
-            nonStrikerpop.appendChild(commonNonStriker);
-        }
+        //- for(let i = 0; i < numberOfPlayers; i++) {
+        //-     let option = document.createElement('option');
+        //-     option.value = playersName[i];
+        //-     option.text = playersName[i];
+        //-     strikerpop.appendChild(option);
+        //- }
+        //- for(let i = 0; i < numberOfPlayers; i++) {
+        //-     let option = document.createElement('option');
+        //-     option.value = playersName[i];
+        //-     option.text = playersName[i];
+        //-     nonStrikerpop.appendChild(option);
+        //- }
+        //- if(commonPlayer){
+        //-     let commonStriker = document.createElement('option');
+        //-     commonStriker.value = commonPlayer;
+        //-     commonStriker.text = commonPlayer;
+        //-     strikerpop.appendChild(commonStriker);
+        //-     let commonNonStriker = document.createElement('option');
+        //-     commonNonStriker.value = commonPlayer;
+        //-     commonNonStriker.text = commonPlayer;
+        //-     nonStrikerpop.appendChild(commonNonStriker);
+        //- }
+        batsmanOptions();
         function creatBowlers(){
             for(let i = 0; i < numberOfPlayers; i++) {
                 if(totalOverCount >= totalOvers){
@@ -211,7 +256,7 @@ script.
                 striker1.innerHTML = currentStriker;
                 nonStriker.innerHTML = currentNonStriker;
             }
-            if (balls % 6 === 0) {
+            if (balls % 6 === 0 && balls !== 0) {
                 oversCount++;
                 totalOverCount++;
                 oversdiv.innerHTML = oversCount;
@@ -259,28 +304,29 @@ script.
                 while (nonStrikerpop.firstChild) {
                     nonStrikerpop.removeChild(nonStrikerpop.firstChild);
                 }
-                for(let i = 0; i < numberOfPlayers; i++) {
-                    let option = document.createElement('option');
-                    option.value = playersName[numberOfPlayers+i];
-                    option.text = playersName[numberOfPlayers+i];
-                    strikerpop.appendChild(option);
-                }
-                for(let i = 0; i < numberOfPlayers; i++) {
-                    let option = document.createElement('option');
-                    option.value = playersName[numberOfPlayers+i];
-                    option.text = playersName[numberOfPlayers+i];
-                    nonStrikerpop.appendChild(option);
-                }
-                if(commonPlayer){
-                    let commonStriker = document.createElement('option');
-                    commonStriker.value = commonPlayer;
-                    commonStriker.text = commonPlayer;
-                    strikerpop.appendChild(commonStriker);
-                    let commonNonStriker = document.createElement('option');
-                    commonNonStriker.value = commonPlayer;
-                    commonNonStriker.text = commonPlayer;
-                    nonStrikerpop.appendChild(commonNonStriker);
-                }
+                //- for(let i = 0; i < numberOfPlayers; i++) {
+                //-     let option = document.createElement('option');
+                //-     option.value = playersName[numberOfPlayers+i];
+                //-     option.text = playersName[numberOfPlayers+i];
+                //-     strikerpop.appendChild(option);
+                //- }
+                //- for(let i = 0; i < numberOfPlayers; i++) {
+                //-     let option = document.createElement('option');
+                //-     option.value = playersName[numberOfPlayers+i];
+                //-     option.text = playersName[numberOfPlayers+i];
+                //-     nonStrikerpop.appendChild(option);
+                //- }
+                //- if(commonPlayer){
+                //-     let commonStriker = document.createElement('option');
+                //-     commonStriker.value = commonPlayer;
+                //-     commonStriker.text = commonPlayer;
+                //-     strikerpop.appendChild(commonStriker);
+                //-     let commonNonStriker = document.createElement('option');
+                //-     commonNonStriker.value = commonPlayer;
+                //-     commonNonStriker.text = commonPlayer;
+                //-     nonStrikerpop.appendChild(commonNonStriker);
+                //- }
+                batsmanOptions();
                 if(totalOverCount == 2*totalOvers){
                     //- alert("Match Over");
                     console.log(team1Score);
@@ -304,7 +350,7 @@ script.
             wickets++;
             ballCommentary += `${balls}. Wicket taken, ${currentStriker} out by ${currentBowler}<br>`;
             currentStriker = '';
-            if (balls % 6 === 0) {
+            if (balls % 6 === 0 && balls !== 0) {
                 oversCount++;
                 totalOverCount++;
                 oversdiv.innerHTML = oversCount;
@@ -360,6 +406,8 @@ script.
         document.getElementById('run3').addEventListener('click', function() { updateScore(3); });
         document.getElementById('run4').addEventListener('click', function() { updateScore(4); });
         document.getElementById('run6').addEventListener('click', function() { updateScore(6); });
+        document.getElementById('wide').addEventListener('click', function() {let temp = currentStriker; currentStriker = currentNonStriker; currentNonStriker = temp; balls--; updateScore(1); });
+        document.getElementById('no-ball').addEventListener('click', function() {let temp = currentStriker; currentStriker = currentNonStriker; currentNonStriker = temp; balls--; updateScore(1); });
         document.getElementById('wicketb').addEventListener('click', wicketTaken);
 
         run.innerHTML = score;
