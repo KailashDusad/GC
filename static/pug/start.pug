@@ -131,6 +131,8 @@ script.
         var currentStriker = strikerName;
         var currentNonStriker = nonStrikerName;
         var ballCommentary = '';
+        var AllBowlers = [];
+        AllBowlers.push(currentBowler); 
 
         function batsmanOptions(){
             for(let i = 0; i < numberOfPlayers; i++) {
@@ -252,10 +254,12 @@ script.
             //- currentStriker = selectedStriker;
             //- currentNonStriker = selectedNonStriker;
             currentBowler = selectedBowler;
+            AllBowlers.push(currentBowler); 
             hidePopupB();
         });
         
         function updateScore(runScored) {
+            let currentOver = [];
             balls++;
             let newSpan = document.createElement('span');
             newSpan.className = 'd-flex justify-content-center align-items-center rounded-circle bg-secondary text-white';
@@ -263,6 +267,7 @@ script.
             newSpan.style.width = '2.5rem';
             newSpan.innerHTML = runScored;
             everyBall.appendChild(newSpan);
+            currentOver[balls-1] = runScored;
             ballCommentary += `${balls}. ${runScored} run(s) scored by ${currentStriker}, Bowled by: ${currentBowler}<br>`;
             if (runScored % 2 !== 0) {
                 let temp = currentStriker;
@@ -272,10 +277,12 @@ script.
                 nonStriker.innerHTML = currentNonStriker;
             }
             if (balls % 6 === 0 && balls !== 0) {
+                balls = 0;
                 oversCount++;
                 totalOverCount++;
                 oversdiv.innerHTML = oversCount;
                 ballCommentary += `<strong>End of Over of ${currentBowler}. Total Overs: ${oversCount}</strong><br>`;
+                localStorage.setItem(currentBowler, JSON.stringify(currentOver));
                 currentBowler = '';
                 //- updatePlayersOptions(numberOfPlayers);
                 showPopupB();
@@ -348,6 +355,7 @@ script.
                     console.log(team2Score);
                     localStorage.setItem('team1Score', JSON.stringify(team1Score));
                     localStorage.setItem('team2Score', JSON.stringify(team2Score));
+                    localStorage.setItem('AllBowlers', JSON.stringify(AllBowlers));
                     window.location.href = '/over';
                 }
                 while (Bowlerpop.firstChild) {
@@ -372,9 +380,11 @@ script.
             ballCommentary += `${balls}. Wicket taken, ${currentStriker} out by ${currentBowler}<br>`;
             currentStriker = '';
             if (balls % 6 === 0 && balls !== 0) {
+                balls = 0;
                 oversCount++;
                 totalOverCount++;
                 oversdiv.innerHTML = oversCount;
+                localStorage.setItem(currentBowler, JSON.stringify(currentOver));
                 ballCommentary += `<strong>End of Over of ${currentBowler}. Total Overs: ${oversCount}</strong><br>`;
                 currentBowler = '';
                 //- updatePlayersOptions(numberOfPlayers);
