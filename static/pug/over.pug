@@ -18,7 +18,7 @@
                     <h3 class="text-center" id='BowlerHeading'></h3>
                     <div class="d-flex flex-column gap-4">
                         <div class="d-flex align-items-center gap-3">
-                            <div class="d-flex" id="every-ball">
+                            <div class="d-flex" id="every-ball" style='flex-direction:column; justify-content:center;'>
                             
                             </div>
                         </div>
@@ -46,12 +46,18 @@ script.
     const AllBowlers = JSON.parse(localStorage.getItem('AllBowlers'));
     console.log(AllBowlers);
     for (let i = 0; i < AllBowlers.length; i++) {
+        let newDiv = document.createElement('div');
+        newDiv.style.display = 'flex';
+        newDiv.style.alignItems = 'center';
+        newDiv.style.justifyContent = 'space-between';
+        newDiv.style.width = '100%';
+
         let BowlerSpan = document.createElement('span');
         //- const bowlerStats = document.createElement('h3');
         //- bowlerStats.innerText = `${AllBowlers[i].name} Score: ${AllBowlers[i].run}/${AllBowlers[i].wickets}`;
         //- document.querySelector('.bowlersStats').appendChild(bowlerStats);
         BowlerSpan.innerHTML = `${AllBowlers[i]}`
-        BowlerHeading.appendChild(BowlerSpan);
+        newDiv.appendChild(BowlerSpan);
         let bowlerStat = JSON.parse(localStorage.getItem(AllBowlers[i]));
         for (let j = 0; j < bowlerStat.length; j++) {
             let newSpan = document.createElement('span');
@@ -60,8 +66,9 @@ script.
             newSpan.style.width = '2.75rem';
             newSpan.innerHTML = bowlerStat[j];
             console.log(bowlerStat[j]);
-            everyBall.appendChild(newSpan);
+            newDiv.appendChild(newSpan);
         }
+        everyBall.appendChild(newDiv);
     }
     team1name.innerText = team1[0];
     team1run.innerText = team1[1];

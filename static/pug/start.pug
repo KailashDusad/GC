@@ -132,6 +132,7 @@ script.
         var currentNonStriker = nonStrikerName;
         var ballCommentary = '';
         var AllBowlers = [];
+        var currentOver = [];
         AllBowlers.push(currentBowler); 
 
         function batsmanOptions(){
@@ -259,7 +260,7 @@ script.
         });
         
         function updateScore(runScored) {
-            let currentOver = [];
+            
             balls++;
             let newSpan = document.createElement('span');
             newSpan.className = 'd-flex justify-content-center align-items-center rounded-circle bg-secondary text-white';
@@ -267,7 +268,7 @@ script.
             newSpan.style.width = '2.5rem';
             newSpan.innerHTML = runScored;
             everyBall.appendChild(newSpan);
-            currentOver[balls-1] = runScored;
+            currentOver.push(runScored);
             ballCommentary += `${balls}. ${runScored} run(s) scored by ${currentStriker}, Bowled by: ${currentBowler}<br>`;
             if (runScored % 2 !== 0) {
                 let temp = currentStriker;
@@ -283,6 +284,7 @@ script.
                 oversdiv.innerHTML = oversCount;
                 ballCommentary += `<strong>End of Over of ${currentBowler}. Total Overs: ${oversCount}</strong><br>`;
                 localStorage.setItem(currentBowler, JSON.stringify(currentOver));
+                currentOver = [];
                 currentBowler = '';
                 //- updatePlayersOptions(numberOfPlayers);
                 showPopupB();
@@ -371,6 +373,7 @@ script.
         function wicketTaken() {
             balls++;
             wickets++;
+            currentOver.push('W');
             let newSpan = document.createElement('span');
             newSpan.className = 'd-flex justify-content-center align-items-center rounded-circle bg-secondary text-white';
             newSpan.style.height = '2.5rem';
@@ -385,6 +388,7 @@ script.
                 totalOverCount++;
                 oversdiv.innerHTML = oversCount;
                 localStorage.setItem(currentBowler, JSON.stringify(currentOver));
+                currentOver = [];
                 ballCommentary += `<strong>End of Over of ${currentBowler}. Total Overs: ${oversCount}</strong><br>`;
                 currentBowler = '';
                 //- updatePlayersOptions(numberOfPlayers);
@@ -439,9 +443,11 @@ script.
             newSpan.style.width = '2.75rem';
             if(extraType == 'wide'){
                 newSpan.innerHTML = `${runScored}+WB`;
+                currentOver.push(`${runScored}+WB`);
             }
             else{
                 newSpan.innerHTML = `${runScored}+NB`;
+                currentOver.push(`${runScored}+NB`);
             }
             everyBall.appendChild(newSpan);
             ballCommentary += `${balls}. ${runScored} run(s) due to ${extraType}, Bowled by: ${currentBowler}<br>`;
@@ -458,7 +464,7 @@ script.
         document.getElementById('run6').addEventListener('click', function() { updateScore(6); });
         document.getElementById('wide').addEventListener('click', function() { ExtraRuns(1, 'wide'); });
         document.getElementById('no-ball').addEventListener('click', function() { ExtraRuns(1, 'no-ball');});
-        document.getElementById('wicketb').addEventListener('click', wicketTaken);
+        document.getElementById('wicketb').addEventListener('click', function() { wicketTaken(); });
 
         run.innerHTML = score;
         wicket.innerHTML = wickets;

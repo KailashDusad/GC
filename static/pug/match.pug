@@ -47,6 +47,7 @@
             const option = document.createElement('option');
             option.value = playersName[i];
             option.text = playersName[i];
+            option.required = 'required';
             stikerDiv.appendChild(option);
         }
         const bowler = document.getElementById('bowler');
@@ -54,6 +55,7 @@
             const option = document.createElement('option');
             option.value = playersName[numberOfPlayers + i];
             option.text = playersName[numberOfPlayers + i];
+            option.required = 'required';
             bowler.appendChild(option);
         }
         const nonStriker = document.getElementById('nonStriker');
@@ -61,6 +63,7 @@
             const option = document.createElement('option');
             option.value = playersName[i];
             option.text = playersName[i];
+            option.required = 'required';
             nonStriker.appendChild(option);
         }
         if(commonPlayer){
