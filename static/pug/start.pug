@@ -61,14 +61,18 @@
                 <div class="col-md-6 mb-3">
                     <h2 class="mb-0">Striker: <span id="striker"></span></h2>
                     <h2>Non-Striker: <span id="non-striker"></span></h2>
+                    <div id="battingStats" style="display: flex; flex-direction: column;">
+                        
+                    </div>
+                    <div id="bowlingstats">
+
+                    </div>
                 </div>
                 <div class="col-md-6 mb-3">
                     <h2>Bowler: <span id="bowler"></span></h2>
                     <div class="d-flex flex-column gap-4">
                         <div class="d-flex align-items-center gap-3">
-                            <div class="d-flex" id="every-ball">
-                            
-                            </div>
+                            <div class="d-flex" id="every-ball"></div>
                         </div>
                     </div>
                 </div>
@@ -101,6 +105,9 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 script.
     document.addEventListener('DOMContentLoaded', (event) => {
+        
+        const battingStats = document.getElementById('battingStats');
+        const bowlingStats = document.getElementById('bowlingStats');
         const batting = document.getElementById('batting');
         const run = document.getElementById('run');
         const wicket = document.getElementById('wicket');
@@ -151,7 +158,44 @@ script.
         //-     BatsmansStats[playersName[i]] = [0, 0, 0, 0];
         //-     BowlersStats[playersName[numberOfPlayers+i]] = [0, 0, 0, 0];
         //- }
-
+        for(let i = 0; i < numberOfPlayers; i++) {
+            if(playersName[i] === strikerName || playersName[i] === nonStrikerName){
+                const playerSpan = document.createElement('span');
+                playerSpan.id = 'bat' + (i + 1);
+                playerSpan.textContent = playersName[i] + ' ';
+                
+                const runSpan = document.createElement('span');
+                runSpan.id = 'run' + (i + 1);
+                runSpan.textContent = '0';
+                
+                const ballSpan = document.createElement('span');
+                ballSpan.id = 'ball' + (i + 1);
+                ballSpan.textContent = '(0)';
+                
+                runSpan.appendChild(ballSpan);
+                playerSpan.appendChild(runSpan);
+                
+                battingStats.appendChild(playerSpan);
+            }
+            else{
+                const playerSpan = document.createElement('span');
+                playerSpan.id = 'bat' + (i + 1);
+                playerSpan.textContent = playersName[i] + ' ';
+                
+                const runSpan = document.createElement('span');
+                runSpan.id = 'run' + (i + 1);
+                runSpan.textContent = 'yet to bat';
+                
+                const ballSpan = document.createElement('span');
+                ballSpan.id = 'ball' + (i + 1);
+                ballSpan.textContent = '';
+                
+                runSpan.appendChild(ballSpan);
+                playerSpan.appendChild(runSpan);
+                
+                battingStats.appendChild(playerSpan);
+            }
+        }
         function batsmanOptions(){
             for(let i = 0; i < numberOfPlayers; i++) {
                 if(totalOverCount >= totalOvers){
