@@ -97,7 +97,7 @@ app.post('/striker', (req,res) => {
 
 });
 app.get('/over', (req, res) => {
-    res.status(200).render('over.pug');
+    res.status(200).render('over.pug', {players, number, commonPlayer});
 })
 // console.log(team1Score);
 // console.log(team2Score);

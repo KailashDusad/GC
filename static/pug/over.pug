@@ -14,6 +14,8 @@
                 <h2 class="text-center">Game Over</h2>
                 <h3 class="text-center"><span id="team1"></span> Score: <span id="run1"></span>/<span id="wickets1"></span></h3>
                 <h3 class="text-center"><span id="team2"></span> Score: <span id="run2"></span>/<span id="wickets2"></span></h3>
+                <div id="battingStats" style="display: flex; flex-direction: column;">
+                </div>
                 <div class="bowlersStats">
                     <h3 class="text-center" id='BowlerHeading'></h3>
                     <div class="d-flex flex-column gap-4">
@@ -37,6 +39,7 @@ script.
     const team1wickets = document.getElementById('wickets1');
     const everyBall = document.getElementById('every-ball');
     const BowlerHeading = document.getElementById('BowlerHeading');
+    const battingStats = document.getElementById('battingStats');
 
     const team2name = document.getElementById('team2');
     const team2run = document.getElementById('run2');
@@ -44,7 +47,40 @@ script.
     const team1 = JSON.parse(localStorage.getItem('team1Score'));
     const team2 = JSON.parse(localStorage.getItem('team2Score'));
     const AllBowlers = JSON.parse(localStorage.getItem('AllBowlers'));
+    const tossLossingBattingStats = JSON.parse(localStorage.getItem('tossLossingBattingStats'));
+    const tossWinningBattingStats = JSON.parse(localStorage.getItem('tossWinningBattingStats'));
+    var numberOfPlayers = !{number};
+    var playersName = !{JSON.stringify(players)};
+    console.log(tossLossingBattingStats);
+    console.log(tossWinningBattingStats);
+    console.log(playersName);
+    console.log(numberOfPlayers);
+
+    //- for (let i = 0; i < numberOfPlayers; i++) {
+    //-     let newDiv = document.createElement('div');
+    //-     newDiv.style.display = 'flex';
+    //-     newDiv.style.alignItems = 'center';
+    //-     newDiv.style.justifyContent = 'space-between';
+    //-     newDiv.style.width = '100%';
+
+    //-     let playerSpan = document.createElement('span');
+    //-     playerSpan.innerHTML = `${playersName[i]}`;
+    //-     newDiv.appendChild(playerSpan);
+    //-     let playerStat = JSON.parse(localStorage.getItem(playersName[i]));
+    //-     if (playerStat) {
+    //-         for (let j = 0; j < playerStat.length; j++) {
+    //-             let newSpan = document.createElement('span');
+    //-             newSpan.className = 'd-flex justify-content-center align-items-center rounded-circle bg-secondary text-white';
+    //-             newSpan.style.height = '2.75rem';
+    //-             newSpan.style.width = '2.75rem';
+    //-             newSpan.innerHTML = playerStat[j];
+    //-             newDiv.appendChild(newSpan);
+    //-         }
+    //-     }
+    //-     battingStats.appendChild(newDiv);
+    //- }
     console.log(AllBowlers);
+
     for (let i = 0; i < AllBowlers.length; i++) {
         let newDiv = document.createElement('div');
         newDiv.style.display = 'flex';

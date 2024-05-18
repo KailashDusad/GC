@@ -199,6 +199,7 @@ script.
                     battingStats.appendChild(playerSpan);
                 }
             }
+            
         }
         updateInStatsDiv();
 
@@ -497,6 +498,7 @@ script.
                     localStorage.setItem('AllBowlers', JSON.stringify(AllBowlers));
                     localStorage.setItem('tossWinningBattingStats', JSON.stringify(tossWinningBattingStats));
                     localStorage.setItem('tossLossingBattingStats', JSON.stringify(tossLossingBattingStats));
+
                     window.location.href = '/over';
                 }
                 while (Bowlerpop.firstChild) {
