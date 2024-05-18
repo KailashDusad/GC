@@ -121,8 +121,8 @@ script.
         const bowlerpop = document.getElementById('Bowlerpop');
         const everyBall = document.getElementById('every-ball');
         const nopop = document.getElementById('nopop');
-        var BowlersStats = {};
-        var BatsmansStats = {};
+        var tossLossingBattingStats = {};
+        var tossWinningBattingStats = {};
         
         var strikerName = !{JSON.stringify(striker)};
         var nonStrikerName = !{JSON.stringify(nonStriker)}
@@ -154,48 +154,82 @@ script.
         var currentOver = [];
         AllBowlers.push(currentBowler); 
 
-        //- for(let i = 0; i < numberOfPlayers; i++) {
-        //-     BatsmansStats[playersName[i]] = [0, 0, 0, 0];
-        //-     BowlersStats[playersName[numberOfPlayers+i]] = [0, 0, 0, 0];
-        //- }
+
         for(let i = 0; i < numberOfPlayers; i++) {
-            if(playersName[i] === strikerName || playersName[i] === nonStrikerName){
-                const playerSpan = document.createElement('span');
-                playerSpan.id = 'bat' + (i + 1);
-                playerSpan.textContent = playersName[i] + ' ';
-                
-                const runSpan = document.createElement('span');
-                runSpan.id = 'run' + (i + 1);
-                runSpan.textContent = '0';
-                
-                const ballSpan = document.createElement('span');
-                ballSpan.id = 'ball' + (i + 1);
-                ballSpan.textContent = '(0)';
-                
-                runSpan.appendChild(ballSpan);
-                playerSpan.appendChild(runSpan);
-                
-                battingStats.appendChild(playerSpan);
-            }
-            else{
-                const playerSpan = document.createElement('span');
-                playerSpan.id = 'bat' + (i + 1);
-                playerSpan.textContent = playersName[i] + ' ';
-                
-                const runSpan = document.createElement('span');
-                runSpan.id = 'run' + (i + 1);
-                runSpan.textContent = 'yet to bat';
-                
-                const ballSpan = document.createElement('span');
-                ballSpan.id = 'ball' + (i + 1);
-                ballSpan.textContent = '';
-                
-                runSpan.appendChild(ballSpan);
-                playerSpan.appendChild(runSpan);
-                
-                battingStats.appendChild(playerSpan);
+            tossWinningBattingStats[playersName[i]] = [0, 0, 0, 0];
+            tossLossingBattingStats[playersName[numberOfPlayers+i]] = [0, 0, 0, 0];
+        }
+        function updateInStatsDiv() {
+            for(let i = 0; i < numberOfPlayers; i++) {
+                if(totalOverCount >= totalOvers){
+                    const playerSpan = document.createElement('span');
+                    playerSpan.id = 'bat' + (i + 1);
+                    playerSpan.textContent = playersName[numberOfPlayers+i] + ' ';
+                    
+                    const runSpan = document.createElement('span');
+                    runSpan.id = 'runs' + (i + 1);
+                    runSpan.textContent = '0';
+                    
+                    const ballSpan = document.createElement('span');
+                    ballSpan.id = 'balls' + (i + 1);
+                    ballSpan.textContent = '(0)';
+                    
+                    runSpan.appendChild(ballSpan);
+                    playerSpan.appendChild(runSpan);
+                    
+                    battingStats.appendChild(playerSpan);
+                    
+                }
+                else{
+                    const playerSpan = document.createElement('span');
+                    playerSpan.id = 'bat' + (i + 1);
+                    playerSpan.textContent = playersName[i] + ' ';
+                    
+                    const runSpan = document.createElement('span');
+                    runSpan.id = 'runs' + (i + 1);
+                    runSpan.textContent = '0';
+                    
+                    const ballSpan = document.createElement('span');
+                    ballSpan.id = 'balls' + (i + 1);
+                    ballSpan.textContent = '(0)';
+                    
+                    runSpan.appendChild(ballSpan);
+                    playerSpan.appendChild(runSpan);
+                    
+                    battingStats.appendChild(playerSpan);
+                }
             }
         }
+        updateInStatsDiv();
+
+        function displayBattingStats() {
+            if(totalOverCount >= totalOvers){
+                
+                for(let i = 0; i < numberOfPlayers; i++) {
+                    const player = playersName[numberOfPlayers + i];
+                    const runs = tossLossingBattingStats[player][0];
+                    const balls = tossLossingBattingStats[player][1];
+                    const fours = tossLossingBattingStats[player][2];
+                    const sixes = tossLossingBattingStats[player][3];
+                    const playerSpan = document.getElementById('bat' + (i + 1));
+                    const runSpan = playerSpan.querySelector('span');
+                    runSpan.textContent = `${runs} (${balls})`;
+                }
+            }
+            else{
+                for(let i = 0; i < numberOfPlayers; i++) {
+                    const player = playersName[i];
+                    const runs = tossWinningBattingStats[player][0];
+                    const balls = tossWinningBattingStats[player][1];
+                    const fours = tossWinningBattingStats[player][2];
+                    const sixes = tossWinningBattingStats[player][3];
+                    const playerSpan = document.getElementById('bat' + (i + 1));
+                    const runSpan = playerSpan.querySelector('span');
+                    runSpan.textContent = `${runs} (${balls})`;
+                }
+            }
+        }
+
         function batsmanOptions(){
             for(let i = 0; i < numberOfPlayers; i++) {
                 if(totalOverCount >= totalOvers){
@@ -339,7 +373,6 @@ script.
         });
         
         function updateScore(runScored) {
-            
             balls++;
             let newSpan = document.createElement('span');
             newSpan.className = 'd-flex justify-content-center align-items-center rounded-circle bg-secondary text-white';
@@ -349,6 +382,27 @@ script.
             everyBall.appendChild(newSpan);
             currentOver.push(runScored);
             ballCommentary += `${balls}. ${runScored} run(s) scored by ${currentStriker}, Bowled by: ${currentBowler}<br>`;
+            if(totalOverCount >= totalOvers){
+                tossLossingBattingStats[currentStriker][0] += runScored;
+                tossLossingBattingStats[currentStriker][1] += 1;
+                if(runScored == 4){
+                    tossLossingBattingStats[currentStriker][2] += 1;
+                }
+                if(runScored == 6){
+                    tossLossingBattingStats[currentStriker][3] += 1;
+                }
+            }
+            else{
+                tossWinningBattingStats[currentStriker][0] += runScored;
+                tossWinningBattingStats[currentStriker][1] += 1;
+                if(runScored == 4){
+                    tossWinningBattingStats[currentStriker][2] += 1;
+                }
+                if(runScored == 6){
+                    tossWinningBattingStats[currentStriker][3] += 1;
+                }
+            }
+            displayBattingStats();
             if (runScored % 2 !== 0) {
                 let temp = currentStriker;
                 currentStriker = currentNonStriker;
@@ -378,6 +432,10 @@ script.
             wicket.innerHTML = wickets;
             displayCommentary();
             if (oversdiv.innerHTML == totalOvers) {
+                while (battingStats.firstChild) {
+                    battingStats.removeChild(battingStats.firstChild);
+                }
+                updateInStatsDiv();
                 if(team1 == battingTeam){
                     battingTeam = team2;
                     team1Score[0] = team1;
@@ -437,6 +495,8 @@ script.
                     localStorage.setItem('team1Score', JSON.stringify(team1Score));
                     localStorage.setItem('team2Score', JSON.stringify(team2Score));
                     localStorage.setItem('AllBowlers', JSON.stringify(AllBowlers));
+                    localStorage.setItem('tossWinningBattingStats', JSON.stringify(tossWinningBattingStats));
+                    localStorage.setItem('tossLossingBattingStats', JSON.stringify(tossLossingBattingStats));
                     window.location.href = '/over';
                 }
                 while (Bowlerpop.firstChild) {
