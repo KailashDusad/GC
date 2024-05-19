@@ -159,6 +159,8 @@ script.
             tossWinningBattingStats[playersName[i]] = [0, 0, 0, 0];
             tossLossingBattingStats[playersName[numberOfPlayers+i]] = [0, 0, 0, 0];
         }
+        tossWinningBattingStats[commonPlayer] = [0, 0, 0, 0];
+        tossLossingBattingStats[commonPlayer] = [0, 0, 0, 0];
         function updateInStatsDiv() {
             for(let i = 0; i < numberOfPlayers; i++) {
                 if(totalOverCount >= totalOvers){
@@ -199,6 +201,42 @@ script.
                     battingStats.appendChild(playerSpan);
                 }
             }
+            if(totalOverCount >= totalOvers){
+                const playerSpan = document.createElement('span');
+                playerSpan.id = 'bat' + 'common-bowling';
+                playerSpan.textContent = commonPlayer + ' ';
+                
+                const runSpan = document.createElement('span');
+                runSpan.id = 'runs' + 'common-bowling';
+                runSpan.textContent = '0';
+                
+                const ballSpan = document.createElement('span');
+                ballSpan.id = 'balls' + 'common-bowling';
+                ballSpan.textContent = '(0)';
+                
+                runSpan.appendChild(ballSpan);
+                playerSpan.appendChild(runSpan);
+                
+                battingStats.appendChild(playerSpan);
+            }
+            else{
+                const playerSpan = document.createElement('span');
+                playerSpan.id = 'bat' + 'common-batting';
+                playerSpan.textContent = commonPlayer + ' ';
+                
+                const runSpan = document.createElement('span');
+                runSpan.id = 'runs' + 'common-batting';
+                runSpan.textContent = '0';
+                
+                const ballSpan = document.createElement('span');
+                ballSpan.id = 'balls' + 'common-batting';
+                ballSpan.textContent = '(0)';
+                
+                runSpan.appendChild(ballSpan);
+                playerSpan.appendChild(runSpan);
+                
+                battingStats.appendChild(playerSpan);
+            }
             
         }
         updateInStatsDiv();
@@ -216,6 +254,14 @@ script.
                     const runSpan = playerSpan.querySelector('span');
                     runSpan.textContent = `${runs} (${balls})`;
                 }
+                let player = commonPlayer;
+                let runs = tossLossingBattingStats[player][0];
+                let balls = tossLossingBattingStats[player][1];
+                let fours = tossLossingBattingStats[player][2];
+                let sixes = tossLossingBattingStats[player][3];
+                let playerSpan = document.getElementById('bat' + 'common-bowling');
+                let runSpan = playerSpan.querySelector('span');
+                runSpan.textContent = `${runs} (${balls})`;
             }
             else{
                 for(let i = 0; i < numberOfPlayers; i++) {
@@ -228,6 +274,14 @@ script.
                     const runSpan = playerSpan.querySelector('span');
                     runSpan.textContent = `${runs} (${balls})`;
                 }
+                let player = commonPlayer;
+                let runs = tossWinningBattingStats[player][0];
+                let balls = tossWinningBattingStats[player][1];
+                let fours = tossWinningBattingStats[player][2];
+                let sixes = tossWinningBattingStats[player][3];
+                let playerSpan = document.getElementById('bat' + 'common-batting');
+                let runSpan = playerSpan.querySelector('span');
+                runSpan.textContent = `${runs} (${balls})`;
             }
         }
 
