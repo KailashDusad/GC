@@ -49,6 +49,7 @@
 
         <div class="over">
             <h1 class="text-center">Match</h1>
+            <h3 id="target" style="text-align: center;"><span id="who-needs"></span> needs <span id="how-much-needs"></span> runs in <span id="in-how-many"></span> balls</h3>
             <div class="row">
                 <div class="col">
                     <h2 class="mb-0">Batting Team: <span id="batting"></span></h2>
@@ -80,6 +81,7 @@
 
             <div class="row">
                 <div class="col">
+                    <button id="run0" class="btn btn-primary">Dot Ball</button>
                     <button id="run1" class="btn btn-primary">Run 1</button>
                     <button id="run2" class="btn btn-primary">Run 2</button>
                     <button id="run3" class="btn btn-primary">Run 3</button>
@@ -152,6 +154,7 @@ script.
         var ballCommentary = '';
         var AllBowlers = [];
         var currentOver = [];
+        var targetByBattingTeam = 0;
         AllBowlers.push(currentBowler); 
 
 
@@ -161,6 +164,10 @@ script.
         }
         tossWinningBattingStats[commonPlayer] = [0, 0, 0, 0];
         tossLossingBattingStats[commonPlayer] = [0, 0, 0, 0];
+        function targetUpdate(runsrequired, ballsleft){
+            document.getElementById('how-much-needs').innerHTML = runsrequired;
+            document.getElementById('in-how-many').innerHTML = ballsleft;
+        }
         function updateInStatsDiv() {
             for(let i = 0; i < numberOfPlayers; i++) {
                 if(totalOverCount >= totalOvers){
@@ -201,6 +208,7 @@ script.
                     battingStats.appendChild(playerSpan);
                 }
             }
+
             if(totalOverCount >= totalOvers){
                 const playerSpan = document.createElement('span');
                 playerSpan.id = 'bat' + 'common-bowling';
@@ -429,6 +437,7 @@ script.
         
         function updateScore(runScored) {
             balls++;
+            
             let newSpan = document.createElement('span');
             newSpan.className = 'd-flex justify-content-center align-items-center rounded-circle bg-secondary text-white';
             newSpan.style.height = '2.5rem';
@@ -489,8 +498,12 @@ script.
             score += runScored;
             run.innerHTML = score;
             wicket.innerHTML = wickets;
+            if(totalOverCount >= totalOvers){
+                targetUpdate(targetByBattingTeam + 1 - score, (totalOvers*6) - balls);
+            }
             displayCommentary();
             if (oversdiv.innerHTML == totalOvers) {
+                targetByBattingTeam = score;
                 while (battingStats.firstChild) {
                     battingStats.removeChild(battingStats.firstChild);
                 }
@@ -513,6 +526,17 @@ script.
                     team2Score[4] = oversCount;
                 }
                 batting.innerHTML = battingTeam;
+                
+                if(team1 == battingTeam){
+                    document.getElementById('who-needs').innerHTML = team1;
+                    document.getElementById('how-much-needs').innerHTML = targetByBattingTeam + 1;
+                    document.getElementById('in-how-many').innerHTML = totalOvers*6;
+                }
+                else{
+                    document.getElementById('who-needs').innerHTML = team2;
+                    document.getElementById('how-much-needs').innerHTML = targetByBattingTeam + 1;
+                    document.getElementById('in-how-many').innerHTML = totalOvers*6;
+                }
                 score = 0;
                 wickets = 0;
                 balls = 0;
@@ -572,6 +596,9 @@ script.
         function wicketTaken() {
             balls++;
             wickets++;
+            if(totalOverCount >= totalOvers){
+                targetUpdate(targetByBattingTeam + 1 - score, (totalOvers*6) - balls);
+            }
             currentOver.push('W');
             let newSpan = document.createElement('span');
             newSpan.className = 'd-flex justify-content-center align-items-center rounded-circle bg-secondary text-white';
@@ -654,9 +681,13 @@ script.
             score += runScored;
             run.innerHTML = score;
             wicket.innerHTML = wickets;
+            if(totalOverCount >= totalOvers){
+                targetUpdate(targetByBattingTeam + 1 - score, (totalOvers*6) - balls);
+            }
             displayCommentary();
         }
 
+        document.getElementById('run0').addEventListener('click', function() { updateScore(0); });
         document.getElementById('run1').addEventListener('click', function() { updateScore(1); });
         document.getElementById('run2').addEventListener('click', function() { updateScore(2); });
         document.getElementById('run3').addEventListener('click', function() { updateScore(3); });
