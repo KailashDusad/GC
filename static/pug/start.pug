@@ -427,6 +427,10 @@ script.
                 currentNonStriker = temp;
                 striker1.innerHTML = currentStriker;
                 nonStriker.innerHTML = currentNonStriker;
+                while (everyBall.firstChild) {
+                    everyBall.removeChild(everyBall.firstChild);
+                }
+                
             }
             score += runScored;
             run.innerHTML = score;
@@ -539,6 +543,7 @@ script.
                 currentNonStriker = temp;
                 striker1.innerHTML = currentStriker;
                 nonStriker.innerHTML = currentNonStriker;
+                
             }
             wicket.innerHTML = wickets;
             displayCommentary();
