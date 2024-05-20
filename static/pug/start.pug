@@ -49,7 +49,7 @@
 
         <div class="over">
             <h1 class="text-center">Match</h1>
-            <h3 id="target" style="text-align: center;"><span id="who-needs"></span> needs <span id="how-much-needs"></span> runs in <span id="in-how-many"></span> balls</h3>
+            <h3 id="target" style="text-align: center; display:none"><span id="who-needs"></span> needs <span id="how-much-needs"></span> runs in <span id="in-how-many"></span> balls</h3>
             <div class="row">
                 <div class="col">
                     <h2 class="mb-0">Batting Team: <span id="batting"></span></h2>
@@ -502,7 +502,32 @@ script.
                 targetUpdate(targetByBattingTeam + 1 - score, (totalOvers*6) - balls);
             }
             displayCommentary();
-            if (oversdiv.innerHTML == totalOvers) {
+            if(targetByBattingTeam + 1 - score == 0 && totalOverCount >= totalOvers){
+                if(team1 == battingTeam){
+                    team1Score[0] = team1;
+                    team1Score[1] = score;
+                    team1Score[2] = wickets;
+                    team1Score[3] = balls;
+                    team1Score[4] = oversCount;
+                
+                }
+                else{
+                    team2Score[0] = team2;
+                    team2Score[1] = score;
+                    team2Score[2] = wickets;
+                    team2Score[3] = balls;
+                    team2Score[4] = oversCount;
+                }
+                console.log(team1Score);
+                console.log(team2Score);
+                localStorage.setItem('team1Score', JSON.stringify(team1Score));
+                localStorage.setItem('team2Score', JSON.stringify(team2Score));
+                localStorage.setItem('AllBowlers', JSON.stringify(AllBowlers));
+                localStorage.setItem('tossWinningBattingStats', JSON.stringify(tossWinningBattingStats));
+                localStorage.setItem('tossLossingBattingStats', JSON.stringify(tossLossingBattingStats));
+                window.location.href = '/over';
+            }
+            if (oversdiv.innerHTML == totalOvers ) {  
                 targetByBattingTeam = score;
                 while (battingStats.firstChild) {
                     battingStats.removeChild(battingStats.firstChild);
@@ -570,6 +595,7 @@ script.
                 //-     commonNonStriker.text = commonPlayer;
                 //-     nonStrikerpop.appendChild(commonNonStriker);
                 //- }
+                document.getElementById('target').style.display = 'block';
                 batsmanOptions();
                 if(totalOverCount == 2*totalOvers){
                     //- alert("Match Over");
@@ -592,6 +618,7 @@ script.
                 //- updatePlayersOptions(0);
             }
         }
+
 
         function wicketTaken() {
             balls++;
