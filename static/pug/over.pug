@@ -12,6 +12,7 @@
         <div class="row">
             <div class="col-12">
                 <h2 class="text-center">Game Over</h2>
+                <h3 class="text-center" id='won'></h3>
                 <h3 class="text-center"><span id="team1"></span> Score: <span id="run1"></span>/<span id="wickets1"></span></h3>
                 <h3 class="text-center"><span id="team2"></span> Score: <span id="run2"></span>/<span id="wickets2"></span></h3>
                 <div id="battingStats" style="display: flex; flex-direction: column;">
@@ -49,12 +50,28 @@ script.
     const AllBowlers = JSON.parse(localStorage.getItem('AllBowlers'));
     const tossLossingBattingStats = JSON.parse(localStorage.getItem('tossLossingBattingStats'));
     const tossWinningBattingStats = JSON.parse(localStorage.getItem('tossWinningBattingStats'));
+
     var numberOfPlayers = !{number};
     var playersName = !{JSON.stringify(players)};
+    var toss = `!{toss}`;
     console.log(tossLossingBattingStats);
     console.log(tossWinningBattingStats);
     console.log(playersName);
     console.log(numberOfPlayers);
+    if (team1[1] > team2[1] && team1[0] === toss) {
+        document.getElementById('won').innerText = `${team1[0]} won by ${team1[1] - team2[1]} runs`;
+    } else if (team1[1] < team2[1] && team2[0] === toss){
+        document.getElementById('won').innerText = `${team2[0]} won by ${team2[1] - team1[1]} runs`;
+    }
+    else if(team1[1] > team2[1] && team2[0] === toss){
+        document.getElementById('won').innerText = `${team1[0]} won by ${numberOfPlayers - team1[2]} wickets`;
+    }
+    else if(team1[1] < team2[1] && team1[0] === toss){
+        document.getElementById('won').innerText = `${team2[0]} won by ${numberOfPlayers - team2[2]} runs`;
+    }
+    else if(team1[1] === team2[1]){
+        document.getElementById('won').innerText = `Match Draw`;
+    }
 
     //- for (let i = 0; i < numberOfPlayers; i++) {
     //-     let newDiv = document.createElement('div');
@@ -85,7 +102,7 @@ script.
         let newDiv = document.createElement('div');
         newDiv.style.display = 'flex';
         newDiv.style.alignItems = 'center';
-        newDiv.style.justifyContent = 'space-between';
+        //- newDiv.style.justifyContent = 'space-between';
         newDiv.style.width = '100%';
 
         let BowlerSpan = document.createElement('span');

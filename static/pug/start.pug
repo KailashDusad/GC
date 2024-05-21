@@ -154,7 +154,7 @@ script.
         var ballCommentary = '';
         var AllBowlers = [];
         var currentOver = [];
-        var targetByBattingTeam = 0;
+        var targetByBattingTeam;
         AllBowlers.push(currentBowler); 
 
 
@@ -502,7 +502,8 @@ script.
                 targetUpdate(targetByBattingTeam + 1 - score, (totalOvers*6) - balls);
             }
             displayCommentary();
-            if(targetByBattingTeam + 1 - score == 0 && totalOverCount >= totalOvers){
+            if(targetByBattingTeam + 1 - score <= 0  && totalOverCount >= totalOvers){
+                localStorage.setItem(currentBowler, JSON.stringify(currentOver));
                 if(team1 == battingTeam){
                     team1Score[0] = team1;
                     team1Score[1] = score;
