@@ -528,6 +528,32 @@ script.
                 localStorage.setItem('tossLossingBattingStats', JSON.stringify(tossLossingBattingStats));
                 window.location.href = '/over';
             }
+            if(wickets == numberOfPlayers && totalOverCount >= totalOvers){
+                localStorage.setItem(currentBowler, JSON.stringify(currentOver));
+                if(team1 == battingTeam){
+                    team1Score[0] = team1;
+                    team1Score[1] = score;
+                    team1Score[2] = wickets;
+                    team1Score[3] = balls;
+                    team1Score[4] = oversCount;
+                
+                }
+                else{
+                    team2Score[0] = team2;
+                    team2Score[1] = score;
+                    team2Score[2] = wickets;
+                    team2Score[3] = balls;
+                    team2Score[4] = oversCount;
+                }
+                console.log(team1Score);
+                console.log(team2Score);
+                localStorage.setItem('team1Score', JSON.stringify(team1Score));
+                localStorage.setItem('team2Score', JSON.stringify(team2Score));
+                localStorage.setItem('AllBowlers', JSON.stringify(AllBowlers));
+                localStorage.setItem('tossWinningBattingStats', JSON.stringify(tossWinningBattingStats));
+                localStorage.setItem('tossLossingBattingStats', JSON.stringify(tossLossingBattingStats));
+                window.location.href = '/over';
+            }
             if (oversdiv.innerHTML == totalOvers ) {  
                 targetByBattingTeam = score;
                 while (battingStats.firstChild) {
