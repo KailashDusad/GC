@@ -142,6 +142,8 @@ script.
         var commonPlayer = !{JSON.stringify(commonPlayer)};
         var team1Score = [];
         var team2Score = [];
+        var forcommon = 0;
+
 
         var score = 0;
         var wickets = 0;
@@ -156,8 +158,9 @@ script.
         var currentOver = [];
         var targetByBattingTeam;
         AllBowlers.push(currentBowler); 
-
-
+        if(commonPlayer){
+            forcommon = 1;
+        }
         for(let i = 0; i < numberOfPlayers; i++) {
             tossWinningBattingStats[playersName[i]] = [0, 0, 0, 0];
             tossLossingBattingStats[playersName[numberOfPlayers+i]] = [0, 0, 0, 0];
@@ -528,32 +531,7 @@ script.
                 localStorage.setItem('tossLossingBattingStats', JSON.stringify(tossLossingBattingStats));
                 window.location.href = '/over';
             }
-            if(wickets == numberOfPlayers && totalOverCount >= totalOvers){
-                localStorage.setItem(currentBowler, JSON.stringify(currentOver));
-                if(team1 == battingTeam){
-                    team1Score[0] = team1;
-                    team1Score[1] = score;
-                    team1Score[2] = wickets;
-                    team1Score[3] = balls;
-                    team1Score[4] = oversCount;
-                
-                }
-                else{
-                    team2Score[0] = team2;
-                    team2Score[1] = score;
-                    team2Score[2] = wickets;
-                    team2Score[3] = balls;
-                    team2Score[4] = oversCount;
-                }
-                console.log(team1Score);
-                console.log(team2Score);
-                localStorage.setItem('team1Score', JSON.stringify(team1Score));
-                localStorage.setItem('team2Score', JSON.stringify(team2Score));
-                localStorage.setItem('AllBowlers', JSON.stringify(AllBowlers));
-                localStorage.setItem('tossWinningBattingStats', JSON.stringify(tossWinningBattingStats));
-                localStorage.setItem('tossLossingBattingStats', JSON.stringify(tossLossingBattingStats));
-                window.location.href = '/over';
-            }
+            
             if (oversdiv.innerHTML == totalOvers ) {  
                 targetByBattingTeam = score;
                 while (battingStats.firstChild) {
@@ -662,6 +640,111 @@ script.
             everyBall.appendChild(newSpan);
             ballCommentary += `${balls}. Wicket taken, ${currentStriker} out by ${currentBowler}<br>`;
             currentStriker = '';
+            if(wickets == numberOfPlayers+forcommon && totalOverCount >= totalOvers){
+                localStorage.setItem(currentBowler, JSON.stringify(currentOver));
+                if(team1 == battingTeam){
+                    team1Score[0] = team1;
+                    team1Score[1] = score;
+                    team1Score[2] = wickets;
+                    team1Score[3] = balls;
+                    team1Score[4] = oversCount;
+                
+                }
+                else{
+                    team2Score[0] = team2;
+                    team2Score[1] = score;
+                    team2Score[2] = wickets;
+                    team2Score[3] = balls;
+                    team2Score[4] = oversCount;
+                }
+                console.log(team1Score);
+                console.log(team2Score);
+                localStorage.setItem('team1Score', JSON.stringify(team1Score));
+                localStorage.setItem('team2Score', JSON.stringify(team2Score));
+                localStorage.setItem('AllBowlers', JSON.stringify(AllBowlers));
+                localStorage.setItem('tossWinningBattingStats', JSON.stringify(tossWinningBattingStats));
+                localStorage.setItem('tossLossingBattingStats', JSON.stringify(tossLossingBattingStats));
+                window.location.href = '/over';
+            }
+            if (wickets === numberOfPlayers+forcommon && totalOverCount < totalOvers) {
+                targetByBattingTeam = score;
+                while (battingStats.firstChild) {
+                    battingStats.removeChild(battingStats.firstChild);
+                }
+                updateInStatsDiv();
+                if(team1 == battingTeam){
+                    battingTeam = team2;
+                    team1Score[0] = team1;
+                    team1Score[1] = score;
+                    team1Score[2] = wickets;
+                    team1Score[3] = balls;
+                    team1Score[4] = oversCount;
+                
+                }
+                else{
+                    battingTeam = team1;
+                    team2Score[0] = team2;
+                    team2Score[1] = score;
+                    team2Score[2] = wickets;
+                    team2Score[3] = balls;
+                    team2Score[4] = oversCount;
+                }
+                batting.innerHTML = battingTeam;
+                
+                if(team1 == battingTeam){
+                    document.getElementById('who-needs').innerHTML = team1;
+                    document.getElementById('how-much-needs').innerHTML = targetByBattingTeam + 1;
+                    document.getElementById('in-how-many').innerHTML = totalOvers*6;
+                }
+                else{
+                    document.getElementById('who-needs').innerHTML = team2;
+                    document.getElementById('how-much-needs').innerHTML = targetByBattingTeam + 1;
+                    document.getElementById('in-how-many').innerHTML = totalOvers*6;
+                }
+                score = 0;
+                wickets = 0;
+                balls = 0;
+                oversCount = 0;
+                totalOverCount = totalOvers;
+                oversdiv.innerHTML = oversCount;
+                while (strikerpop.firstChild) {
+                    strikerpop.removeChild(strikerpop.firstChild);
+                }
+                while (nonStrikerpop.firstChild) {
+                    nonStrikerpop.removeChild(nonStrikerpop.firstChild);
+                }
+                //- for(let i = 0; i < numberOfPlayers; i++) {
+                //-     let option = document.createElement('option');
+                //-     option.value = playersName[numberOfPlayers+i];
+                //-     option.text = playersName[numberOfPlayers+i];
+                //-     strikerpop.appendChild(option);
+                //- }
+                //- for(let i = 0; i < numberOfPlayers; i++) {
+                //-     let option = document.createElement('option');
+                //-     option.value = playersName[numberOfPlayers+i];
+                //-     option.text = playersName[numberOfPlayers+i];
+                //-     nonStrikerpop.appendChild(option);
+                //- }
+                //- if(commonPlayer){
+                //-     let commonStriker = document.createElement('option');
+                //-     commonStriker.value = commonPlayer;
+                //-     commonStriker.text = commonPlayer;
+                //-     strikerpop.appendChild(commonStriker);
+                //-     let commonNonStriker = document.createElement('option');
+                //-     commonNonStriker.value = commonPlayer;
+                //-     commonNonStriker.text = commonPlayer;
+                //-     nonStrikerpop.appendChild(commonNonStriker);
+                //- }
+                document.getElementById('target').style.display = 'block';
+                batsmanOptions();
+                while (Bowlerpop.firstChild) {
+                    Bowlerpop.removeChild(Bowlerpop.firstChild);
+                }
+                creatBowlers();
+                showPopupB();
+                showPopup();
+                //- updatePlayersOptions(0);
+            }
             if (balls % 6 === 0 && balls !== 0) {
                 balls = 0;
                 oversCount++;
