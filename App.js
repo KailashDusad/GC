@@ -65,6 +65,7 @@ app.post('/auth/login', (req,res) => {
 });
 var number, toss, overs, team1, team2, commonPlayer;
 var players = [];
+var single = false;
 app.post('/team', (req,res) => {
     team1 = req.body.team1;
     team2 = req.body.team2;
@@ -80,13 +81,13 @@ app.post('/players', (req,res) => {
         let playerName = `player${i+1}`;
         players[i] = req.body[playerName];
     }
-    
+    single = req.body.single;
     commonPlayer = req.body.common;
     console.log(number);
     console.log(players);
     console.log(commonPlayer); 
     
-    res.status(200).render('match.pug',  {toss, number, players, commonPlayer });
+    res.status(200).render('match.pug',  {single, toss, number, players, commonPlayer });
 }
 );
 app.post('/striker', (req,res) => {
