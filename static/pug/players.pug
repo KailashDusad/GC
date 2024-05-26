@@ -44,6 +44,13 @@
     <script src="../static/js/common.js"></script>
     script.
         const form = document.getElementById('players-info');
+        const single = document.getElementById('single');
+        if(single.checked) {
+            var single = 'single';
+        } else {
+            var single = '';
+        }
+        localStorage.setItem('single', single);
         var Team1 = `!{team1}`;
         var Team2 = `!{team2}`;
         var winingTeam = `!{toss}`;

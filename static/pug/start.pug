@@ -107,8 +107,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 script.
     document.addEventListener('DOMContentLoaded', (event) => {
-        var single = !{JSON.stringify(single)};
-        console.log(single);
+        //- var single = !{JSON.stringify(single)};
+        //- console.log(single);
         const battingStats = document.getElementById('battingStats');
         const bowlingStats = document.getElementById('bowlingStats');
         const batting = document.getElementById('batting');
@@ -144,6 +144,7 @@ script.
         var team1Score = [];
         var team2Score = [];
         var forcommon = 0;
+        var single = JSON.parse(localStorage.getItem('single'));
 
 
         var score = 0;
@@ -161,6 +162,9 @@ script.
         AllBowlers.push(currentBowler); 
         if(commonPlayer){
             forcommon = 1;
+        }
+        if(single){
+            forcommon += 1;
         }
         for(let i = 0; i < numberOfPlayers; i++) {
             tossWinningBattingStats[playersName[i]] = [0, 0, 0, 0];
