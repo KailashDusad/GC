@@ -144,7 +144,6 @@ script.
         var team1Score = [];
         var team2Score = [];
         var forcommon = 0;
-        var single = JSON.parse(localStorage.getItem('single'));
 
 
         var score = 0;
@@ -162,9 +161,6 @@ script.
         AllBowlers.push(currentBowler); 
         if(commonPlayer){
             forcommon = 1;
-        }
-        if(single){
-            forcommon += 1;
         }
         for(let i = 0; i < numberOfPlayers; i++) {
             tossWinningBattingStats[playersName[i]] = [0, 0, 0, 0];
@@ -439,6 +435,13 @@ script.
                 return;
             }
             ExtraRuns(noballextra, 'no-ball');
+            if ((noballextra-1) % 2 !== 0) {
+                let temp = currentStriker;
+                currentStriker = currentNonStriker;
+                currentNonStriker = temp;
+                striker1.innerHTML = currentStriker;
+                nonStriker.innerHTML = currentNonStriker;
+            }
             nopop.value = '';
             hidenoBall();
         });

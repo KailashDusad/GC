@@ -34,8 +34,8 @@
             <label for="no" class="form-label">No</label>
             <input type="checkbox" name='no' id="no" value="no">
             <input type="text" name="common" class="form-control" id="commonPlayer" placeholder="Enter Common Player name:">
-            <label for="single" class="form-label">Single Player</label>
-            <input type="checkbox" name='single' id="single" value="single">
+            //- <label for="single" class="form-label">Single Player</label>
+            //- <input type="checkbox" name='single' id="single" value="single">
         </div>
     </form>
 
@@ -44,13 +44,13 @@
     <script src="../static/js/common.js"></script>
     script.
         const form = document.getElementById('players-info');
-        const single = document.getElementById('single');
-        if(single.checked) {
-            var single = 'single';
-        } else {
-            var single = '';
-        }
-        localStorage.setItem('single', single);
+        //- const single = document.getElementById('single');
+        //- if(single.checked) {
+        //-     var single = 'single';
+        //- } else {
+        //-     var single = '';
+        //- }
+        //- localStorage.setItem('single', single);
         var Team1 = `!{team1}`;
         var Team2 = `!{team2}`;
         var winingTeam = `!{toss}`;
