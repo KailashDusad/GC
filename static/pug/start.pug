@@ -674,12 +674,9 @@ script.
                 localStorage.setItem('tossLossingBattingStats', JSON.stringify(tossLossingBattingStats));
                 window.location.href = '/over';
             }
-            if (wickets === numberOfPlayers+forcommon && totalOverCount < totalOvers) {
+            if (wickets == numberOfPlayers+forcommon && totalOverCount < totalOvers) {
                 targetByBattingTeam = score;
-                while (battingStats.firstChild) {
-                    battingStats.removeChild(battingStats.firstChild);
-                }
-                updateInStatsDiv();
+                localStorage.setItem(currentBowler, JSON.stringify(currentOver));
                 if(team1 == battingTeam){
                     battingTeam = team2;
                     team1Score[0] = team1;
@@ -709,12 +706,20 @@ script.
                     document.getElementById('how-much-needs').innerHTML = targetByBattingTeam + 1;
                     document.getElementById('in-how-many').innerHTML = totalOvers*6;
                 }
+                currentOver = [];
+                while (everyBall.firstChild) {
+                    everyBall.removeChild(everyBall.firstChild);
+                }
                 score = 0;
                 wickets = 0;
                 balls = 0;
                 oversCount = 0;
                 totalOverCount = totalOvers;
                 oversdiv.innerHTML = oversCount;
+                while (battingStats.firstChild) {
+                    battingStats.removeChild(battingStats.firstChild);
+                }
+                updateInStatsDiv();
                 while (strikerpop.firstChild) {
                     strikerpop.removeChild(strikerpop.firstChild);
                 }
