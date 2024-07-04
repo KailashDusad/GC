@@ -27,6 +27,25 @@
                         </div>
                     </div>
                 </div>
+                <div class="defendingteamBatting">
+                    <h3 class="text-center">Defending Team Batting Stats</h3>
+                    <div class="d-flex flex-column gap-4">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="d-flex" id="defendingteamBattingStats" style='flex-direction:column; justify-content:center;'>
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="attackingteamBowling">
+                    <h3 class="text-center">Chashing Team Bowling Stats</h3>
+                    <div class="d-flex flex-column gap-4">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="d-flex" id="attackingteamBowlingStats" style='flex-direction:column; justify-content:center;'>
+                            
+                            </div>
+                        </div>
+                    </div>
                 <div class="text-center">
                     <a href="/play" class="btn btn-primary">Play Again</a>
                 </div>
@@ -50,14 +69,68 @@ script.
     const AllBowlers = JSON.parse(localStorage.getItem('AllBowlers'));
     const tossLossingBattingStats = JSON.parse(localStorage.getItem('tossLossingBattingStats'));
     const tossWinningBattingStats = JSON.parse(localStorage.getItem('tossWinningBattingStats'));
+    const defendingteamBattingStats = document.getElementById('defendingteamBattingStats');
+    const attackingteamBowlingStats = document.getElementById('attackingteamBowlingStats');
 
     var numberOfPlayers = !{number};
     var playersName = !{JSON.stringify(players)};
-    var toss = `!{toss}`;
-    console.log(tossLossingBattingStats);
-    console.log(tossWinningBattingStats);
-    console.log(playersName);
-    console.log(numberOfPlayers);
+    var toss = "!{toss}";
+
+    //- console.log(playersName);
+    //- console.log(numberOfPlayers);
+    //- console.log(tossLossingBattingStats);
+    //- console.log(tossWinningBattingStats);
+    console.log("Defending Team Batting Stats:", tossLossingBattingStats);
+    console.log("Attacking Team Bowling Stats:", tossWinningBattingStats);
+    console.log("All Bowlers Data:", AllBowlers);
+
+    //showing defending team batting stats
+    for (let i = 0; i < tossLossingBattingStats.length; i++) {
+        let newDiv = document.createElement('div');
+        newDiv.style.display = 'flex';
+        newDiv.style.alignItems = 'center';
+        //- newDiv.style.justifyContent = 'space-between';
+        newDiv.style.width = '100%';
+
+        let playerSpan = document.createElement('span');
+        playerSpan.innerHTML = `${tossLossingBattingStats[i].name}`;
+        newDiv.appendChild(playerSpan);
+        var playerStat = JSON.parse(localStorage.getItem(tossLossingBattingStats[i].name));
+        //- let playerStat = tossLossingBattingStats[i].name;
+        console.log("Here are the players stats: ",playerStat);
+        for (let j = 0; j < playerStat.length; j++) {
+            let newSpan = document.createElement('span');
+            newSpan.className = 'd-flex justify-content-center align-items-center rounded-circle bg-secondary text-white';
+            newSpan.style.height = '2.75rem';
+            newSpan.style.width = '2.75rem';
+            newSpan.innerHTML = playerStat[j];
+            newDiv.appendChild(newSpan);
+        }
+        defendingteamBattingStats.appendChild(newDiv);
+    }
+    //showing attacking team bowling stats
+    for (let i = 0; i < tossWinningBattingStats.length; i++) {
+        let newDiv = document.createElement('div');
+        newDiv.style.display = 'flex';
+        newDiv.style.alignItems = 'center';
+        //- newDiv.style.justifyContent = 'space-between';
+        newDiv.style.width = '100%';
+
+        let playerSpan = document.createElement('span');
+        playerSpan.innerHTML = `${tossWinningBattingStats[i].name}`;
+        newDiv.appendChild(playerSpan);
+        let playerStat = JSON.parse(localStorage.getItem(tossWinningBattingStats[i].name));
+        for (let j = 0; j < playerStat.length; j++) {
+            let newSpan = document.createElement('span');
+            newSpan.className = 'd-flex justify-content-center align-items-center rounded-circle bg-secondary text-white';
+            newSpan.style.height = '2.75rem';
+            newSpan.style.width = '2.75rem';
+            newSpan.innerHTML = playerStat[j];
+            newDiv.appendChild(newSpan);
+        }
+        attackingteamBowlingStats.appendChild(newDiv);
+    }
+
     if (team1[1] > team2[1] && team1[0] === toss) {
         document.getElementById('won').innerText = `${team1[0]} won by ${team1[1] - team2[1]} runs`;
     } else if (team1[1] < team2[1] && team2[0] === toss){

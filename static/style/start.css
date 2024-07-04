@@ -46,7 +46,7 @@
 .no-ball-pop.show-no-ball {
     display: block;
 }
-.wicketType {
+.wicket-type-pop {
     display: none;
     position: fixed;
     top: 50%;
@@ -59,6 +59,6 @@
     z-index: 9999;
 }
 
-.wicketType.show-wicketType {
+.wicket-type-pop.show-wicket-type {
     display: block;
 }

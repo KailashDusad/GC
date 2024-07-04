@@ -45,6 +45,15 @@
             <button type="submit" id='no-ball-extra' class="btn btn-primary">Submit</button>
         </form>
     </div>
+    <div id="wicket-type-pop" class="wicket-type-pop">
+        <form>
+            <div class="mb-3">
+                <label for="typepop" class="form-label">Type of Wicket</label>
+                <input name="typepop" id="typepop" required>
+            </div>
+            <button type="submit" id='wicket-type' class="btn btn-primary">Submit</button>
+        </form>
+    </div>
     <div class="container">
 
         <div class="over">
@@ -124,6 +133,7 @@ script.
         const bowlerpop = document.getElementById('Bowlerpop');
         const everyBall = document.getElementById('every-ball');
         const nopop = document.getElementById('nopop');
+        const wicketType = document.getElementById('typepop');
         var tossLossingBattingStats = {};
         var tossWinningBattingStats = {};
         
@@ -409,6 +419,15 @@ script.
             const popup = document.getElementById('no-ball-pop');
             popup.classList.remove('show-no-ball');
         }
+        function showWicketType() {
+            const popup = document.getElementById('wicket-type-pop');
+            popup.classList.add('show-wicket-type');
+        }
+
+        function hideWicketType() {
+            const popup = document.getElementById('wicket-type-pop');
+            popup.classList.remove('show-wicket-type');
+        }
         document.getElementById('striker-choose').addEventListener('click', (event) => {
             event.preventDefault();
             const selectedStriker = strikerpop.value;
@@ -444,6 +463,19 @@ script.
             }
             nopop.value = '';
             hidenoBall();
+        });
+        document.getElementById('wicket-type').addEventListener('click', (event) => {
+            event.preventDefault();
+            var wickettype = wicketType.value;
+            if(wicketType.value === ''){
+                alert("Enter a valid wicket type");
+                return;
+            }
+            ballCommentary += `${wickettype} taken.<br>`;
+            wicketTaken();
+            wicketType.value = '';
+
+            hideWicketType();
         });
         
         function updateScore(runScored) {
@@ -647,6 +679,21 @@ script.
             newSpan.innerHTML = "W";
             everyBall.appendChild(newSpan);
             ballCommentary += `${balls}. Wicket taken, ${currentStriker} out by ${currentBowler}<br>`;
+            //remove the current striker from the striker and non-striker dropdown
+            let strikerOptions = document.getElementById('strikerpop');
+            let nonStrikerOptions = document.getElementById('nonStrikerpop');
+            for (let i = 0; i < strikerOptions.length; i++) {
+                if (strikerOptions.options[i].value === currentStriker) {
+                    strikerOptions.remove(i);
+                    break; 
+                }
+            }
+            for (let i = 0; i < nonStrikerOptions.length; i++) {
+                if (nonStrikerOptions.options[i].value === currentStriker) {
+                    nonStrikerOptions.remove(i);
+                    break;
+                }
+            }
             currentStriker = '';
             if(wickets == numberOfPlayers+forcommon && totalOverCount >= totalOvers){
                 localStorage.setItem(currentBowler, JSON.stringify(currentOver));
@@ -776,6 +823,8 @@ script.
                 nonStriker.innerHTML = currentNonStriker;
                 
             }
+            
+
             wicket.innerHTML = wickets;
             displayCommentary();
             showPopup();
@@ -846,7 +895,8 @@ script.
         document.getElementById('wide').addEventListener('click', function() { ExtraRuns(1, 'wide'); });
         //- document.getElementById('no-ball').addEventListener('click', function() { ExtraRuns(1, 'no-ball');});
         document.getElementById('no-ball').addEventListener('click', function() { shownoBall();});
-        document.getElementById('wicketb').addEventListener('click', function() { wicketTaken(); });
+        //- document.getElementById('wicketb').addEventListener('click', function() { wicketTaken(); });
+        document.getElementById('wicketb').addEventListener('click', function() { showWicketType(); });
 
         run.innerHTML = score;
         wicket.innerHTML = wickets;
