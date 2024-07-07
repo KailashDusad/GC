@@ -1,0 +1,78 @@
+{
+  "team1": {
+    "name": "rd",
+    "score": 0,
+    "wickets": 1,
+    "players": {
+      "bgbg": [
+        6,
+        1,
+        0,
+        1
+      ],
+      "": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "bowlers": [
+      "bgbg",
+      "asd"
+    ],
+    "bowlersStats": {
+      "asd": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "team2": {
+    "name": "ks",
+    "score": 6,
+    "wickets": 0,
+    "players": {
+      "asd": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "bowlers": [
+      "bgbg",
+      "asd"
+    ],
+    "bowlersStats": {
+      "bgbg": [
+        6,
+        1,
+        0,
+        1
+      ],
+      "": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "winner": "ks won by 1 wickets",
+  "uniqueId": "2024-07-07T16:32:14.190Z"
+}
