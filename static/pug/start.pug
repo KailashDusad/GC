@@ -137,6 +137,8 @@ script.
         const wicketType = document.getElementById('typepop');
         var tossLossingBattingStats = {};
         var tossWinningBattingStats = {};
+        var tossLossingBowlingStats = {};
+        var tossWinningBowlingStats = {};
         
         var strikerName = !{JSON.stringify(striker)};
         var nonStrikerName = !{JSON.stringify(nonStriker)}
@@ -197,7 +199,6 @@ script.
                     const ballSpan = document.createElement('span');
                     ballSpan.id = 'balls' + (i + 1);
                     ballSpan.textContent = '(0)';
-                    
                     runSpan.appendChild(ballSpan);
                     playerSpan.appendChild(runSpan);
                     

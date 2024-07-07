@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 main().catch(err => console.log(err));
+const fs = require('fs')
+
 
 async function main() {
     await mongoose.connect('mongodb://127.0.0.1:27017/gully');
@@ -19,6 +21,7 @@ const loginSchema = new mongoose.Schema({
 const kitten = mongoose.model('cric', loginSchema);
 
 const app = express();
+app.use(express.json());
 app.use('/static', express.static('static'));
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'static/pug'));
@@ -43,6 +46,20 @@ app.post('/auth/signup', (req,res) => {
     .catch(err => {
         console.log(err);
         res.status(500).send('Internal Server Error');
+    });
+});
+app.post('/save-match-data', (req, res) => {
+    const data = JSON.stringify(req.body, null, 2);
+    const uniqueId = req.body.uniqueId || 'default';
+    const fileName = `match_data_${uniqueId}.json`.replace(/[:\-.]/g, '_');
+    const filePath = path.join(__dirname, fileName);
+
+    fs.writeFile(filePath, data, (err) => {
+        if (err) {
+            console.error('Error writing file:', err);
+            return res.status(500).send({ message: 'Error saving data' });
+        }
+        res.send({ message: 'Data saved successfully' });
     });
 });
 

@@ -48,7 +48,7 @@
                         </div>
                     </div>
                 <div class="text-center">
-                    <a href="/play" class="btn btn-primary">Play Again</a>
+                    <button id='saveMatch' class="btn btn-primary">Save the match</button>
                 </div>
             </div>
         </div>
@@ -82,7 +82,6 @@ script.
     console.log("All Bowlers Data:", AllBowlers);
     console.log("Players Name:", playersName);
 
-    //showing defending team batting stats
     for (let i = 0; i < numberOfPlayers; i++) {
         let newDiv = document.createElement('div');
         newDiv.style.display = 'flex';
@@ -97,7 +96,6 @@ script.
         let playerStat = tossLossingBattingStats[pla] || tossWinningBattingStats[pla];
 
         console.log("Here are the players stats: ",playerStat);
-        //- let playerStat = tossLossingBattingStats[i].name;
         if (playerStat) {
             for (let j = 0; j < 4; j++) {
                 let newSpan = document.createElement('span');
@@ -112,7 +110,6 @@ script.
         }
         defendingteamBattingStats.appendChild(newDiv);
     }
-    //showing attacking team bowling stats
     for (let i = 0; i < numberOfPlayers; i++) {
     let newDiv = document.createElement('div');
     newDiv.style.display = 'flex';
@@ -151,7 +148,7 @@ script.
         document.getElementById('won').innerText = `${team1[0]} won by ${numberOfPlayers - team1[2]} wickets`;
     }
     else if(team1[1] < team2[1] && team1[0] === toss){
-        document.getElementById('won').innerText = `${team2[0]} won by ${numberOfPlayers - team2[2]} runs`;
+        document.getElementById('won').innerText = `${team2[0]} won by ${numberOfPlayers - team2[2]} wickets`;
     }
     else if(team1[1] === team2[1]){
         document.getElementById('won').innerText = `Match Draw`;
@@ -173,7 +170,6 @@ script.
             newSpan.style.height = '2.75rem';
             newSpan.style.width = '2.75rem';
             newSpan.innerHTML = bowlerStat[j];
-            //- console.log(bowlerStat[j]);
             newDiv.appendChild(newSpan);
         }
         everyBall.appendChild(newDiv);
@@ -184,6 +180,39 @@ script.
     team2name.innerText = team2[0];
     team2run.innerText = team2[1];
     team2wickets.innerText = team2[2];
+
+    function saveMatchData(data) {
+    data.uniqueId = new Date().toISOString();
+
+    fetch('/save-match-data', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+        .then(response => response.json())
+        .then(data => console.log('Success:', data))
+        .catch((error) => console.error('Error:', error));
+    }
+
+    //- const matchData = {
+    //-     team1: { score: 250, wickets: 8 },
+    //-     team2: { score: 245, wickets: 10 },
+    //-     winner: 'team1',
+    //-     // Add more match details as needed
+    //- };
+    const matchData = {
+        team1: {name:team1[0], score: team1[1], wickets: team1[2], players: tossLossingBattingStats, bowlers: AllBowlers, bowlersStats: tossWinningBattingStats},
+        team2: {name:team2[0], score: team2[1], wickets: team2[2], players: tossWinningBattingStats, bowlers: AllBowlers, bowlersStats: tossLossingBattingStats},
+        winner: document.getElementById('won').innerText,
+    };
+    
+    document.getElementById('saveMatch').addEventListener('click', () => {
+        saveMatchData(matchData);
+        alert('data saved')
+    });
+    //- saveMatchData(matchData);
 
 </body>
 </html>
