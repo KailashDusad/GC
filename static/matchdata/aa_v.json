@@ -1,8 +1,8 @@
 {
   "team1": {
-    "name": "a",
+    "name": "aa",
     "score": 0,
-    "wickets": 0,
+    "wickets": 1,
     "players": {
       "b2": [
         6,
@@ -24,7 +24,7 @@
     "bowlersStats": {
       "a2": [
         0,
-        6,
+        0,
         0,
         0
       ],
@@ -37,13 +37,13 @@
     }
   },
   "team2": {
-    "name": "b",
+    "name": "v",
     "score": 6,
     "wickets": 0,
     "players": {
       "a2": [
         0,
-        6,
+        0,
         0,
         0
       ],
@@ -73,6 +73,6 @@
       ]
     }
   },
-  "winner": "b won by 1 wickets",
-  "uniqueId": "2024-07-07T15:56:03.703Z"
+  "winner": "v won by 1 wickets",
+  "uniqueId": "2024-07-08T07:39:03.308Z"
 }

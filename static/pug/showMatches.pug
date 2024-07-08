@@ -1,0 +1,53 @@
+doctype html
+html
+  head
+    title Show Matches
+    // Include any CSS files or styles here
+    link(rel='stylesheet', href='../static/style/bootstrap.min.css')
+    link(rel='stylesheet', href='../static/style/style.css')
+  body
+    .container
+      h1.my-4 Matches
+      table#matchData.table.table-striped.table-hover
+        thead
+          tr
+            th Team 1
+            th Score
+            th Wickets
+            th Winner
+        tbody
+    // Include any JS files or scripts here
+    script(src="../static/js/bootstrap.bundle.min.js")
+    script.
+      document.addEventListener('DOMContentLoaded', () => {
+        fetch('/matchdata')
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            const matchData = document.getElementById('matchData').getElementsByTagName('tbody')[0];
+            
+            const row = document.createElement('tr');
+            const team1Name = document.createElement('td');
+            team1Name.textContent = data.team1.name;
+            row.appendChild(team1Name);
+            
+            const team1Score = document.createElement('td');
+            team1Score.textContent = data.team1.score;
+            row.appendChild(team1Score);
+            
+            const team1Wickets = document.createElement('td');
+            team1Wickets.textContent = data.team1.wickets;
+            row.appendChild(team1Wickets);
+            
+            const winner = document.createElement('td');
+            winner.textContent = data.winner;
+            row.appendChild(winner);
+            
+            matchData.appendChild(row);
+          })
+          .catch(error => console.error('Error loading match data:', error));
+      });

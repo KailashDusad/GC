@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 main().catch(err => console.log(err));
-const fs = require('fs')
+const fs = require('fs').promises;
 
 
 async function main() {
@@ -51,8 +51,11 @@ app.post('/auth/signup', (req,res) => {
 app.post('/save-match-data', (req, res) => {
     const data = JSON.stringify(req.body, null, 2);
     const uniqueId = req.body.uniqueId || 'default';
-    const fileName = `match_data_${uniqueId}.json`.replace(/[:\-.]/g, '_');
-    const filePath = path.join(__dirname, fileName);
+    const name1 = req.body.team1?.name || 'default';
+    const name2 = req.body.team2?.name || 'default';
+    // const fileName = `${name1}_${name2}_${uniqueId}.json`.replace(/[:\-.]/g, '_');
+    const fileName = `${name1}_${name2}.json`;
+    const filePath = path.join(__dirname,'./static/matchdata/'+fileName);
 
     fs.writeFile(filePath, data, (err) => {
         if (err) {
@@ -115,6 +118,34 @@ app.post('/striker', (req,res) => {
 app.get('/over', (req, res) => {
     res.status(200).render('over.pug', {players, number, commonPlayer, toss});
 })
+app.get('/data', (req, res) => {
+    res.status(200).render('showMatches.pug');
+})
+app.get('/matchdata', async (req, res) => {
+    try {
+        const filePath = path.join(__dirname, '/static/matchdata/aa_v.json');
+        console.log('File path:', filePath);
+
+        const fileContents = await fs.readFile(filePath, 'utf8');
+        console.log('File contents:', fileContents);
+
+        const matchData = JSON.parse(fileContents);
+        console.log('Parsed match data:', matchData);
+
+        res.json(matchData);
+    } catch (error) {
+        console.error('Error fetching match data:', error);
+
+        // Additional error details for debugging
+        if (error.code === 'ENOENT') {
+            console.error('File not found:', filePath);
+        } else if (error instanceof SyntaxError) {
+            console.error('Error parsing JSON:', error.message);
+        }
+
+        res.status(500).send('Error fetching match data');
+    }
+});
 // console.log(team1Score);
 // console.log(team2Score);
 app.listen(1204, () => {
