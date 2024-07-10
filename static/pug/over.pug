@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <div class="attackingteamBowling">
-                    <h3 class="text-center">Chashing Team Bowling Stats</h3>
+                    <h3 class="text-center">Chashing Team Batting Stats</h3>
                     <div class="d-flex flex-column gap-4">
                         <div class="d-flex align-items-center gap-3">
                             <div class="d-flex" id="attackingteamBowlingStats" style='flex-direction:column; justify-content:center;'>
@@ -203,10 +203,23 @@ script.
     //-     winner: 'team1',
     //-     // Add more match details as needed
     //- };
+    var winTeam;
+    var lossTeam;
+    if(toss === team1[0]){
+        winTeam = team1[0];
+        lossTeam = team2[0];
+    }
+    else{
+        winTeam = team2[0];
+        lossTeam = team1[0];
+    }
     const matchData = {
-        team1: {name:team1[0], score: team1[1], wickets: team1[2], players: tossLossingBattingStats, bowlers: AllBowlers, bowlersStats: tossWinningBattingStats},
-        team2: {name:team2[0], score: team2[1], wickets: team2[2], players: tossWinningBattingStats, bowlers: AllBowlers, bowlersStats: tossLossingBattingStats},
+        team1: {name: winTeam, score: team1[1], wickets: team1[2], players: tossWinningBattingStats, bowlers: AllBowlers, bowlersStats: tossWinningBattingStats},
+        team2: {name: lossTeam, score: team2[1], wickets: team2[2], players: tossLossingBattingStats, bowlers: AllBowlers, bowlersStats: tossLossingBattingStats},
         winner: document.getElementById('won').innerText,
+        players: playersName,
+        toss: toss,
+        number: numberOfPlayers,
     };
     
     document.getElementById('saveMatch').addEventListener('click', () => {

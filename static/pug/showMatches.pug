@@ -16,6 +16,32 @@ html
             th Wickets
             th Winner
         tbody
+      table#matchData1.table.table-striped.table-hover
+        thead
+          tr
+            th Team 2
+            th Score
+            th Wickets
+            th Winner
+        tbody
+      table#players.table.table-striped.table-hover
+        thead
+          tr
+            th Name
+            th Runs
+            th Balls
+            th Fours
+            th Sixes
+        tbody
+      table#players1.table.table-striped.table-hover
+        thead
+          tr
+            th Name
+            th Runs
+            th Balls
+            th Fours
+            th Sixes
+        tbody
     // Include any JS files or scripts here
     script(src="../static/js/bootstrap.bundle.min.js")
     script.
@@ -28,26 +54,116 @@ html
             return response.json();
           })
           .then(data => {
+            const player = data.players;
+            const toss = data.toss;
+            const numberOfPlayers = data.number;
+            console.log("Players: ", player);
+            console.log("Toss: ", toss);
+            console.log("Number of Players: ", numberOfPlayers);
             const matchData = document.getElementById('matchData').getElementsByTagName('tbody')[0];
-            
-            const row = document.createElement('tr');
+            const rowTeam1 = document.createElement('tr');
             const team1Name = document.createElement('td');
             team1Name.textContent = data.team1.name;
-            row.appendChild(team1Name);
-            
+            rowTeam1.appendChild(team1Name);
+
             const team1Score = document.createElement('td');
             team1Score.textContent = data.team1.score;
-            row.appendChild(team1Score);
-            
+            rowTeam1.appendChild(team1Score);
+
             const team1Wickets = document.createElement('td');
             team1Wickets.textContent = data.team1.wickets;
-            row.appendChild(team1Wickets);
+            rowTeam1.appendChild(team1Wickets);
+
+            const winnerTeam1 = document.createElement('td');
+            winnerTeam1.textContent = data.winner;
+            rowTeam1.appendChild(winnerTeam1);
+            matchData.appendChild(rowTeam1);
+
+            //team2
+            const matchData11 = document.getElementById('matchData1').getElementsByTagName('tbody')[0];
+            const rowTeam2 = document.createElement('tr');
+            const team2Name = document.createElement('td');
+            team2Name.textContent = data.team2.name;
+            rowTeam2.appendChild(team2Name);
+
+            const team2Score = document.createElement('td');
+            team2Score.textContent = data.team2.score;
+            rowTeam2.appendChild(team2Score);
+
+            const team2Wickets = document.createElement('td');
+            team2Wickets.textContent = data.team2.wickets;
+            rowTeam2.appendChild(team2Wickets);
+
+            const winnerTeam2 = document.createElement('td');
+            winnerTeam2.textContent = data.winner;
+            rowTeam2.appendChild(winnerTeam2);
+
+            matchData11.appendChild(rowTeam2);
+            //players team 1
+            const matchData1 = document.getElementById('players').getElementsByTagName('tbody')[0];
+            for(let i=0; i<numberOfPlayers; i++){
+              const row1 = document.createElement('tr');
+              const playerName = document.createElement('td');
+              const p = player[i];
+              console.log("Player: ", p);
+              if (data.team1.players[p]) {
+                playerName.textContent = p;
+                row1.appendChild(playerName);
+                
+                const runs = document.createElement('td');
+                runs.textContent = data.team1.players[p][0];
+                row1.appendChild(runs);
+                
+                const balls = document.createElement('td');
+                balls.textContent = data.team1.players[p][1];
+                row1.appendChild(balls);
+                
+                const sixes = document.createElement('td');
+                sixes.textContent = data.team1.players[p][2];
+                row1.appendChild(sixes);
+                const fours = document.createElement('td');
+                fours.textContent = data.team1.players[p][3];
+                row1.appendChild(fours);
+                
+                matchData1.appendChild(row1);
+              } else {
+                console.error("Player data not found for:", p);
+              }
+            }
+            //players team 2
+            const matchData111 = document.getElementById('players1').getElementsByTagName('tbody')[0];
+            for(let i=0; i<numberOfPlayers; i++){
+              const row1 = document.createElement('tr');
+              const playerName = document.createElement('td');
+              const p = player[i+numberOfPlayers];
+              console.log("Player: ", p);
+              if (data.team2.players[p]) {
+                playerName.textContent = p;
+                row1.appendChild(playerName);
+                
+                const runs = document.createElement('td');
+                runs.textContent = data.team2.players[p][0];
+                row1.appendChild(runs);
+                
+                const balls = document.createElement('td');
+                balls.textContent = data.team2.players[p][1];
+                row1.appendChild(balls);
+                
+                const sixes = document.createElement('td');
+                sixes.textContent = data.team2.players[p][2];
+                row1.appendChild(sixes);
+                const fours = document.createElement('td');
+                fours.textContent = data.team2.players[p][3];
+                row1.appendChild(fours);
+                
+                matchData111.appendChild(row1);
+              } else {
+                console.error("Player data not found for:", p);
+              }
+            }
             
-            const winner = document.createElement('td');
-            winner.textContent = data.winner;
-            row.appendChild(winner);
-            
-            matchData.appendChild(row);
+
+
           })
           .catch(error => console.error('Error loading match data:', error));
       });

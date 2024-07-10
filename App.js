@@ -119,18 +119,18 @@ app.get('/over', (req, res) => {
     res.status(200).render('over.pug', {players, number, commonPlayer, toss});
 })
 app.get('/data', (req, res) => {
-    res.status(200).render('showMatches.pug');
+    res.status(200).render('showMatches.pug', {players, number, commonPlayer, toss});
 })
 app.get('/matchdata', async (req, res) => {
     try {
-        const filePath = path.join(__dirname, '/static/matchdata/aa_v.json');
-        console.log('File path:', filePath);
+        const filePath = path.join(__dirname, '/static/matchdata/a_b.json');
+        // console.log('File path:', filePath);
 
         const fileContents = await fs.readFile(filePath, 'utf8');
-        console.log('File contents:', fileContents);
+        // console.log('File contents:', fileContents);
 
         const matchData = JSON.parse(fileContents);
-        console.log('Parsed match data:', matchData);
+        // console.log('Parsed match data:', matchData);
 
         res.json(matchData);
     } catch (error) {
