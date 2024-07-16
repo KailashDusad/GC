@@ -1,0 +1,154 @@
+{
+  "team1": {
+    "name": "killers",
+    "score": 32,
+    "wickets": 1,
+    "players": {
+      "kailash": [
+        16,
+        7,
+        1,
+        1
+      ],
+      "monu": [
+        10,
+        3,
+        2,
+        0
+      ],
+      "keshav": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "manmohan": [
+        6,
+        1,
+        0,
+        1
+      ],
+      "sobania": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "shiva": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "dev": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "bowlersStats": {
+      "shekhar": [
+        4,
+        6,
+        2,
+        2,
+        0,
+        1
+      ],
+      "rahul": [
+        1,
+        2,
+        4,
+        4,
+        "W",
+        6
+      ]
+    }
+  },
+  "team2": {
+    "name": "hunters",
+    "score": 10,
+    "wickets": 3,
+    "players": {
+      "shekhar": [
+        1,
+        1,
+        0,
+        0
+      ],
+      "rahul": [
+        2,
+        1,
+        0,
+        0
+      ],
+      "ankit": [
+        1,
+        1,
+        0,
+        0
+      ],
+      "omkar": [
+        4,
+        3,
+        0,
+        0
+      ],
+      "subham": [
+        1,
+        2,
+        0,
+        0
+      ],
+      "charan": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "dev": [
+        1,
+        1,
+        0,
+        0
+      ]
+    },
+    "bowlersStats": {
+      "kailash": [
+        0,
+        1,
+        "W",
+        1,
+        2,
+        1
+      ],
+      "sobania": [
+        1,
+        "W",
+        1,
+        1,
+        "W",
+        2
+      ]
+    }
+  },
+  "winner": "killers won by 22 runs",
+  "players": [
+    "kailash",
+    "monu",
+    "keshav",
+    "manmohan",
+    "sobania",
+    "shiva",
+    "shekhar",
+    "rahul",
+    "ankit",
+    "omkar",
+    "subham",
+    "charan"
+  ],
+  "toss": "killers",
+  "number": 6,
+  "uniqueId": "2024-07-16T06:32:18.719Z"
+}

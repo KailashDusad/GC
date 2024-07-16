@@ -49,7 +49,7 @@
                         </div>
                     </div>
                 <div class="text-center">
-                    <button id='saveMatch' class="btn btn-primary">Save the match</button>
+                    <button id='playAgain' class="btn btn-primary">Play Again</button>
                 </div>
             </div>
         </div>
@@ -57,6 +57,9 @@
     <script src="../static/style/bootstrap.bundle.min.js"></script>
 <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script> -->
 script.
+    document.getElementById('playAgain').addEventListener('click', () => {
+        window.location.href = '/';
+    });
     const team1name = document.getElementById('team1');
     const team1run = document.getElementById('run1');
     const team1wickets = document.getElementById('wickets1');
@@ -76,6 +79,7 @@ script.
     const attackingteamBowlingStats = document.getElementById('attackingteamBowlingStats');
 
     var numberOfPlayers = !{number};
+    var overs = !{overs};
     var playersName = !{JSON.stringify(players)};
     var toss = "!{toss}";
     console.log("Defending Team Batting Stats:", tossLossingBattingStats);
@@ -175,6 +179,35 @@ script.
         }
         everyBall.appendChild(newDiv);
     }
+    var tossLossingBowling = {};
+    var tossWinningBowling = {};
+    var oversFirstInning = JSON.parse(localStorage.getItem('oversFirstInning'));
+    console.log("Overs First Inning:", oversFirstInning);
+    //- for(let i = 0; i < oversFirstInning; i++){
+    //-     
+    //-     let bowlerStat = JSON.parse(localStorage.getItem(AllBowlers[i]));
+    //-     tossLossingBowling[AllBowlers[i]] =bowlerStat;
+        
+    //- }
+    //- for(let i = oversFirstInning; i < AllBowlers.length; i++){
+    //-     let bowlerStat = JSON.parse(localStorage.getItem(AllBowlers[i]));
+    //-     tossWinningBowling[AllBowlers[i]] =bowlerStat;
+    //- }
+    for (let i = 0; i < AllBowlers.length; i++) {
+        let bowlerStat = JSON.parse(localStorage.getItem(AllBowlers[i]));
+        if (i < oversFirstInning) {
+            tossLossingBowling[AllBowlers[i]] = bowlerStat;
+        } else {
+            tossWinningBowling[AllBowlers[i]] = bowlerStat;
+        }
+        //- bowlerStat = JSON.parse(localStorage.getItem(AllBowlers[i]));
+        //- tossWinningBowling[AllBowlers[i]] =bowlerStat;
+    }
+
+    //- console.log("Bowling Stats:", bowlerStat);
+    console.log("All Bowlers:", AllBowlers);
+    console.log("Toss Lossing Bowling Stats:", tossLossingBowling);
+    console.log("Toss Winning Bowling Stats:", tossWinningBowling);
     team1name.innerText = team1[0];
     team1run.innerText = team1[1];
     team1wickets.innerText = team1[2];
@@ -208,24 +241,31 @@ script.
     if(toss === team1[0]){
         winTeam = team1[0];
         lossTeam = team2[0];
+        winScore = team1[1];
+        lossScore = team2[1];
+        winWicket = team1[2];
+        lossWicket = team2[2];
     }
     else{
         winTeam = team2[0];
         lossTeam = team1[0];
+        winScore = team2[1];
+        lossScore = team1[1];
+        winWicket = team2[2];
+        lossWicket = team1[2];
     }
     const matchData = {
-        team1: {name: winTeam, score: team1[1], wickets: team1[2], players: tossWinningBattingStats, bowlers: AllBowlers, bowlersStats: tossWinningBattingStats},
-        team2: {name: lossTeam, score: team2[1], wickets: team2[2], players: tossLossingBattingStats, bowlers: AllBowlers, bowlersStats: tossLossingBattingStats},
+        team1: {name: winTeam, score: winScore, wickets: winWicket, players: tossWinningBattingStats, bowlersStats: tossLossingBowling},
+        team2: {name: lossTeam, score: lossScore, wickets: lossWicket, players: tossLossingBattingStats, bowlersStats: tossWinningBowling},
         winner: document.getElementById('won').innerText,
         players: playersName,
         toss: toss,
         number: numberOfPlayers,
     };
     
-    document.getElementById('saveMatch').addEventListener('click', () => {
-        saveMatchData(matchData);
-        alert('data saved')
-    });
+    saveMatchData(matchData);
+    alert('data saved')
+    
     //- saveMatchData(matchData);
 
 </body>

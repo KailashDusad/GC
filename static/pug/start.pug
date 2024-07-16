@@ -158,6 +158,7 @@ script.
         var team1Score = [];
         var team2Score = [];
         var forcommon = 0;
+        var oversFirstInning = 0;
 
 
         var score = 0;
@@ -573,10 +574,12 @@ script.
                 localStorage.setItem('tossWinningBattingStats', JSON.stringify(tossWinningBattingStats));
                 localStorage.setItem('tossLossingBattingStats', JSON.stringify(tossLossingBattingStats));
                 localStorage.setItem('playersName', JSON.stringify(playersName));
+                localStorage.setItem('oversFirstInning', oversFirstInning);
                 window.location.href = '/over';
             }
             
             if (oversdiv.innerHTML == totalOvers ) {  
+                oversFirstInning = oversCount + (balls/10);
                 targetByBattingTeam = score;
                 while (battingStats.firstChild) {
                     battingStats.removeChild(battingStats.firstChild);
@@ -656,7 +659,7 @@ script.
                     localStorage.setItem('tossWinningBattingStats', JSON.stringify(tossWinningBattingStats));
                     localStorage.setItem('tossLossingBattingStats', JSON.stringify(tossLossingBattingStats));
                     localStorage.setItem('playersName', JSON.stringify(playersName));
-
+                    localStorage.setItem('oversFirstInning', oversFirstInning);
                     window.location.href = '/over';
                 }
                 while (Bowlerpop.firstChild) {
@@ -725,9 +728,11 @@ script.
                 localStorage.setItem('tossWinningBattingStats', JSON.stringify(tossWinningBattingStats));
                 localStorage.setItem('tossLossingBattingStats', JSON.stringify(tossLossingBattingStats));
                 localStorage.setItem('playersName', JSON.stringify(playersName));
+                localStorage.setItem('oversFirstInning', oversFirstInning);
                 window.location.href = '/over';
             }
             if (wickets == numberOfPlayers+forcommon && totalOverCount < totalOvers) {
+                oversFirstInning = oversCount + (balls/10);
                 targetByBattingTeam = score;
                 localStorage.setItem(currentBowler, JSON.stringify(currentOver));
                 if(team1 == battingTeam){

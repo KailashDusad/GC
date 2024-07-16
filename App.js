@@ -1,24 +1,24 @@
 const express = require('express');
 const path = require('path');
-const mongoose = require('mongoose');
-main().catch(err => console.log(err));
+// const mongoose = require('mongoose');
+// main().catch(err => console.log(err));
 const fs = require('fs').promises;
 
 
-async function main() {
-    await mongoose.connect('mongodb://127.0.0.1:27017/gully');
-    console.log('connected to database');
-}
+// async function main() {
+//     await mongoose.connect('mongodb://127.0.0.1:27017/gully');
+//     console.log('connected to database');
+// }
 
-const loginSchema = new mongoose.Schema({
-    name: String,
-    username: String,
-    email: String,
-    password: String,
-    confpassword: String
-});
+// const loginSchema = new mongoose.Schema({
+//     name: String,
+//     username: String,
+//     email: String,
+//     password: String,
+//     confpassword: String
+// });
 
-const kitten = mongoose.model('cric', loginSchema);
+// const kitten = mongoose.model('cric', loginSchema);
 
 const app = express();
 app.use(express.json());
@@ -28,26 +28,26 @@ app.set('views', path.join(__dirname, 'static/pug'));
 app.use(express.urlencoded());
 
 app.get('/', (req, res) => {
-    res.status(200).render('login.pug');
+    res.status(200).render('home.pug');
 });
 app.get('/match', (req, res) => {
     res.status(200).render('match.pug');
 });
-app.get('/drtyhj98765rtjjkh0ygg8fsthsfddwgrbeyt345252752', (req, res) => {
-    res.status(200).render('home.pug');
-});
+// app.get('/drtyhj98765rtjjkh0ygg8fsthsfddwgrbeyt345252752', (req, res) => {
+//     res.status(200).render('home.pug');
+// });
 
-app.post('/auth/signup', (req,res) => {
-    const userData = new kitten(req.body);
-    userData.save()
-    .then(() => {
-        res.status(200).render('home.pug');
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500).send('Internal Server Error');
-    });
-});
+// app.post('/auth/signup', (req,res) => {
+//     const userData = new kitten(req.body);
+//     userData.save()
+//     .then(() => {
+//         res.status(200).render('home.pug');
+//     })
+//     .catch(err => {
+//         console.log(err);
+//         res.status(500).send('Internal Server Error');
+//     });
+// });
 app.post('/save-match-data', (req, res) => {
     const data = JSON.stringify(req.body, null, 2);
     const uniqueId = req.body.uniqueId || 'default';
@@ -66,23 +66,23 @@ app.post('/save-match-data', (req, res) => {
     });
 });
 
-app.post('/auth/login', (req,res) => {
-    const username = req.body.username;
-    const password = req.body.password
-    kitten.findOne({username: username, password: password})
-    .then(user => {
-        if(user){
-            res.status(200).render('home.pug');
-        }
-        else{
-            res.status(404).send('User not found');
-        }
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500).send('Internal Server Error');
-    });
-});
+// app.post('/auth/login', (req,res) => {
+//     const username = req.body.username;
+//     const password = req.body.password
+//     kitten.findOne({username: username, password: password})
+//     .then(user => {
+//         if(user){
+//             res.status(200).render('home.pug');
+//         }
+//         else{
+//             res.status(404).send('User not found');
+//         }
+//     })
+//     .catch(err => {
+//         console.log(err);
+//         res.status(500).send('Internal Server Error');
+//     });
+// });
 var number, toss, overs, team1, team2, commonPlayer;
 var players = [];
 app.post('/team', (req,res) => {
@@ -116,36 +116,52 @@ app.post('/striker', (req,res) => {
 
 });
 app.get('/over', (req, res) => {
-    res.status(200).render('over.pug', {players, number, commonPlayer, toss});
+    res.status(200).render('over.pug', {players, number, commonPlayer, toss, overs});
 })
-app.get('/data', (req, res) => {
-    res.status(200).render('showMatches.pug', {players, number, commonPlayer, toss});
-})
-app.get('/matchdata', async (req, res) => {
+// app.get('/data', (req, res) => {
+//     res.status(200).render('showMatches.pug', {players, number, commonPlayer, toss});
+// })
+
+app.get('/data', async (req, res) => {
     try {
-        const filePath = path.join(__dirname, '/static/matchdata/a_b.json');
-        // console.log('File path:', filePath);
+        const directoryPath = path.join(__dirname, 'static/matchdata');
+        const files = await fs.readdir(directoryPath);
 
-        const fileContents = await fs.readFile(filePath, 'utf8');
-        // console.log('File contents:', fileContents);
-
-        const matchData = JSON.parse(fileContents);
-        // console.log('Parsed match data:', matchData);
-
-        res.json(matchData);
-    } catch (error) {
-        console.error('Error fetching match data:', error);
-
-        // Additional error details for debugging
-        if (error.code === 'ENOENT') {
-            console.error('File not found:', filePath);
-        } else if (error instanceof SyntaxError) {
-            console.error('Error parsing JSON:', error.message);
+        const matchDataArray = [];
+        for (const file of files) {
+            const filePath = path.join(directoryPath, file);
+            const fileContents = await fs.readFile(filePath, 'utf8');
+            matchDataArray.push(JSON.parse(fileContents));
         }
 
+        res.render('showMatches', { matches: matchDataArray });
+    } catch (error) {
+        console.error('Error fetching match data:', error);
         res.status(500).send('Error fetching match data');
     }
 });
+
+
+app.get('/matchdata', async (req, res) => {
+    try {
+        const directoryPath = path.join(__dirname, 'static/matchdata');
+        const files = await fs.readdir(directoryPath);
+
+        const matchDataArray = [];
+        for (const file of files) {
+            const filePath = path.join(directoryPath, file);
+            const fileContents = await fs.readFile(filePath, 'utf8');
+            matchDataArray.push(JSON.parse(fileContents));
+        }
+
+        res.json(matchDataArray);
+    } catch (error) {
+        console.error('Error fetching match data:', error);
+        res.status(500).send('Error fetching match data');
+    }
+});
+
+
 // console.log(team1Score);
 // console.log(team2Score);
 app.listen(1204, () => {
