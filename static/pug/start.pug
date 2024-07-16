@@ -140,6 +140,7 @@ script.
         var tossWinningBattingStats = {};
         var tossLossingBowlingStats = {};
         var tossWinningBowlingStats = {};
+        var AllBowlersStats = {};
         
         var strikerName = !{JSON.stringify(striker)};
         var nonStrikerName = !{JSON.stringify(nonStriker)}
@@ -528,6 +529,8 @@ script.
                 oversdiv.innerHTML = oversCount;
                 ballCommentary += `<strong>End of Over of ${currentBowler}. Total Overs: ${oversCount}</strong><br>`;
                 localStorage.setItem(currentBowler, JSON.stringify(currentOver));
+                AllBowlersStats[currentBowler] = AllBowlersStats[currentBowler] || [];
+                AllBowlersStats[currentBowler].push(currentOver);
                 currentOver = [];
                 currentBowler = '';
                 //- updatePlayersOptions(numberOfPlayers);
@@ -551,6 +554,8 @@ script.
             displayCommentary();
             if(targetByBattingTeam + 1 - score <= 0  && totalOverCount >= totalOvers){
                 localStorage.setItem(currentBowler, JSON.stringify(currentOver));
+                AllBowlersStats[currentBowler] = AllBowlersStats[currentBowler] || [];
+                AllBowlersStats[currentBowler].push(currentOver);
                 if(team1 == battingTeam){
                     team1Score[0] = team1;
                     team1Score[1] = score;
@@ -575,6 +580,8 @@ script.
                 localStorage.setItem('tossLossingBattingStats', JSON.stringify(tossLossingBattingStats));
                 localStorage.setItem('playersName', JSON.stringify(playersName));
                 localStorage.setItem('oversFirstInning', oversFirstInning);
+                localStorage.setItem('AllBowlersStats', JSON.stringify(AllBowlersStats));
+
                 window.location.href = '/over';
             }
             
@@ -660,6 +667,7 @@ script.
                     localStorage.setItem('tossLossingBattingStats', JSON.stringify(tossLossingBattingStats));
                     localStorage.setItem('playersName', JSON.stringify(playersName));
                     localStorage.setItem('oversFirstInning', oversFirstInning);
+                    localStorage.setItem('AllBowlersStats', JSON.stringify(AllBowlersStats));
                     window.location.href = '/over';
                 }
                 while (Bowlerpop.firstChild) {
@@ -705,6 +713,8 @@ script.
             currentStriker = '';
             if(wickets == numberOfPlayers+forcommon && totalOverCount >= totalOvers){
                 localStorage.setItem(currentBowler, JSON.stringify(currentOver));
+                AllBowlersStats[currentBowler] = AllBowlersStats[currentBowler] || [];
+                AllBowlersStats[currentBowler].push(currentOver);
                 if(team1 == battingTeam){
                     team1Score[0] = team1;
                     team1Score[1] = score;
@@ -729,12 +739,15 @@ script.
                 localStorage.setItem('tossLossingBattingStats', JSON.stringify(tossLossingBattingStats));
                 localStorage.setItem('playersName', JSON.stringify(playersName));
                 localStorage.setItem('oversFirstInning', oversFirstInning);
+                localStorage.setItem('AllBowlersStats', JSON.stringify(AllBowlersStats));
                 window.location.href = '/over';
             }
             if (wickets == numberOfPlayers+forcommon && totalOverCount < totalOvers) {
                 oversFirstInning = oversCount + (balls/10);
                 targetByBattingTeam = score;
                 localStorage.setItem(currentBowler, JSON.stringify(currentOver));
+                AllBowlersStats[currentBowler] = AllBowlersStats[currentBowler] || [];
+                AllBowlersStats[currentBowler].push(currentOver);
                 if(team1 == battingTeam){
                     battingTeam = team2;
                     team1Score[0] = team1;
@@ -822,6 +835,8 @@ script.
                 totalOverCount++;
                 oversdiv.innerHTML = oversCount;
                 localStorage.setItem(currentBowler, JSON.stringify(currentOver));
+                AllBowlersStats[currentBowler] = AllBowlersStats[currentBowler] || [];
+                AllBowlersStats[currentBowler].push(currentOver);
                 currentOver = [];
                 ballCommentary += `<strong>End of Over of ${currentBowler}. Total Overs: ${oversCount}</strong><br>`;
                 currentBowler = '';

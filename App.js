@@ -51,10 +51,12 @@ app.get('/match', (req, res) => {
 app.post('/save-match-data', (req, res) => {
     const data = JSON.stringify(req.body, null, 2);
     const uniqueId = req.body.uniqueId || 'default';
+    const date = new Date();
+    const formattedDate = date.toISOString().replace(/:/g, '-').split('.')[0];
     const name1 = req.body.team1?.name || 'default';
     const name2 = req.body.team2?.name || 'default';
-    // const fileName = `${name1}_${name2}_${uniqueId}.json`.replace(/[:\-.]/g, '_');
-    const fileName = `${name1}_${name2}.json`;
+
+    const fileName = `${formattedDate}_${name1}_${name2}.json`;
     const filePath = path.join(__dirname,'./static/matchdata/'+fileName);
 
     fs.writeFile(filePath, data, (err) => {

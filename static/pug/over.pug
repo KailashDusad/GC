@@ -51,6 +51,9 @@
                 <div class="text-center">
                     <button id='playAgain' class="btn btn-primary">Play Again</button>
                 </div>
+                <div class="text-center">
+                    <button id='saveM' class="btn btn-primary">Save Match</button>
+                </div>
             </div>
         </div>
     </div>
@@ -75,9 +78,11 @@ script.
     const AllBowlers = JSON.parse(localStorage.getItem('AllBowlers'));
     const tossLossingBattingStats = JSON.parse(localStorage.getItem('tossLossingBattingStats'));
     const tossWinningBattingStats = JSON.parse(localStorage.getItem('tossWinningBattingStats'));
+    //- console.log(localStorage.getItem('AllBowlersStats'))
+    const AllBowlersStats = JSON.parse(localStorage.getItem('AllBowlersStats'));
     const defendingteamBattingStats = document.getElementById('defendingteamBattingStats');
     const attackingteamBowlingStats = document.getElementById('attackingteamBowlingStats');
-
+    console.log('AllBowlersStats: ', AllBowlersStats);
     var numberOfPlayers = !{number};
     var overs = !{overs};
     var playersName = !{JSON.stringify(players)};
@@ -96,8 +101,8 @@ script.
         let playerSpan = document.createElement('span');
         playerSpan.innerHTML = `${playersName[i]}`;
         newDiv.appendChild(playerSpan);
-        //- let pla = `${playersName[i]}`;
-        console.log("Player Name: ",pla)
+        let pla = `${playersName[i]}`;
+        //- console.log("Player Name: ",pla)
         let playerStat = tossLossingBattingStats[pla] || tossWinningBattingStats[pla];
 
         //- console.log("Here are the players stats: ",playerStat);
@@ -158,7 +163,7 @@ script.
     else if(team1[1] === team2[1]){
         document.getElementById('won').innerText = `Match Draw`;
     }
-
+    //- console.log("all bowlers: ", AllBowlers)
     for (let i = 0; i < AllBowlers.length; i++) {
         let newDiv = document.createElement('div');
         newDiv.style.display = 'flex';
@@ -194,15 +199,37 @@ script.
     //-     tossWinningBowling[AllBowlers[i]] =bowlerStat;
     //- }
     for (let i = 0; i < AllBowlers.length; i++) {
-        let bowlerStat = JSON.parse(localStorage.getItem(AllBowlers[i]));
+    let bowlerName = AllBowlers[i];
+        let bowlerStat = AllBowlersStats[bowlerName] || []; // Access stats using the bowler's name as key
+
         if (i < oversFirstInning) {
-            tossLossingBowling[AllBowlers[i]] = bowlerStat;
+            if (!tossLossingBowling[bowlerName]) {
+                tossLossingBowling[bowlerName] = [...bowlerStat]; // Clone array to ensure immutability
+            } else {
+                // Only concatenate if the overs are not already added
+                bowlerStat.forEach(over => {
+                    if (!tossLossingBowling[bowlerName].includes(over)) {
+                        tossLossingBowling[bowlerName] = tossLossingBowling[bowlerName].concat(over);
+                    }
+                });
+            }
         } else {
-            tossWinningBowling[AllBowlers[i]] = bowlerStat;
+            if (!tossWinningBowling[bowlerName]) {
+                tossWinningBowling[bowlerName] = [...bowlerStat]; // Clone array to ensure immutability
+            } else {
+                // Only concatenate if the overs are not already added
+                bowlerStat.forEach(over => {
+                    if (!tossWinningBowling[bowlerName].includes(over)) {
+                        tossWinningBowling[bowlerName] = tossWinningBowling[bowlerName].concat(over);
+                    }
+                });
+            }
         }
-        //- bowlerStat = JSON.parse(localStorage.getItem(AllBowlers[i]));
-        //- tossWinningBowling[AllBowlers[i]] =bowlerStat;
     }
+
+
+    console.log("tossLossingBowling ", tossLossingBowling);
+    console.log("tossWinningBowling ", tossWinningBowling);
 
     //- console.log("Bowling Stats:", bowlerStat);
     //- console.log("All Bowlers:", AllBowlers);
@@ -262,11 +289,10 @@ script.
         toss: toss,
         number: numberOfPlayers,
     };
-    
-    saveMatchData(matchData);
-    alert('data saved')
-    
-    //- saveMatchData(matchData);
+    document.getElementById('saveM').addEventListener('click', () => {
+        saveMatchData(matchData);
+    });
+    //- alert('data saved')
 
 </body>
 </html>

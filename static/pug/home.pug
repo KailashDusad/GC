@@ -53,9 +53,16 @@
                 <input type="number" name="overs" class="form-control" id="overs" placeholder="Enter number of overs" required>
             </div>
             
-            <div class="mb-3">
+            //- <div class="mb-3">
+            //-     <label for="tossWonBy" class="form-label">Toss won by</label>
+            //-     <input type="text" name="toss" class="form-control" id="tossWonBy" placeholder="Enter team name" required>
+            //- </div>
+            <div id="toss-div" class="mb-3">
                 <label for="tossWonBy" class="form-label">Toss won by</label>
-                <input type="text" name="toss" class="form-control" id="tossWonBy" placeholder="Enter team name" required>
+                <select name="toss" id="tossWonBy" class="form-select form-select-lg mb-3" aria-label="Large select example" >
+                    <option selected>---</option>
+                </select>
+            
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
@@ -63,6 +70,32 @@
 
     <script src="../static/style/bootstrap.bundle.min.js"></script>
     //- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    
-</body>
+    script. 
+        const tossWonBy = document.getElementById('tossWonBy');
+        var teams = [];
+        
+        function updateOptions() {
+            while (tossWonBy.firstChild) {
+                tossWonBy.removeChild(tossWonBy.firstChild);
+            }
+            teams.forEach(team => {
+                if (team) { 
+                    const option = document.createElement('option');
+                    option.value = team;
+                    option.text = team;
+                    option.required = 'required';
+                    tossWonBy.appendChild(option);
+                }
+            });
+        }
+        
+        document.getElementById('teamName1').addEventListener('input', function() {
+            teams[0] = this.value;
+            updateOptions();
+        });
+        
+        document.getElementById('teamName2').addEventListener('input', function() {
+            teams[1] = this.value;
+            updateOptions(); 
+        });
 </html>
