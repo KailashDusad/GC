@@ -101,9 +101,9 @@ app.post('/players', (req,res) => {
         players[i] = req.body[playerName];
     }
     commonPlayer = req.body.common;
-    console.log(number);
-    console.log(players);
-    console.log(commonPlayer); 
+    // console.log(number);
+    // console.log(players);
+    // console.log(commonPlayer); 
     
     res.status(200).render('match.pug',  { toss, number, players, commonPlayer });
 }

@@ -82,10 +82,10 @@ script.
     var overs = !{overs};
     var playersName = !{JSON.stringify(players)};
     var toss = "!{toss}";
-    console.log("Defending Team Batting Stats:", tossLossingBattingStats);
-    console.log("Attacking Team Bowling Stats:", tossWinningBattingStats);
-    console.log("All Bowlers Data:", AllBowlers);
-    console.log("Players Name:", playersName);
+    //- console.log("Defending Team Batting Stats:", tossLossingBattingStats);
+    //- console.log("Attacking Team Bowling Stats:", tossWinningBattingStats);
+    //- console.log("All Bowlers Data:", AllBowlers);
+    //- console.log("Players Name:", playersName);
 
     for (let i = 0; i < numberOfPlayers; i++) {
         let newDiv = document.createElement('div');
@@ -96,11 +96,11 @@ script.
         let playerSpan = document.createElement('span');
         playerSpan.innerHTML = `${playersName[i]}`;
         newDiv.appendChild(playerSpan);
-        let pla = `${playersName[i]}`;
+        //- let pla = `${playersName[i]}`;
         console.log("Player Name: ",pla)
         let playerStat = tossLossingBattingStats[pla] || tossWinningBattingStats[pla];
 
-        console.log("Here are the players stats: ",playerStat);
+        //- console.log("Here are the players stats: ",playerStat);
         if (playerStat) {
             for (let j = 0; j < 4; j++) {
                 let newSpan = document.createElement('span');
@@ -123,8 +123,8 @@ script.
 
     let pla = `${playersName[i + numberOfPlayers]}`;
     let playerStat = tossLossingBattingStats[pla] || tossWinningBattingStats[pla];
-    console.log("Player Name: ", pla);
-    console.log("Here are the players stats: ", playerStat);
+    //- console.log("Player Name: ", pla);
+    //- console.log("Here are the players stats: ", playerStat);
     let playerSpan = document.createElement('span');
         playerSpan.innerHTML = `${playersName[i+numberOfPlayers]}`;
         newDiv.appendChild(playerSpan);
@@ -182,7 +182,7 @@ script.
     var tossLossingBowling = {};
     var tossWinningBowling = {};
     var oversFirstInning = JSON.parse(localStorage.getItem('oversFirstInning'));
-    console.log("Overs First Inning:", oversFirstInning);
+    //- console.log("Overs First Inning:", oversFirstInning);
     //- for(let i = 0; i < oversFirstInning; i++){
     //-     
     //-     let bowlerStat = JSON.parse(localStorage.getItem(AllBowlers[i]));
@@ -205,9 +205,9 @@ script.
     }
 
     //- console.log("Bowling Stats:", bowlerStat);
-    console.log("All Bowlers:", AllBowlers);
-    console.log("Toss Lossing Bowling Stats:", tossLossingBowling);
-    console.log("Toss Winning Bowling Stats:", tossWinningBowling);
+    //- console.log("All Bowlers:", AllBowlers);
+    //- console.log("Toss Lossing Bowling Stats:", tossLossingBowling);
+    //- console.log("Toss Winning Bowling Stats:", tossWinningBowling);
     team1name.innerText = team1[0];
     team1run.innerText = team1[1];
     team1wickets.innerText = team1[2];
