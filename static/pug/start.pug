@@ -889,6 +889,24 @@ script.
         //- }
 
         function ExtraRuns(runScored, extraType) {
+            if(totalOverCount >= totalOvers){
+                tossLossingBattingStats[currentStriker][0] += runScored-1;
+                if(runScored == 5){
+                    tossLossingBattingStats[currentStriker][2] += 1;
+                }
+                if(runScored == 7){
+                    tossLossingBattingStats[currentStriker][3] += 1;
+                }
+            }
+            else{
+                tossWinningBattingStats[currentStriker][0] += runScored-1;
+                if(runScored == 5){
+                    tossWinningBattingStats[currentStriker][2] += 1;
+                }
+                if(runScored == 7){
+                    tossWinningBattingStats[currentStriker][3] += 1;
+                }
+            }
             let newSpan = document.createElement('span');
             newSpan.className = 'd-flex justify-content-center align-items-center rounded-circle bg-secondary text-white';
             newSpan.style.height = '2.75rem';

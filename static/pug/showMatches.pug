@@ -79,15 +79,39 @@ html
                       <th>Runs Conceded</th>
                       <th>Wickets</th>
                       <th>Economy</th>
+                      <th>Extra Runs</th>
                     </tr>
                   </thead>
                   <tbody>
                     ${Object.keys(match.team1.bowlersStats).map(bowler => {
                       const stats = match.team1.bowlersStats[bowler];
-                      const overs = Math.floor(stats.length / 6) + '.' + (stats.length % 6);
-                      const runsConceded = stats.filter(stat => stat !== 'W').reduce((a, b) => a + b, 0);
+                      var y = ((stats[stats.length - 1]).length);
+                      var overs;
+                      if(y >= 6){
+                        overs = Math.floor(stats.length) + '.0';
+                      }
+                      else{
+                        overs = Math.floor(stats.length-1) + '.' + y;
+                      }
+                      let extraRuns = 0;
+                      const runsConceded = stats.flat().reduce((total, delivery) => {
+                        if (typeof delivery === 'number') {
+                          return total + delivery;
+                        } else if (typeof delivery === 'string') {
+                          const match = delivery.match(/(\d+)\+(WB|NB)/);
+                          if (match) {
+                            total += parseInt(match[1], 10);
+                            extraRuns += 1;
+                          }
+                        }
+                        return total;
+                      }, 0);
                       const wickets = stats.filter(stat => stat === 'W').length;
-                      const economy = (runsConceded / parseFloat(overs)).toFixed(2);
+                      const parts = overs.split('.');
+                      const completeOvers = parseInt(parts[0], 10);
+                      const additionalBalls = parts.length > 1 ? parseInt(parts[1], 10) / 6 : 0;
+                      const totalOvers = completeOvers + additionalBalls;
+                      const economy = totalOvers > 0 ? (runsConceded / totalOvers).toFixed(2) : '0.00';
                       return `
                         <tr>
                           <td>${bowler}</td>
@@ -95,6 +119,7 @@ html
                           <td>${runsConceded}</td>
                           <td>${wickets}</td>
                           <td>${economy}</td>
+                          <td>${extraRuns}</td> 
                         </tr>
                       `;
                     }).join('')}
@@ -131,15 +156,40 @@ html
                       <th>Runs Conceded</th>
                       <th>Wickets</th>
                       <th>Economy</th>
+                      <th>Extra Runs</th>
                     </tr>
                   </thead>
                   <tbody>
                     ${Object.keys(match.team2.bowlersStats).map(bowler => {
                       const stats = match.team2.bowlersStats[bowler];
-                      const overs = Math.floor(stats.length / 6) + '.' + (stats.length % 6);
-                      const runsConceded = stats.filter(stat => stat !== 'W').reduce((a, b) => a + b, 0);
+                      var y = ((stats[stats.length - 1]).length);
+                      var overs;
+                      if(y >= 6){
+                        overs = Math.floor(stats.length) + '.0';
+                      }
+                      else{
+                        overs = Math.floor(stats.length-1) + '.' + y;
+                      }
+                      let extraRuns = 0; // Counter for extra runs (wides and no-balls)
+                      const runsConceded = stats.flat().reduce((total, delivery) => {
+                        if (typeof delivery === 'number') {
+                          return total + delivery;
+                        } else if (typeof delivery === 'string') {
+                          const match = delivery.match(/(\d+)\+(WB|NB)/);
+                          if (match) {
+                            total += parseInt(match[1], 10);
+                            // Count each wide or no-ball as an extra run
+                            extraRuns += 1;
+                          }
+                        }
+                        return total;
+                      }, 0);
                       const wickets = stats.filter(stat => stat === 'W').length;
-                      const economy = (runsConceded / parseFloat(overs)).toFixed(2);
+                      const parts = overs.split('.');
+                      const completeOvers = parseInt(parts[0], 10);
+                      const additionalBalls = parts.length > 1 ? parseInt(parts[1], 10) / 6 : 0;
+                      const totalOvers = completeOvers + additionalBalls;
+                      const economy = totalOvers > 0 ? (runsConceded / totalOvers).toFixed(2) : '0.00';
                       return `
                         <tr>
                           <td>${bowler}</td>
@@ -147,6 +197,7 @@ html
                           <td>${runsConceded}</td>
                           <td>${wickets}</td>
                           <td>${economy}</td>
+                          <td>${extraRuns}</td> 
                         </tr>
                       `;
                     }).join('')}

@@ -155,7 +155,7 @@ app.get('/matchdata', async (req, res) => {
             const fileContents = await fs.readFile(filePath, 'utf8');
             matchDataArray.push(JSON.parse(fileContents));
         }
-
+        matchDataArray.reverse();
         res.json(matchDataArray);
     } catch (error) {
         console.error('Error fetching match data:', error);

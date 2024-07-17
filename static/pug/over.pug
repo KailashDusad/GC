@@ -243,18 +243,18 @@ script.
     team2wickets.innerText = team2[2];
 
     function saveMatchData(data) {
-    data.uniqueId = new Date().toISOString();
+        data.uniqueId = new Date().toISOString();
 
-    fetch('/save-match-data', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    })
-        .then(response => response.json())
-        .then(data => console.log('Success:', data))
-        .catch((error) => console.error('Error:', error));
+        fetch('/save-match-data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => response.json())
+            .then(data => console.log('Success:', data))
+            .catch((error) => console.error('Error:', error));
     }
 
     //- const matchData = {
@@ -291,8 +291,8 @@ script.
     };
     document.getElementById('saveM').addEventListener('click', () => {
         saveMatchData(matchData);
+        alert('data saved')
     });
-    //- alert('data saved')
 
 </body>
 </html>
