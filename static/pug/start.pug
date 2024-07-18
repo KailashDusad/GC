@@ -10,6 +10,28 @@
     <link rel="stylesheet" href="../static/style/style.css">
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Gully Cricket</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/data">Match Data</a>
+                </li>
+            </ul>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+        </div>
+    </nav>
     <div id="popup" class="popup">
         <form>
             <div class="mb-3">
@@ -59,20 +81,22 @@
     <div class="container">
 
         <div class="over">
-            <h1 class="text-center">Match</h1>
             <h3 id="target" style="text-align: center; display:none"><span id="who-needs"></span> needs <span id="how-much-needs"></span> runs in <span id="in-how-many"></span> balls</h3>
             <div class="row">
                 <div class="col">
-                    <h2 class="mb-0">Batting Team: <span id="batting"></span></h2>
-                    <h3 class="mb-3">Score: <span id="run"></span></h3>
-                    <h3 class="mb-3">Wickets: <span id="wicket"></span></h3>
-                    <h3>Overs: <span id="overs"></span></h3>
+                    <h6 class="mb-1">Batting Team: <span id="batting"></span></h6>
+                    <div style="display: flex; justify-content: space-around;">
+                        <h5 class="mb-1">Score: <span id="run"> </span>/<span id="wicket"></span></h5>
+                        <h5>Overs: <span id="overs"></span></h5>
+                    </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6 mb-3">
-                    <h2 class="mb-0">Striker: <span id="striker"></span></h2>
-                    <h2>Non-Striker: <span id="non-striker"></span></h2>
+                    <div style="display: flex; justify-content: space-around;">
+                        <h6 class="mb-0">Striker: <span id="striker"></span> <span id='striStat'></span></h6>
+                        <h6>Non-Striker: <span id="non-striker"></span><span id='nonStat'></span></h6>
+                    </div>
                     <div id="battingStats" style="display: flex; flex-direction: column;">
                         
                     </div>
@@ -81,10 +105,10 @@
                     </div>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <h2>Bowler: <span id="bowler"></span></h2>
+                    <h5>Bowler: <span id="bowler"></span></h5>
                     <div class="d-flex flex-column gap-4">
                         <div class="d-flex align-items-center gap-3">
-                            <div class="d-flex" id="every-ball"></div>
+                            <div class="d-flex"  id="every-ball"></div>
                         </div>
                     </div>
                 </div>
@@ -92,15 +116,15 @@
 
             <div class="row">
                 <div class="col">
-                    <button id="run0" class="btn btn-primary">Dot Ball</button>
-                    <button id="run1" class="btn btn-primary">Run 1</button>
-                    <button id="run2" class="btn btn-primary">Run 2</button>
-                    <button id="run3" class="btn btn-primary">Run 3</button>
-                    <button id="run4" class="btn btn-primary">Run 4</button>
-                    <button id="run6" class="btn btn-primary">Run 6</button>
-                    <button id="wicketb" class="btn btn-danger">Wicket</button>
-                    <button id="wide" class="btn btn-success">Wide</button>
-                    <button id="no-ball" class="btn btn-success">No Ball</button>
+                    <button id="run0" class="btn btn-primary m-1">Dot Ball</button>
+                    <button id="run1" class="btn btn-primary m-1">Run 1</button>
+                    <button id="run2" class="btn btn-primary m-1">Run 2</button>
+                    <button id="run3" class="btn btn-primary m-1">Run 3</button>
+                    <button id="run4" class="btn btn-primary m-1">Run 4</button>
+                    <button id="run6" class="btn btn-primary m-1">Run 6</button>
+                    <button id="wicketb" class="btn btn-danger m-1">Wicket</button>
+                    <button id="wide" class="btn btn-success m-1">Wide</button>
+                    <button id="no-ball" class="btn btn-success m-1">No Ball</button>
 
 
                 </div>
@@ -189,126 +213,200 @@ script.
             document.getElementById('in-how-many').innerHTML = ballsleft;
         }
         function updateInStatsDiv() {
-            for(let i = 0; i < numberOfPlayers; i++) {
-                if(totalOverCount >= totalOvers){
-                    const playerSpan = document.createElement('span');
-                    playerSpan.id = 'bat' + (i + 1);
-                    playerSpan.textContent = playersName[numberOfPlayers+i] + ' ';
+            //- for(let i = 0; i < numberOfPlayers; i++) {
+            //-     if(totalOverCount >= totalOvers){
+            //-         const playerSpan = document.createElement('span');
+            //-         playerSpan.id = 'bat' + (i + 1);
+            //-         playerSpan.textContent = playersName[numberOfPlayers+i] + ' ';
                     
-                    const runSpan = document.createElement('span');
-                    runSpan.id = 'runs' + (i + 1);
-                    runSpan.textContent = '0';
+            //-         const runSpan = document.createElement('span');
+            //-         runSpan.id = 'runs' + (i + 1);
+            //-         runSpan.textContent = '0';
                     
-                    const ballSpan = document.createElement('span');
-                    ballSpan.id = 'balls' + (i + 1);
-                    ballSpan.textContent = '(0)';
-                    runSpan.appendChild(ballSpan);
-                    playerSpan.appendChild(runSpan);
+            //-         const ballSpan = document.createElement('span');
+            //-         ballSpan.id = 'balls' + (i + 1);
+            //-         ballSpan.textContent = '(0)';
+            //-         runSpan.appendChild(ballSpan);
+            //-         playerSpan.appendChild(runSpan);
                     
-                    battingStats.appendChild(playerSpan);
+            //-         battingStats.appendChild(playerSpan);
                     
-                }
-                else{
-                    const playerSpan = document.createElement('span');
-                    playerSpan.id = 'bat' + (i + 1);
-                    playerSpan.textContent = playersName[i] + ' ';
+            //-     }
+            //-     else{
+            //-         const playerSpan = document.createElement('span');
+            //-         playerSpan.id = 'bat' + (i + 1);
+            //-         playerSpan.textContent = playersName[i] + ' ';
                     
-                    const runSpan = document.createElement('span');
-                    runSpan.id = 'runs' + (i + 1);
-                    runSpan.textContent = '0';
+            //-         const runSpan = document.createElement('span');
+            //-         runSpan.id = 'runs' + (i + 1);
+            //-         runSpan.textContent = '0';
                     
-                    const ballSpan = document.createElement('span');
-                    ballSpan.id = 'balls' + (i + 1);
-                    ballSpan.textContent = '(0)';
+            //-         const ballSpan = document.createElement('span');
+            //-         ballSpan.id = 'balls' + (i + 1);
+            //-         ballSpan.textContent = '(0)';
                     
-                    runSpan.appendChild(ballSpan);
-                    playerSpan.appendChild(runSpan);
+            //-         runSpan.appendChild(ballSpan);
+            //-         playerSpan.appendChild(runSpan);
                     
-                    battingStats.appendChild(playerSpan);
-                }
-            }
+            //-         battingStats.appendChild(playerSpan);
+            //-     }
+            //- }
 
-            if(totalOverCount >= totalOvers){
-                const playerSpan = document.createElement('span');
-                playerSpan.id = 'bat' + 'common-bowling';
-                playerSpan.textContent = commonPlayer + ' ';
+            //- if(totalOverCount >= totalOvers){
+            //-     const playerSpan = document.createElement('span');
+            //-     playerSpan.id = 'bat' + 'common-bowling';
+            //-     playerSpan.textContent = commonPlayer + ' ';
                 
-                const runSpan = document.createElement('span');
-                runSpan.id = 'runs' + 'common-bowling';
-                runSpan.textContent = '0';
+            //-     const runSpan = document.createElement('span');
+            //-     runSpan.id = 'runs' + 'common-bowling';
+            //-     runSpan.textContent = '0';
                 
-                const ballSpan = document.createElement('span');
-                ballSpan.id = 'balls' + 'common-bowling';
-                ballSpan.textContent = '(0)';
+            //-     const ballSpan = document.createElement('span');
+            //-     ballSpan.id = 'balls' + 'common-bowling';
+            //-     ballSpan.textContent = '(0)';
                 
-                runSpan.appendChild(ballSpan);
-                playerSpan.appendChild(runSpan);
+            //-     runSpan.appendChild(ballSpan);
+            //-     playerSpan.appendChild(runSpan);
                 
-                battingStats.appendChild(playerSpan);
-            }
-            else{
-                const playerSpan = document.createElement('span');
-                playerSpan.id = 'bat' + 'common-batting';
-                playerSpan.textContent = commonPlayer + ' ';
+            //-     battingStats.appendChild(playerSpan);
+            //- }
+            //- else{
+            //-     const playerSpan = document.createElement('span');
+            //-     playerSpan.id = 'bat' + 'common-batting';
+            //-     playerSpan.textContent = commonPlayer + ' ';
                 
-                const runSpan = document.createElement('span');
-                runSpan.id = 'runs' + 'common-batting';
-                runSpan.textContent = '0';
+            //-     const runSpan = document.createElement('span');
+            //-     runSpan.id = 'runs' + 'common-batting';
+            //-     runSpan.textContent = '0';
                 
-                const ballSpan = document.createElement('span');
-                ballSpan.id = 'balls' + 'common-batting';
-                ballSpan.textContent = '(0)';
+            //-     const ballSpan = document.createElement('span');
+            //-     ballSpan.id = 'balls' + 'common-batting';
+            //-     ballSpan.textContent = '(0)';
                 
-                runSpan.appendChild(ballSpan);
-                playerSpan.appendChild(runSpan);
+            //-     runSpan.appendChild(ballSpan);
+            //-     playerSpan.appendChild(runSpan);
                 
-                battingStats.appendChild(playerSpan);
-            }
-            
+            //-     battingStats.appendChild(playerSpan);
+            //- }
+                
+                let StrikerCheck = document.getElementById('bat' + currentStriker);
+                let nonStrikerCheck = document.getElementById('bat' + currentNonStriker);
+                if(StrikerCheck === null){
+                    let StrikerSpan = document.createElement('span');
+                    StrikerSpan.id = 'bat' + currentStriker;
+                    StrikerSpan.textContent = currentStriker + ' ';
+                    
+                    let StrikerrunSpan = document.createElement('span');
+                    StrikerrunSpan.id = 'runs' + currentStriker;
+                    StrikerrunSpan.textContent = '0';
+                    
+                    let StrikerballSpan = document.createElement('span');
+                    StrikerballSpan.id = 'balls' + currentStriker;
+                    StrikerballSpan.textContent = '(0)';
+                    StrikerrunSpan.appendChild(StrikerballSpan);
+                    StrikerSpan.appendChild(StrikerrunSpan);
+                    
+                    battingStats.appendChild(StrikerSpan);
+                }
+                if(nonStrikerCheck === null){
+                    let nonStrikerSpan = document.createElement('span');
+                    nonStrikerSpan.id = 'bat' + currentNonStriker;
+                    nonStrikerSpan.textContent = currentNonStriker + ' ';
+                    
+                    let nonStrikerrunSpan = document.createElement('span');
+                    nonStrikerrunSpan.id = 'runs' + currentNonStriker;
+                    nonStrikerrunSpan.textContent = '0';
+                    
+                    let nonStrikerballSpan = document.createElement('span');
+                    nonStrikerballSpan.id = 'balls' + currentNonStriker;
+                    nonStrikerballSpan.textContent = '(0)';
+                    nonStrikerrunSpan.appendChild(nonStrikerballSpan);
+                    nonStrikerSpan.appendChild(nonStrikerrunSpan);
+                    
+                    battingStats.appendChild(nonStrikerSpan);
+                }
+                
         }
         updateInStatsDiv();
 
         function displayBattingStats() {
-            if(totalOverCount >= totalOvers){
+            //- if(totalOverCount >= totalOvers){
                 
-                for(let i = 0; i < numberOfPlayers; i++) {
-                    const player = playersName[numberOfPlayers + i];
-                    const runs = tossLossingBattingStats[player][0];
-                    const balls = tossLossingBattingStats[player][1];
-                    const fours = tossLossingBattingStats[player][2];
-                    const sixes = tossLossingBattingStats[player][3];
-                    const playerSpan = document.getElementById('bat' + (i + 1));
-                    const runSpan = playerSpan.querySelector('span');
-                    runSpan.textContent = `${runs} (${balls})`;
-                }
-                let player = commonPlayer;
+            //-     for(let i = 0; i < numberOfPlayers; i++) {
+            //-         const player = playersName[numberOfPlayers + i];
+            //-         const runs = tossLossingBattingStats[player][0];
+            //-         const balls = tossLossingBattingStats[player][1];
+            //-         const fours = tossLossingBattingStats[player][2];
+            //-         const sixes = tossLossingBattingStats[player][3];
+            //-         const playerSpan = document.getElementById('bat' + (i + 1));
+            //-         const runSpan = playerSpan.querySelector('span');
+            //-         runSpan.textContent = `${runs} (${balls})`;
+            //-     }
+            //-     let player = commonPlayer;
+            //-     let runs = tossLossingBattingStats[player][0];
+            //-     let balls = tossLossingBattingStats[player][1];
+            //-     let fours = tossLossingBattingStats[player][2];
+            //-     let sixes = tossLossingBattingStats[player][3];
+            //-     let playerSpan = document.getElementById('bat' + 'common-bowling');
+            //-     let runSpan = playerSpan.querySelector('span');
+            //-     runSpan.textContent = `${runs} (${balls})`;
+            //- }
+            //- else{
+            //-     for(let i = 0; i < numberOfPlayers; i++) {
+            //-         const player = playersName[i];
+            //-         const runs = tossWinningBattingStats[player][0];
+            //-         const balls = tossWinningBattingStats[player][1];
+            //-         const fours = tossWinningBattingStats[player][2];
+            //-         const sixes = tossWinningBattingStats[player][3];
+            //-         const playerSpan = document.getElementById('bat' + (i + 1));
+            //-         const runSpan = playerSpan.querySelector('span');
+            //-         runSpan.textContent = `${runs} (${balls})`;
+            //-     }
+            //-     let player = commonPlayer;
+            //-     let runs = tossWinningBattingStats[player][0];
+            //-     let balls = tossWinningBattingStats[player][1];
+            //-     let fours = tossWinningBattingStats[player][2];
+            //-     let sixes = tossWinningBattingStats[player][3];
+            //-     let playerSpan = document.getElementById('bat' + 'common-batting');
+            //-     let runSpan = playerSpan.querySelector('span');
+            //-     runSpan.textContent = `${runs} (${balls})`;
+            //- }
+            if(totalOverCount >= totalOvers){
+                let player = currentStriker;
                 let runs = tossLossingBattingStats[player][0];
                 let balls = tossLossingBattingStats[player][1];
                 let fours = tossLossingBattingStats[player][2];
                 let sixes = tossLossingBattingStats[player][3];
-                let playerSpan = document.getElementById('bat' + 'common-bowling');
+                let playerSpan = document.getElementById('bat' + currentStriker);
                 let runSpan = playerSpan.querySelector('span');
                 runSpan.textContent = `${runs} (${balls})`;
+                let playerN = currentNonStriker;
+                let runsN = tossLossingBattingStats[player][0];
+                let ballsN = tossLossingBattingStats[player][1];
+                let foursN = tossLossingBattingStats[player][2];
+                let sixesN = tossLossingBattingStats[player][3];
+                let playerSpanN = document.getElementById('bat' + currentNonStriker);
+                let runSpanN = playerSpanN.querySelector('span');
+                runSpanN.textContent = `${runsN} (${ballsN})`;
             }
             else{
-                for(let i = 0; i < numberOfPlayers; i++) {
-                    const player = playersName[i];
-                    const runs = tossWinningBattingStats[player][0];
-                    const balls = tossWinningBattingStats[player][1];
-                    const fours = tossWinningBattingStats[player][2];
-                    const sixes = tossWinningBattingStats[player][3];
-                    const playerSpan = document.getElementById('bat' + (i + 1));
-                    const runSpan = playerSpan.querySelector('span');
-                    runSpan.textContent = `${runs} (${balls})`;
-                }
-                let player = commonPlayer;
+                let player = currentStriker;
                 let runs = tossWinningBattingStats[player][0];
                 let balls = tossWinningBattingStats[player][1];
                 let fours = tossWinningBattingStats[player][2];
                 let sixes = tossWinningBattingStats[player][3];
-                let playerSpan = document.getElementById('bat' + 'common-batting');
+                let playerSpan = document.getElementById('bat' + currentStriker);
                 let runSpan = playerSpan.querySelector('span');
                 runSpan.textContent = `${runs} (${balls})`;
+
+                let playerN = currentNonStriker;
+                let runsN = tossWinningBattingStats[playerN][0];
+                let ballsN = tossWinningBattingStats[playerN][1];
+                let foursN = tossWinningBattingStats[playerN][2];
+                let sixesN = tossWinningBattingStats[playerN][3];
+                let playerSpanN = document.getElementById('bat' + currentNonStriker);
+                let runSpanN = playerSpanN.querySelector('span');
+                runSpanN.textContent = `${runsN} (${ballsN})`;
             }
         }
 
@@ -442,6 +540,8 @@ script.
             currentStriker = selectedStriker;
             currentNonStriker = selectedNonStriker;
             hidePopup();
+            updateInStatsDiv();
+            displayBattingStats();
         });
         document.getElementById('bowler-choose').addEventListener('click', (event) => {
             event.preventDefault();
@@ -591,7 +691,7 @@ script.
                 while (battingStats.firstChild) {
                     battingStats.removeChild(battingStats.firstChild);
                 }
-                updateInStatsDiv();
+                //- updateInStatsDiv();
                 if(team1 == battingTeam){
                     battingTeam = team2;
                     team1Score[0] = team1;
@@ -676,6 +776,7 @@ script.
                 creatBowlers();
                 showPopupB();
                 showPopup();
+                
                 //- updatePlayersOptions(0);
             }
         }
@@ -684,6 +785,12 @@ script.
         function wicketTaken() {
             balls++;
             wickets++;
+            if(totalOverCount >= totalOvers){
+                tossLossingBattingStats[currentStriker][1] += 1;
+            }
+            else{
+                tossWinningBattingStats[currentStriker][1] += 1;
+            }
             if(totalOverCount >= totalOvers){
                 targetUpdate(targetByBattingTeam + 1 - score, (totalOvers*6) - balls);
             }
@@ -827,6 +934,7 @@ script.
                 creatBowlers();
                 showPopupB();
                 showPopup();
+                updateInStatsDiv();
                 //- updatePlayersOptions(0);
             }
             if (balls % 6 === 0 && balls !== 0) {
@@ -854,6 +962,7 @@ script.
             wicket.innerHTML = wickets;
             displayCommentary();
             showPopup();
+            
         }
 
         function displayCommentary() {
@@ -951,6 +1060,7 @@ script.
         hidePopupB();
         creatBowlers();
         hidenoBall();
+        
     });
 </body>
 </html>

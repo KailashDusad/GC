@@ -6,7 +6,7 @@ html
     link(rel='stylesheet', href='../static/style/bootstrap.min.css')
     link(rel='stylesheet', href='../static/style/style.css')
   body
-    .container
+    .container-fluid
       h1.my-4 Matches          
     script(src="../static/js/bootstrap.bundle.min.js")
     script.
@@ -19,12 +19,12 @@ html
             return response.json();
           })
           .then(data => {
-            const container = document.querySelector('.container');
+            const container = document.querySelector('.container-fluid');
             data.forEach((match, index) => {
               const matchContainer = document.createElement('div');
               matchContainer.innerHTML = `
                 <h2>${match.team1.name} vs ${match.team2.name}</h2>
-                <table class="table table-striped table-hover">
+                <table class="table table-striped table-hover" >
                   <thead>
                     <tr>
                       <th>Team</th>
@@ -49,7 +49,7 @@ html
                   </tbody>
                 </table>
                 <h3>1st Inning</h3>
-                <table class="table table-striped table-hover">
+                <table class="table table-striped table-hover" >
                   <thead>
                     <tr>
                       <th>Name</th>
