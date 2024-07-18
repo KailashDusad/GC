@@ -1,14 +1,39 @@
-doctype html
-html
-  head
-    title Show Matches
-    // Include any CSS files or styles here
-    link(rel='stylesheet', href='../static/style/bootstrap.min.css')
-    link(rel='stylesheet', href='../static/style/style.css')
-  body
-    .container-fluid
-      h1.my-4 Matches          
-    script(src="../static/js/bootstrap.bundle.min.js")
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gully Cricket</title>
+    <link rel="stylesheet" href="../static/style/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/style/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Gully Cricket</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/data">Match Data</a>
+                </li>
+            </ul>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+        </div>
+    </nav>
+    <div class="container">
+      <h1 class="my-4">Matches </h1>          
+
+    </div>
+    <script src="../static/js/bootstrap.bundle.min.js"></script>
     script.
       document.addEventListener('DOMContentLoaded', () => {
         fetch('/matchdata')
@@ -19,7 +44,7 @@ html
             return response.json();
           })
           .then(data => {
-            const container = document.querySelector('.container-fluid');
+            const container = document.querySelector('.container');
             data.forEach((match, index) => {
               const matchContainer = document.createElement('div');
               matchContainer.innerHTML = `
@@ -211,3 +236,5 @@ html
           })
           .catch(error => console.error('Error loading match data:', error));
       });
+</body>
+</html>
