@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 app.use('/static', express.static('static'));
 app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, '../static/pug')); // Adjust the path for views
+app.set('views', path.join(__dirname, '../../static/pug')); 
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {

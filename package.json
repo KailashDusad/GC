@@ -5,8 +5,9 @@
   "main": "App.js",
   "scripts": {
   "start": "node App.js",
-  "build": "echo 'No build required'"
-  },
+  "build": "netlify deploy",
+  "dev": "netlify dev"
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/KailashDusad/GullyCric.git"
