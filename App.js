@@ -166,6 +166,6 @@ app.get('/matchdata', async (req, res) => {
 
 // console.log(team1Score);
 // console.log(team2Score);
-app.listen(1204, () => {
+app.listen(process.env.PORT || 1204, () => {
     console.log('Server is running on port 1204');
 });

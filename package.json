@@ -4,8 +4,8 @@
   "description": "Gully Cricket",
   "main": "App.js",
   "scripts": {
-    "start": "node App.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "start": "node App.js",
+  "build": "echo 'No build required'"
   },
   "repository": {
     "type": "git",

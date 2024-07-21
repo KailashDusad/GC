@@ -74,7 +74,7 @@
                     <button id='playAgain' class="btn btn-primary">Play Again</button>
                 </div>
                 <div class="text-center">
-                    <button id='saveM' class="btn btn-primary">Save Match</button>
+                    <button id='saveM' class="btn btn-primary">Show Match data</button>
                 </div>
             
         </div>
@@ -84,6 +84,9 @@
 script.
     document.getElementById('playAgain').addEventListener('click', () => {
         window.location.href = '/';
+    });
+    document.getElementById('saveM').addEventListener('click', () => {
+        window.location.href = '/data';
     });
     const team1name = document.getElementById('team1');
     const team1run = document.getElementById('run1');
@@ -313,7 +316,7 @@ script.
     };
     //- document.getElementById('saveM').addEventListener('click', () => {
         saveMatchData(matchData);
-        alert('data saved')
+        //- alert('data saved')
     //- });
 
 </body>
