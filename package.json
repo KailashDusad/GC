@@ -4,10 +4,9 @@
   "description": "Gully Cricket",
   "main": "App.js",
   "scripts": {
-  "start": "node App.js",
-  "build": "netlify deploy",
-  "dev": "netlify dev"
-},
+    "start": "node App.js",
+    "build": "echo 'No build required'"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/KailashDusad/GullyCric.git"
@@ -24,6 +23,7 @@
     "firebase": "^10.12.0",
     "firebase-admin": "^12.1.0",
     "mongoose": "^8.3.1",
-    "pug": "^3.0.2"
+    "pug": "^3.0.2",
+    "serverless-http": "^2.7.0" 
   }
 }
