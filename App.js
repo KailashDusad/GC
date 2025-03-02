@@ -22,9 +22,9 @@ const fs = require('fs').promises;
 
 const app = express();
 app.use(express.json());
-app.use('/static', express.static('static'));
+app.use('/static', express.static('public/static'));
 app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'static/pug'));
+app.set('views', path.join(__dirname, 'public/static/pug'));
 app.use(express.urlencoded());
 
 app.get('/', (req, res) => {
