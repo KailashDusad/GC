@@ -1,12 +1,30 @@
 const express = require('express');
 const path = require('path');
+// const mongoose = require('mongoose');
+// main().catch(err => console.log(err));
 const fs = require('fs').promises;
+
+
+// async function main() {
+//     await mongoose.connect('mongodb://127.0.0.1:27017/gully');
+//     console.log('connected to database');
+// }
+
+// const loginSchema = new mongoose.Schema({
+//     name: String,
+//     username: String,
+//     email: String,
+//     password: String,
+//     confpassword: String
+// });
+
+// const kitten = mongoose.model('cric', loginSchema);
 
 const app = express();
 app.use(express.json());
-app.use('/static', express.static(path.join(__dirname, 'public/static')));
+app.use('/static', express.static('static'));
 app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'public/static/pug'));
+app.set('views', path.join(__dirname, 'static/pug'));
 app.use(express.urlencoded());
 
 app.get('/', (req, res) => {
@@ -15,7 +33,21 @@ app.get('/', (req, res) => {
 app.get('/match', (req, res) => {
     res.status(200).render('match.pug');
 });
+// app.get('/drtyhj98765rtjjkh0ygg8fsthsfddwgrbeyt345252752', (req, res) => {
+//     res.status(200).render('home.pug');
+// });
 
+// app.post('/auth/signup', (req,res) => {
+//     const userData = new kitten(req.body);
+//     userData.save()
+//     .then(() => {
+//         res.status(200).render('home.pug');
+//     })
+//     .catch(err => {
+//         console.log(err);
+//         res.status(500).send('Internal Server Error');
+//     });
+// });
 app.post('/save-match-data', (req, res) => {
     const data = JSON.stringify(req.body, null, 2);
     const uniqueId = req.body.uniqueId || 'default';
@@ -25,7 +57,7 @@ app.post('/save-match-data', (req, res) => {
     const name2 = req.body.team2?.name || 'default';
 
     const fileName = `${formattedDate}_${name1}_${name2}.json`;
-    const filePath = path.join(__dirname, 'public/static/matchdata', fileName);
+    const filePath = path.join(__dirname,'./static/matchdata/'+fileName);
 
     fs.writeFile(filePath, data, (err) => {
         if (err) {
@@ -36,38 +68,65 @@ app.post('/save-match-data', (req, res) => {
     });
 });
 
+// app.post('/auth/login', (req,res) => {
+//     const username = req.body.username;
+//     const password = req.body.password
+//     kitten.findOne({username: username, password: password})
+//     .then(user => {
+//         if(user){
+//             res.status(200).render('home.pug');
+//         }
+//         else{
+//             res.status(404).send('User not found');
+//         }
+//     })
+//     .catch(err => {
+//         console.log(err);
+//         res.status(500).send('Internal Server Error');
+//     });
+// });
 var number, toss, overs, team1, team2, commonPlayer;
 var players = [];
-app.post('/team', (req, res) => {
+app.post('/team', (req,res) => {
     team1 = req.body.team1;
     team2 = req.body.team2;
     number = req.body.number;
     overs = req.body.overs;
     toss = req.body.toss;
 
-    res.status(200).render('players.pug', { team1, team2, number, overs, toss });
+    res.status(200).render('players.pug',  { team1, team2, number, overs, toss });
 });
-app.post('/players', (req, res) => {
-    for (let i = 0; i < 2 * number; i++) {
-        let playerName = `player${i + 1}`;
+app.post('/players', (req,res) => {
+    
+    for(let i = 0; i<2*number; i++){
+        let playerName = `player${i+1}`;
         players[i] = req.body[playerName];
     }
     commonPlayer = req.body.common;
-
-    res.status(200).render('match.pug', { toss, number, players, commonPlayer });
-});
-app.post('/striker', (req, res) => {
+    // console.log(number);
+    // console.log(players);
+    // console.log(commonPlayer); 
+    
+    res.status(200).render('match.pug',  { toss, number, players, commonPlayer });
+}
+);
+app.post('/striker', (req,res) => {
     var striker = req.body.striker;
     var nonStriker = req.body.nonStriker;
     var bowler = req.body.bowler;
-    res.status(200).render('start.pug', { commonPlayer, team1, team2, players, number, toss, overs, striker, nonStriker, bowler });
+    res.status(200).render('start.pug',  {commonPlayer,  team1, team2, players, number, toss, overs, striker, nonStriker, bowler });
+
 });
 app.get('/over', (req, res) => {
-    res.status(200).render('over.pug', { players, number, commonPlayer, toss, overs });
-});
+    res.status(200).render('over.pug', {players, number, commonPlayer, toss, overs});
+})
+// app.get('/data', (req, res) => {
+//     res.status(200).render('showMatches.pug', {players, number, commonPlayer, toss});
+// })
+
 app.get('/data', async (req, res) => {
     try {
-        const directoryPath = path.join(__dirname, 'public/static/matchdata');
+        const directoryPath = path.join(__dirname, 'static/matchdata');
         const files = await fs.readdir(directoryPath);
 
         const matchDataArray = [];
@@ -84,9 +143,10 @@ app.get('/data', async (req, res) => {
     }
 });
 
+
 app.get('/matchdata', async (req, res) => {
     try {
-        const directoryPath = path.join(__dirname, 'public/static/matchdata');
+        const directoryPath = path.join(__dirname, 'static/matchdata');
         const files = await fs.readdir(directoryPath);
 
         const matchDataArray = [];
@@ -103,6 +163,9 @@ app.get('/matchdata', async (req, res) => {
     }
 });
 
+
+// console.log(team1Score);
+// console.log(team2Score);
 app.listen(process.env.PORT || 1204, () => {
     console.log('Server is running on port 1204');
 });
